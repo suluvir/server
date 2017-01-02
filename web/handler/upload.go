@@ -5,6 +5,8 @@ import (
 	"github.com/suluvir/server/web/printer"
 	"os"
 	"io"
+	"github.com/suluvir/server/config"
+	"fmt"
 )
 
 func UploadPageHandler(w http.ResponseWriter, r *http.Request) {
@@ -18,11 +20,19 @@ func SongUploadHandler(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusInternalServerError)
 	}
 	defer uploadedFile.Close()
-	targetFile, err := os.OpenFile("./uploads/" + handler.Filename, os.O_WRONLY | os.O_CREATE, 0666)
+	targetFile, err := os.OpenFile(getUploadFilePath(handler.Filename), os.O_WRONLY | os.O_CREATE, 0666)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 	}
 	defer targetFile.Close()
 	io.Copy(targetFile, uploadedFile)
 
+}
+
+func getUploadFilePath(filename string) string {
+	c := config.GetConfiguration()
+	if c.Upload.Relative {
+		return fmt.Sprintf("./%s/%s", c.Upload.Path, filename)
+	}
+	return fmt.Sprintf("%s/%s", c.Upload.Path, filename)
 }
