@@ -1,6 +1,8 @@
-hash: 5101d7bb7fa47322afcc6dc8ab0cb0cb36d4d79d403299f48cff631807044c1e
-updated: 2017-01-02T16:09:43.350029366+01:00
+hash: 77fe9eba6b3ce767d08153dab8d2ab5372c46af13aecd6bf10c96a5aaf54a975
+updated: 2017-01-02T22:11:59.00947001+01:00
 imports:
+- name: github.com/BurntSushi/toml
+  version: 99064174e013895bbd9b025c31100bd1d9b590ca
 - name: github.com/gorilla/context
   version: 1ea25387ff6f684839d82767c1733ff4d4d15d0a
 - name: github.com/gorilla/mux

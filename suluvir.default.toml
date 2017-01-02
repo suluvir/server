@@ -1,0 +1,8 @@
+version = "0.0.1"
+
+[upload]
+path = "uploads"
+relative = true
+
+[web]
+default_port = 8080
