@@ -5,24 +5,17 @@ import (
 	"os"
 	"github.com/suluvir/server/web"
 	"github.com/suluvir/server/config"
-	"github.com/BurntSushi/toml"
 )
-
-const (
-	DEFAULT_CONFIG = "suluvir.default.toml"
-	USER_CONFIG = "suluvir.toml"
-)
-
-var configuration config.Config
 
 func main() {
+	config.LoadConfiguration()
+
 	var serverPort int
-	configuration = loadConfig()
 
 	app := cli.NewApp()
 	app.Name = "Suluvir"
 	app.Usage = "Manage you own music"
-	app.Version = "0.0.1"
+	app.Version = config.GetConfiguration().Version
 
 	app.Commands = []cli.Command{
 		{
@@ -32,7 +25,7 @@ func main() {
 			Flags: []cli.Flag{
 				cli.IntFlag{
 					Name: "port",
-					Value: GetConfiguration().Web.DefaultPort,
+					Value: config.GetConfiguration().Web.DefaultPort,
 					Destination: &serverPort,
 				},
 			},
@@ -44,16 +37,4 @@ func main() {
 	}
 
 	app.Run(os.Args)
-}
-
-func loadConfig() config.Config {
-	var c config.Config
-	if _, err := toml.DecodeFile(DEFAULT_CONFIG, &c); err != nil {
-		// TODO log error
-	}
-	return c
-}
-
-func GetConfiguration() config.Config {
-	return configuration
 }
