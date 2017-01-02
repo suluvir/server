@@ -1,16 +1,15 @@
 package printer
 
 import (
-	h "net/http"
-	"github.com/suluvir/server/web/http"
-	"os"
+	"net/http"
+	"html/template"
 )
 
-func PrintHtmlPageFromFile(w h.ResponseWriter, fileName string) {
-	file, err := os.Open(fileName)
+func PrintHtmlPageFromFile(w http.ResponseWriter, fileName string, data interface{}) {
+	t, err := template.ParseFiles(fileName)
 	if err != nil {
-		w.WriteHeader(h.StatusInternalServerError)
+		w.WriteHeader(http.StatusInternalServerError)
+		return
 	}
-	defer file.Close()
-	w.Header().Add(http.CONTENT_TYPE, http.HTML)
+	t.Execute(w, data)
 }

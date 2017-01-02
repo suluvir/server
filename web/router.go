@@ -14,4 +14,5 @@ func CreateRouter() *mux.Router {
 func ApplyRoutes(router *mux.Router) {
 	router.HandleFunc("/", handler.IndexHandler).Methods(http.GET)
 	router.HandleFunc("/upload", handler.UploadPageHandler).Methods(http.GET)
+	router.HandleFunc("/upload", handler.SongUploadHandler).Methods(http.POST)
 }
