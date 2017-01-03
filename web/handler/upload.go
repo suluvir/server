@@ -7,6 +7,8 @@ import (
 	"io"
 	"github.com/suluvir/server/config"
 	"fmt"
+	"github.com/suluvir/server/logging"
+	"github.com/uber-go/zap"
 )
 
 func UploadPageHandler(w http.ResponseWriter, r *http.Request) {
@@ -17,15 +19,25 @@ func SongUploadHandler(w http.ResponseWriter, r *http.Request) {
 	r.ParseMultipartForm(2^16)
 	uploadedFile, handler, err := r.FormFile("media")
 	if err != nil {
+		logging.GetLogger().Error("error during form file access", zap.Error(err))
 		w.WriteHeader(http.StatusInternalServerError)
 	}
 	defer uploadedFile.Close()
-	targetFile, err := os.OpenFile(getUploadFilePath(handler.Filename), os.O_WRONLY | os.O_CREATE, 0666)
+	targetFileName := getUploadFilePath(handler.Filename)
+	targetFile, err := os.OpenFile(targetFileName, os.O_WRONLY | os.O_CREATE, 0666)
+	logging.GetLogger().Info("uploading new media", zap.String("target file name", targetFileName))
+	defer targetFile.Close()
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
+		logging.GetLogger().Error("error during file opening", zap.Error(err))
+		return
 	}
-	defer targetFile.Close()
-	io.Copy(targetFile, uploadedFile)
+	bytesWritten, err := io.Copy(targetFile, uploadedFile)
+	if err != nil {
+		logging.GetLogger().Error("error during file copy", zap.Error(err))
+		return
+	}
+	logging.GetLogger().Info("file copy complete", zap.Int64("bytes written", bytesWritten))
 
 }
 
