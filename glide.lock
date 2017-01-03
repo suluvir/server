@@ -1,14 +1,20 @@
-hash: b53b955f456f8f810244e1b16506aa7ad21f649965d17c709d730edca688ef74
-updated: 2017-01-03T16:29:53.404421061+01:00
+hash: 235e671922c6b71835087193755240cee3b18b1709729a9e5f3e3416be7592f9
+updated: 2017-01-03T16:38:49.295977831+01:00
 imports:
 - name: github.com/BurntSushi/toml
   version: 99064174e013895bbd9b025c31100bd1d9b590ca
+- name: github.com/djimenez/iconv-go
+  version: 8960e66bd3dacbc8773962b40eb82fc18c63c127
 - name: github.com/gorilla/context
   version: 1ea25387ff6f684839d82767c1733ff4d4d15d0a
 - name: github.com/gorilla/mux
   version: 0eeaf8392f5b04950925b8a69fe70f110fa7cbfc
 - name: github.com/mikkyang/id3-go
   version: 0168d962f1d773af3e29867138593203b653782e
+  subpackages:
+  - encodedbytes
+  - v1
+  - v2
 - name: github.com/uber-go/atomic
   version: 0c9e689d64f004564b79d9a663634756df322902
 - name: github.com/uber-go/zap

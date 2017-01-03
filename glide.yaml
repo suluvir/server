@@ -11,3 +11,4 @@ import:
 - package: github.com/uber-go/atomic
   version: ^1.0.0
 - package: github.com/mikkyang/id3-go
+- package: github.com/djimenez/iconv-go
