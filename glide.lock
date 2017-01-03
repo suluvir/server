@@ -1,5 +1,5 @@
-hash: 77fe9eba6b3ce767d08153dab8d2ab5372c46af13aecd6bf10c96a5aaf54a975
-updated: 2017-01-02T22:11:59.00947001+01:00
+hash: 0d8fec9622ed053793ab03b5ab08918491ece26bb0597d32611ee7f1176df8d7
+updated: 2017-01-03T01:10:06.232363341+01:00
 imports:
 - name: github.com/BurntSushi/toml
   version: 99064174e013895bbd9b025c31100bd1d9b590ca
@@ -7,6 +7,10 @@ imports:
   version: 1ea25387ff6f684839d82767c1733ff4d4d15d0a
 - name: github.com/gorilla/mux
   version: 0eeaf8392f5b04950925b8a69fe70f110fa7cbfc
+- name: github.com/uber-go/atomic
+  version: 0c9e689d64f004564b79d9a663634756df322902
+- name: github.com/uber-go/zap
+  version: a5783ee4b216a927da8f839c45cfbf9d694e1467
 - name: github.com/urfave/cli
   version: 0bdeddeeb0f650497d603c4ad7b20cfe685682f6
 testImports: []

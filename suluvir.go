@@ -5,10 +5,13 @@ import (
 	"os"
 	"github.com/suluvir/server/web"
 	"github.com/suluvir/server/config"
+	"github.com/suluvir/server/logging"
+	"github.com/uber-go/zap"
 )
 
 func main() {
 	config.LoadConfiguration()
+	logging.InitializeLogger()
 
 	var serverPort int
 
@@ -16,6 +19,8 @@ func main() {
 	app.Name = "Suluvir"
 	app.Usage = "Manage you own music"
 	app.Version = config.GetConfiguration().Version
+
+	logging.GetLogger().Info("suluvir started", zap.String("version", config.GetConfiguration().Version))
 
 	app.Commands = []cli.Command{
 		{
