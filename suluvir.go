@@ -7,11 +7,14 @@ import (
 	"github.com/suluvir/server/config"
 	"github.com/suluvir/server/logging"
 	"github.com/uber-go/zap"
+	"github.com/suluvir/server/schema"
 )
 
 func main() {
 	config.LoadConfiguration()
 	logging.InitializeLogger()
+	schema.ConnectDatabase()
+	defer schema.CloseDatabaseConnection()
 
 	var serverPort int
 
@@ -35,8 +38,15 @@ func main() {
 				},
 			},
 			Action: func(c *cli.Context) error {
-				web.InitializeServer(serverPort)
-				return nil
+				return web.InitializeServer(serverPort)
+			},
+		},
+		{
+			Name: "update",
+			Aliases: []string{"u"},
+			Usage: "Creates or updates the database schema",
+			Action: func(c *cli.Context) error {
+				return schema.CreateOrUpdate()
 			},
 		},
 	}

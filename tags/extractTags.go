@@ -4,9 +4,10 @@ import (
 	"github.com/mikkyang/id3-go"
 	"github.com/suluvir/server/logging"
 	"github.com/uber-go/zap"
+	"github.com/suluvir/server/schema/media"
 )
 
-func ExtractTags(fileName string) {
+func ExtractTags(fileName string) media.Song {
 	file, err := id3.Open(fileName)
 	defer file.Close()
 	if err != nil {
@@ -18,4 +19,12 @@ func ExtractTags(fileName string) {
 		zap.String("year", file.Year()),
 		zap.String("genre", file.Genre()),
 		zap.String("album", file.Album()))
+	return media.Song{
+		Title: file.Title(),
+		Artists: []media.Artist{
+			{
+				Name: file.Artist(),
+			},
+		},
+	}
 }

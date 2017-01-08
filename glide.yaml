@@ -12,3 +12,7 @@ import:
   version: ^1.0.0
 - package: github.com/mikkyang/id3-go
 - package: github.com/djimenez/iconv-go
+- package: github.com/jinzhu/gorm
+  version: ^1.0.0
+- package: github.com/mattn/go-sqlite3
+  version: ^1.2.0

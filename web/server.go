@@ -7,9 +7,9 @@ import (
 	"github.com/uber-go/zap"
 )
 
-func InitializeServer(port int) {
+func InitializeServer(port int) error {
 	router := CreateRouter()
 	ApplyRoutes(router)
 	logging.GetLogger().Info("Starting server", zap.Int("port", port))
-	http.ListenAndServe(fmt.Sprintf(":%d", port), router)
+	return http.ListenAndServe(fmt.Sprintf(":%d", port), router)
 }

@@ -1,5 +1,5 @@
-hash: 235e671922c6b71835087193755240cee3b18b1709729a9e5f3e3416be7592f9
-updated: 2017-01-03T16:38:49.295977831+01:00
+hash: d99a95ed945c7e65bbdd9f965586cd1afaa29af56418365b5c06356d127a3f8c
+updated: 2017-01-03T22:25:18.1500923+01:00
 imports:
 - name: github.com/BurntSushi/toml
   version: 99064174e013895bbd9b025c31100bd1d9b590ca
@@ -9,6 +9,14 @@ imports:
   version: 1ea25387ff6f684839d82767c1733ff4d4d15d0a
 - name: github.com/gorilla/mux
   version: 0eeaf8392f5b04950925b8a69fe70f110fa7cbfc
+- name: github.com/jinzhu/gorm
+  version: 5174cc5c242a728b435ea2be8a2f7f998e15429b
+  subpackages:
+  - dialects/sqlite
+- name: github.com/jinzhu/inflection
+  version: 1c35d901db3da928c72a72d8458480cc9ade058f
+- name: github.com/mattn/go-sqlite3
+  version: ca5e3819723d8eeaf170ad510e7da1d6d2e94a08
 - name: github.com/mikkyang/id3-go
   version: 0168d962f1d773af3e29867138593203b653782e
   subpackages:
@@ -21,4 +29,8 @@ imports:
   version: a5783ee4b216a927da8f839c45cfbf9d694e1467
 - name: github.com/urfave/cli
   version: 0bdeddeeb0f650497d603c4ad7b20cfe685682f6
+- name: golang.org/x/net
+  version: 69d4b8aa71caaaa75c3dfc11211d1be495abec7c
+  subpackages:
+  - context
 testImports: []

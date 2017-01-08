@@ -6,3 +6,7 @@ relative = true
 
 [web]
 default_port = 8080
+
+[database]
+dialect = "sqlite3"
+connection_string = "suluvir.db"
