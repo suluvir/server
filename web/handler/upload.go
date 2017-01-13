@@ -23,6 +23,7 @@ func SongUploadHandler(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		logging.GetLogger().Error("error during form file access", zap.Error(err))
 		w.WriteHeader(http.StatusInternalServerError)
+		return
 	}
 	defer uploadedFile.Close()
 	targetFileName := getUploadFilePath(handler.Filename)
