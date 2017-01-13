@@ -2,3 +2,4 @@
 server
 *.mp3
 *.log
+*.db
