@@ -23,5 +23,6 @@ func InitializeLogger() {
 	logger = zap.New(
 		zap.NewTextEncoder(zap.TextNoTime()),
 		zap.Output(file),
+		zap.DebugLevel,
 	)
 }
