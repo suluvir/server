@@ -21,7 +21,7 @@ func InitializeLogger() {
 	}
 
 	logger = zap.New(
-		zap.NewJSONEncoder(),
+		zap.NewTextEncoder(zap.TextNoTime()),
 		zap.Output(file),
 	)
 }
