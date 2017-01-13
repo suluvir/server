@@ -5,6 +5,7 @@ import (
 	"github.com/suluvir/server/logging"
 	"github.com/uber-go/zap"
 	"github.com/suluvir/server/schema/media"
+	"github.com/suluvir/server/schema"
 )
 
 func ExtractTags(fileName string) media.Song {
@@ -21,10 +22,25 @@ func ExtractTags(fileName string) media.Song {
 		zap.String("album", file.Album()))
 	return media.Song{
 		Title: file.Title(),
-		Artists: []media.Artist{
-			{
-				Name: file.Artist(),
-			},
-		},
+		Artists: getArtistsByNames(file.Artist()),
 	}
+}
+
+func getArtistsByNames(artistNames string) []media.Artist {
+	var artists []media.Artist
+
+	var databaseArtist media.Artist
+	schema.GetDatabase().First(&databaseArtist, "name = ?", artistNames)
+
+	if databaseArtist.Name == artistNames {
+		artists = append(artists, databaseArtist)
+		logging.GetLogger().Info("use already existing artist",
+			zap.String("name", databaseArtist.Name),
+			zap.Uint("id", databaseArtist.ID))
+	} else {
+		logging.GetLogger().Debug("create new artist", zap.String("name", artistNames))
+		artists = append(artists, media.Artist{Name:artistNames})
+	}
+
+	return artists
 }
