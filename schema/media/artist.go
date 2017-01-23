@@ -5,4 +5,5 @@ import "github.com/jinzhu/gorm"
 type Artist struct {
 	gorm.Model
 	Name string
+	Albums []Album
 }

@@ -1,6 +1,9 @@
 package media
 
-import "github.com/jinzhu/gorm"
+import (
+	"github.com/jinzhu/gorm"
+	"github.com/suluvir/server/schema"
+)
 
 type Song struct {
 	gorm.Model
@@ -8,4 +11,11 @@ type Song struct {
 	Title string
 	Size int64
 	Duration float64
+	AlbumID uint
+	Album Album
+}
+
+func (s *Song) Save() {
+	db := schema.GetDatabase()
+	db.Create(s)
 }

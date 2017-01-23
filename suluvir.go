@@ -8,6 +8,7 @@ import (
 	"github.com/suluvir/server/logging"
 	"github.com/uber-go/zap"
 	"github.com/suluvir/server/schema"
+	"github.com/suluvir/server/schema/manage"
 )
 
 func main() {
@@ -20,7 +21,7 @@ func main() {
 
 	app := cli.NewApp()
 	app.Name = "Suluvir"
-	app.Usage = "Manage you own music"
+	app.Usage = "Manage your own music"
 	app.Version = config.GetConfiguration().Version
 
 	logging.GetLogger().Info("suluvir started", zap.String("version", config.GetConfiguration().Version))
@@ -46,7 +47,7 @@ func main() {
 			Aliases: []string{"u"},
 			Usage: "Creates or updates the database schema",
 			Action: func(c *cli.Context) error {
-				return schema.CreateOrUpdate()
+				return manage.CreateOrUpdate()
 			},
 		},
 	}

@@ -10,7 +10,6 @@ import (
 	"github.com/suluvir/server/logging"
 	"github.com/uber-go/zap"
 	"github.com/suluvir/server/tags"
-	"github.com/suluvir/server/schema"
 )
 
 func UploadPageHandler(w http.ResponseWriter, r *http.Request) {
@@ -42,8 +41,8 @@ func SongUploadHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	logging.GetLogger().Info("file copy complete", zap.Int64("bytes written", bytesWritten))
 
-	song := tags.ExtractTags(targetFileName)
-	schema.GetDatabase().Create(&song)
+	song, _ := tags.ExtractTags(targetFileName)
+	song.Save()
 }
 
 func getUploadFilePath(filename string) string {

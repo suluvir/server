@@ -10,11 +10,14 @@ import (
 	"strings"
 )
 
-func ExtractTags(fileName string) media.Song {
+// Extract tags and return appropriate structs. Only the primitive types are initialized, all others
+// have to be set separately. Returns the song, all artists, the primary artist and the album
+func ExtractTags(fileName string) (media.Song, error) {
 	file, err := id3.Open(fileName)
 	defer file.Close()
 	if err != nil {
 		logging.GetLogger().Error("error loading mp3 file for id extraction", zap.Error(err))
+		return media.Song{}, err
 	}
 	logging.GetLogger().Info("extracted information",
 		zap.String("artist", file.Artist()),
@@ -22,9 +25,28 @@ func ExtractTags(fileName string) media.Song {
 		zap.String("year", file.Year()),
 		zap.String("genre", file.Genre()),
 		zap.String("album", file.Album()))
-	return media.Song{
+
+	artists := getArtistsByNames(file.Artist())
+	album := getAlbumByName(file.Album())
+	song := media.Song{
 		Title: file.Title(),
-		Artists: getArtistsByNames(file.Artist()),
+		Artists: artists,
+		Album: album,
+	}
+
+	return song, nil
+}
+
+func getAlbumByName(albumName string) media.Album {
+	var album media.Album
+	schema.GetDatabase().First(&album, "name = ?", albumName)
+
+	if album.Name == albumName {
+		return album
+	} else {
+		return media.Album{
+			Name: albumName,
+		}
 	}
 }
 

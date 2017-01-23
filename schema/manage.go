@@ -6,7 +6,6 @@ import (
 	"github.com/jinzhu/gorm"
 	"github.com/uber-go/zap"
 	_ "github.com/jinzhu/gorm/dialects/sqlite"
-	"github.com/suluvir/server/schema/media"
 )
 
 var database *gorm.DB
@@ -34,14 +33,4 @@ func CloseDatabaseConnection() {
 
 func GetDatabase() *gorm.DB {
 	return database
-}
-
-func CreateOrUpdate() error {
-	logging.GetLogger().Debug("create or update database schema")
-	db := GetDatabase()
-
-	db.AutoMigrate(&media.Song{})
-	db.AutoMigrate(&media.Artist{})
-
-	return nil
 }
