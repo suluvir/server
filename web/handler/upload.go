@@ -42,7 +42,7 @@ func SongUploadHandler(w http.ResponseWriter, r *http.Request) {
 	logging.GetLogger().Info("file copy complete", zap.Int64("bytes written", bytesWritten))
 
 	song, _ := tags.ExtractTags(targetFileName)
-	song.Save()
+	song.Create()
 }
 
 func getUploadFilePath(filename string) string {
