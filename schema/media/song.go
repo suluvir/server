@@ -8,13 +8,13 @@ import (
 
 type Song struct {
 	schema.DatabaseObject
-	Artists []Artist `gorm:"many2many:song_artists;"`
-	Title string
-	Size int64
-	Duration float64
-	Filename string `gorm:"size:40"`
-	AlbumID uint
-	Album Album
+	Artists []Artist `gorm:"many2many:song_artists;" json:"-"`
+	Title string `json:"title"`
+	Size int64 `json:"size"`
+	Duration float64 `json:"duration"`
+	Filename string `gorm:"size:40" json:"filename"`
+	AlbumID uint `json:"album_id"`
+	Album Album `json:"-"`
 }
 
 func (s *Song) Create() {

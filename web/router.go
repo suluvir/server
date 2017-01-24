@@ -3,7 +3,8 @@ package web
 import (
 	"github.com/gorilla/mux"
 	"github.com/suluvir/server/web/handler"
-	"github.com/suluvir/server/web/http"
+	"github.com/suluvir/server/web/httpHelpers"
+	"github.com/suluvir/server/web/handler/api/v1"
 )
 
 func CreateRouter() *mux.Router {
@@ -12,7 +13,10 @@ func CreateRouter() *mux.Router {
 }
 
 func ApplyRoutes(router *mux.Router) {
-	router.HandleFunc("/", handler.IndexHandler).Methods(http.GET)
-	router.HandleFunc("/upload", handler.UploadPageHandler).Methods(http.GET)
-	router.HandleFunc("/upload", handler.SongUploadHandler).Methods(http.POST)
+	router.HandleFunc("/", handler.IndexHandler).Methods(httpHelpers.GET)
+	router.HandleFunc("/upload", handler.UploadPageHandler).Methods(httpHelpers.GET)
+	router.HandleFunc("/upload", handler.SongUploadHandler).Methods(httpHelpers.POST)
+
+	apiV1 := router.PathPrefix("/api/v1").Subrouter()
+	v1.ApplyRoutes(apiV1)
 }

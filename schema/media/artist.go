@@ -6,6 +6,6 @@ import (
 
 type Artist struct {
 	schema.DatabaseObject
-	Name string
-	Albums []Album
+	Name string `json:"name"`
+	Albums []Album `json:"-"`
 }
