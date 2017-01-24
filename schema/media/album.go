@@ -1,11 +1,11 @@
 package media
 
 import (
-	"github.com/jinzhu/gorm"
+	"github.com/suluvir/server/schema"
 )
 
 type Album struct {
-	gorm.Model
+	schema.DatabaseObject
 	Name string
 	ArtistID uint
 	Artist Artist

@@ -1,14 +1,13 @@
 package media
 
 import (
-	"github.com/jinzhu/gorm"
 	"github.com/suluvir/server/schema"
 	"github.com/suluvir/server/logging"
 	"github.com/uber-go/zap"
 )
 
 type Song struct {
-	gorm.Model
+	schema.DatabaseObject
 	Artists []Artist `gorm:"many2many:song_artists;"`
 	Title string
 	Size int64
