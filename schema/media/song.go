@@ -12,6 +12,7 @@ type Song struct {
 	Title string
 	Size int64
 	Duration float64
+	Filename string `gorm:"size:40"`
 	AlbumID uint
 	Album Album
 }
