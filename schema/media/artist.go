@@ -9,3 +9,7 @@ type Artist struct {
 	Name string `json:"name"`
 	Albums []Album `json:"-"`
 }
+
+func init() {
+	schema.AddSchema(&Artist{})
+}

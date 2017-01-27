@@ -10,3 +10,7 @@ type Album struct {
 	ArtistID uint `json:"artist_id"`
 	Artist Artist `json:"-"`
 }
+
+func init() {
+	schema.AddSchema(&Album{})
+}

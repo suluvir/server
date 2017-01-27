@@ -10,6 +10,12 @@ import (
 
 var database *gorm.DB
 
+var schemata []interface{}
+
+func AddSchema(schema interface{}) {
+	schemata = append(schemata, schema)
+}
+
 func ConnectDatabase() error {
 	c := config.GetConfiguration()
 	db, err := gorm.Open(c.Database.Dialect, c.Database.ConnectionString)
@@ -33,4 +39,14 @@ func CloseDatabaseConnection() {
 
 func GetDatabase() *gorm.DB {
 	return database
+}
+
+func CreateOrUpdate() error {
+	logging.GetLogger().Debug("create or update database schema")
+
+	for _, schema := range schemata {
+		GetDatabase().AutoMigrate(schema)
+	}
+
+	return nil
 }

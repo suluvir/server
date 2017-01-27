@@ -17,6 +17,12 @@ type Song struct {
 	Album Album `json:"-"`
 }
 
+func init() {
+	schema.AddSchema(&Song{})
+}
+
+//type JsonSong Song
+
 func (s *Song) Create() {
 	db := schema.GetDatabase()
 	db.Create(s)

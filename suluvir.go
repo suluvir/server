@@ -8,7 +8,6 @@ import (
 	"github.com/suluvir/server/logging"
 	"github.com/uber-go/zap"
 	"github.com/suluvir/server/schema"
-	"github.com/suluvir/server/schema/manage"
 )
 
 func main() {
@@ -47,7 +46,7 @@ func main() {
 			Aliases: []string{"u"},
 			Usage: "Creates or updates the database schema",
 			Action: func(c *cli.Context) error {
-				return manage.CreateOrUpdate()
+				return schema.CreateOrUpdate()
 			},
 		},
 	}
