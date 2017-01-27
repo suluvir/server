@@ -28,6 +28,10 @@ func ConnectDatabase() error {
 		return err
 	}
 	database = db
+
+	GetDatabase().LogMode(true)
+	GetDatabase().SetLogger(&DatabaseLogger{})
+
 	return nil
 }
 
