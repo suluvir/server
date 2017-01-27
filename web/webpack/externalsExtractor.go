@@ -11,35 +11,42 @@ import (
 
 type ExternalsExtractor struct {
 	webpackConfigPath string
-}
-
-type Externals struct {
-	Name string
-	Version string
-
+	packageJsonPath string
 }
 
 type externalsContent struct {
 	Externals map[string]string
 }
 
-func NewExtractor(path string) *ExternalsExtractor {
+type packageContent struct {
+	Dependencies map[string]string `json:"dependencies"`
+}
+
+func NewExtractor(webpackPath string, packagePath string) *ExternalsExtractor {
 	return &ExternalsExtractor{
-		webpackConfigPath: path,
+		webpackConfigPath: webpackPath,
+		packageJsonPath: packagePath,
 	}
 }
 
-func (e *ExternalsExtractor) ExtractExternals() []Externals {
+func (e *ExternalsExtractor) ExtractExternals() []External {
 	webpackConfigContent, err := e.readWebpackExternals()
 	if err != nil {
-		return []Externals{}
+		return []External{}
 	}
 
 	externalNames := e.extractExternalNames(webpackConfigContent)
 	logging.GetLogger().Info("extract external names",
 		zap.String("file", e.webpackConfigPath), zap.Object("names", externalNames))
 
-	return []Externals{}
+	externals, err := e.extractExternalVersions(externalNames)
+	if err != nil {
+		logging.GetLogger().Error("error extracting external versions", zap.Error(err))
+	}
+
+	logging.GetLogger().Debug("extracted externals", zap.Object("externals", externals))
+
+	return externals
 }
 
 func (e *ExternalsExtractor) readWebpackExternals() (string, error) {
@@ -75,7 +82,8 @@ func (e *ExternalsExtractor) extractExternalNames(content string) []string {
 	if err != nil {
 		logging.GetLogger().Error("error parsing webpack config",
 			zap.Error(err),
-			zap.String("file", e.webpackConfigPath))
+			zap.String("file", e.webpackConfigPath),
+			zap.String("content", content))
 		return []string{}
 	}
 
@@ -86,4 +94,40 @@ func (e *ExternalsExtractor) extractExternalNames(content string) []string {
 		i++
 	}
 	return keys
+}
+
+func (e *ExternalsExtractor) extractExternalVersions(externalNames []string) ([]External, error) {
+	buf, err := ioutil.ReadFile(e.packageJsonPath)
+	if err != nil {
+		logging.GetLogger().Error("error while loading package.json",
+			zap.String("file", e.packageJsonPath),
+			zap.Error(err))
+		return []External{}, err
+	}
+
+	var packageContents packageContent
+	parseErr := json.Unmarshal(buf, &packageContents)
+	if parseErr != nil {
+		logging.GetLogger().Error("error while parsing package.json",
+			zap.Error(parseErr),
+			zap.String("content", string(buf)),
+			zap.String("file", e.packageJsonPath))
+	}
+
+	logging.GetLogger().Info("read package.json", zap.Object("content", packageContents))
+
+	externals := []External{}
+	for _, externalName := range externalNames {
+		if version, ok := packageContents.Dependencies[externalName]; ok {
+			external := NewExternal(externalName, normalizeVersion(version), false)
+			external.SetUrl()
+			externals = append(externals, external)
+		}
+	}
+
+	return externals, nil
+}
+
+func normalizeVersion(version string) string {
+	return strings.Replace(version, "^", "", -1)
 }

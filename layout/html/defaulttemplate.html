@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>Suluvir</title>
+
+        {{range .Externals}}
+            {{if .HasCss}}
+                <link href="{{.CssUrl}}" rel="stylesheet">
+            {{end}}
+        {{end}}
+
+    </head>
+    <body>
+        <div id="application-root"></div>
+
+        <!-- Dependencies -->
+        <!--<script src="./node_modules/react/dist/react.js"></script>-->
+        <!--<script src="./node_modules/react-dom/dist/react-dom.js"></script>-->
+
+        {{range .Externals}}
+            <script src="{{.JsUrl}}"></script>
+        {{end}}
+
+        <!-- Main -->
+        <!--<script src="./dist/bundle.js"></script>-->
+    </body>
+</html>
