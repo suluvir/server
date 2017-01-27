@@ -8,8 +8,7 @@ import (
 )
 
 func InitializeServer(port int) error {
-	router := CreateRouter()
-	ApplyRoutes(router)
+	router := InitializeRouter()
 	logging.GetLogger().Info("Starting server", zap.Int("port", port))
 	return http.ListenAndServe(fmt.Sprintf(":%d", port), router)
 }

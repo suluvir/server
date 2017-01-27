@@ -8,10 +8,13 @@ import (
 // don't use configuration here because of import cycle
 const LOG_FILE_NAME = "log.log"
 
-var logger zap.Logger
+var logger *zap.Logger
 
 func GetLogger() zap.Logger {
-	return logger
+	if logger == nil {
+		InitializeLogger()
+	}
+	return *logger
 }
 
 func InitializeLogger() {
@@ -20,9 +23,10 @@ func InitializeLogger() {
 		// TODO ignore this?
 	}
 
-	logger = zap.New(
+	tmpLogger := zap.New(
 		zap.NewTextEncoder(zap.TextNoTime()),
 		zap.Output(file),
 		zap.DebugLevel,
 	)
+	logger = &tmpLogger
 }

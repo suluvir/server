@@ -7,5 +7,5 @@ import (
 
 func SongApiHandler(w http.ResponseWriter, r *http.Request) {
 	var song media.Song;
-	ResponseSingleObject(w, r, song)
+	ResponseSingleObject(w, r, &song)
 }

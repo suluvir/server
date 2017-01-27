@@ -8,6 +8,8 @@ import (
 	"github.com/suluvir/server/logging"
 	"github.com/uber-go/zap"
 	"github.com/suluvir/server/schema"
+
+	_ "github.com/suluvir/server/web/handler/api/v1"
 )
 
 func main() {
