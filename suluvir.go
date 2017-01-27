@@ -10,6 +10,7 @@ import (
 	"github.com/suluvir/server/schema"
 
 	_ "github.com/suluvir/server/web/handler/api/v1"
+	_ "github.com/suluvir/server/web/handler"
 )
 
 func main() {
@@ -17,8 +18,6 @@ func main() {
 	logging.InitializeLogger()
 	schema.ConnectDatabase()
 	defer schema.CloseDatabaseConnection()
-
-	var serverPort int
 
 	app := cli.NewApp()
 	app.Name = "Suluvir"
@@ -32,15 +31,8 @@ func main() {
 			Name: "serve",
 			Aliases: []string{"s"},
 			Usage: "Runs the server",
-			Flags: []cli.Flag{
-				cli.IntFlag{
-					Name: "port",
-					Value: config.GetConfiguration().Web.DefaultPort,
-					Destination: &serverPort,
-				},
-			},
 			Action: func(c *cli.Context) error {
-				return web.InitializeServer(serverPort)
+				return web.InitializeServer(config.GetConfiguration().Web.Port)
 			},
 		},
 		{

@@ -13,7 +13,8 @@ type upload struct {
 }
 
 type web struct {
-	DefaultPort int `toml:"default_port"`
+	Port int
+	Hostname string
 }
 
 type database struct {
