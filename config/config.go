@@ -13,6 +13,10 @@ const (
 
 var configuration Config
 
+func init() {
+	LoadConfiguration()
+}
+
 func LoadConfiguration() {
 	// TODO ensure that it is not called multiple times?
 	if _, err := toml.DecodeFile(DEFAULT_CONFIG, &configuration); err != nil {

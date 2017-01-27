@@ -15,8 +15,6 @@ import (
 
 func main() {
 	config.LoadConfiguration()
-	logging.InitializeLogger()
-	schema.ConnectDatabase()
 	defer schema.CloseDatabaseConnection()
 
 	app := cli.NewApp()

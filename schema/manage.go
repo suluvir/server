@@ -12,6 +12,10 @@ var database *gorm.DB
 
 var schemata []interface{}
 
+func init() {
+	ConnectDatabase()
+}
+
 func AddSchema(schema interface{}) {
 	schemata = append(schemata, schema)
 }

@@ -10,10 +10,11 @@ const LOG_FILE_NAME = "log.log"
 
 var logger *zap.Logger
 
+func init() {
+	InitializeLogger()
+}
+
 func GetLogger() zap.Logger {
-	if logger == nil {
-		InitializeLogger()
-	}
 	return *logger
 }
 
