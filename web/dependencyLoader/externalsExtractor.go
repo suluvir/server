@@ -15,7 +15,7 @@ type ExternalsExtractor struct {
 }
 
 type externalsContent struct {
-	Externals map[string]string
+	Externals []string
 }
 
 type packageContent struct {
@@ -71,39 +71,25 @@ func (e *ExternalsExtractor) readWebpackExternals() (string, error) {
 }
 
 func (e *ExternalsExtractor) extractExternalNames(content string) []string {
-	content = strings.Replace(content, "module.exports = ", "", -1) // remove module export at the beginning
-	content = strings.Replace(content, "__dirname + ", "", -1) // remove the special __dirname constant
-	content = strings.Replace(content, ";", "", -1) // remove semicolon at the end of the file
-	content = strings.Replace(content, "'", "\"", -1) // maje single quotes double quotes
+	externalsRegex, _ := regexp.Compile("(externals: {[^$]*\"\\s*})")
+	makeListRegex, _ := regexp.Compile("\"([^\"]+)\":[^\"]*\"[^\"]+\"")
 
-	commentRegex, _ := regexp.Compile("//.*")
-	quoteRegex, _ := regexp.Compile("([a-zA-Z]+):")
-	regexRegex, _ := regexp.Compile("\\s/.*/")
+	externalsString := externalsRegex.FindString(content)
+	externalsString = makeListRegex.ReplaceAllString(externalsString, `"$1"`)
+	externalsString = strings.Replace(externalsString, "{", "[", -1)
+	externalsString = strings.Replace(externalsString, "}", "]}", -1)
+	externalsString = strings.Replace(externalsString, "externals:", "{\"externals\":", -1)
 
-	content = commentRegex.ReplaceAllString(content, "") // remove comments
-	content = quoteRegex.ReplaceAllString(content, `"$1":`) // make double quotes around keywords
-	content = regexRegex.ReplaceAllString(content, "\"\"") // remove regexes in code, as we don't need them
+	logging.GetLogger().Debug("got externals list", zap.String("externals", externalsString))
 
-
-	byteContent := []byte(content)
-	var parsed externalsContent
-	err := json.Unmarshal(byteContent, &parsed)
-
-	if err != nil {
-		logging.GetLogger().Error("error parsing webpack config",
-			zap.Error(err),
-			zap.String("file", e.webpackConfigPath),
-			zap.String("content", content))
-		return []string{}
+	var externalContent externalsContent
+	parseErr := json.Unmarshal([]byte(externalsString), &externalContent)
+	if parseErr != nil {
+		logging.GetLogger().Error("error during webpack config parse",
+			zap.Error(parseErr))
 	}
 
-	keys := make([]string, len(parsed.Externals))
-	i := 0
-	for k := range parsed.Externals {
-		keys[i] = k
-		i++
-	}
-	return keys
+	return externalContent.Externals
 }
 
 func (e *ExternalsExtractor) extractExternalVersions(externalNames []string) ([]External, error) {
