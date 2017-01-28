@@ -19,7 +19,9 @@
         <!--<script src="./node_modules/react-dom/dist/react-dom.js"></script>-->
 
         {{range .Externals}}
-            <script src="{{.JsUrl}}"></script>
+            {{if .HasJs}}
+                <script src="{{.JsUrl}}"></script>
+            {{end}}
         {{end}}
 
         <!-- Main -->

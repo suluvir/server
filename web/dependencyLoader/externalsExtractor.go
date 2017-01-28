@@ -44,9 +44,19 @@ func (e *ExternalsExtractor) ExtractExternals() []External {
 		logging.GetLogger().Error("error extracting external versions", zap.Error(err))
 	}
 
-	logging.GetLogger().Debug("extracted externals", zap.Object("externals", externals))
+	logging.GetLogger().Debug("extracted externals, continue extracting external files",
+		zap.Object("externals", externals))
 
-	return externals
+	fileExtractor := NewExternalFileExtractor(externals)
+	externals = fileExtractor.LookupExternalFiles()
+
+	var result []External
+	for _, e := range externals {
+		e.SetUrl()
+		result = append(result, e)
+	}
+
+	return result
 }
 
 func (e *ExternalsExtractor) readWebpackExternals() (string, error) {
@@ -119,8 +129,7 @@ func (e *ExternalsExtractor) extractExternalVersions(externalNames []string) ([]
 	externals := []External{}
 	for _, externalName := range externalNames {
 		if version, ok := packageContents.Dependencies[externalName]; ok {
-			external := NewExternal(externalName, normalizeVersion(version), false)
-			external.SetUrl()
+			external := NewExternal(externalName, normalizeVersion(version))
 			externals = append(externals, external)
 		}
 	}

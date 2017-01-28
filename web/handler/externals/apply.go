@@ -7,5 +7,5 @@ import (
 
 func init() {
 	s := web.GetRouter().PathPrefix("/externals").Subrouter()
-	s.HandleFunc("/{type}/{version}/{name}", StaticHandler).Name(routeNames.EXTERNAL_RESOURCE)
+	s.HandleFunc("/{name}/{version}/{file}", ExternalHandler).Name(routeNames.EXTERNAL_RESOURCE)
 }
