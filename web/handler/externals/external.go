@@ -33,7 +33,8 @@ func ExternalHandler(w http.ResponseWriter, r *http.Request) {
 				logging.GetLogger().Error("error during externals delivery",
 					zap.String("external name", external.Name),
 					zap.String("external version", external.Version),
-					zap.String("file name", externalFileName))
+					zap.String("file name", externalFileName),
+					zap.Error(err))
 				w.WriteHeader(http.StatusNotFound)
 				return
 			}

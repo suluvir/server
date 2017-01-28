@@ -13,7 +13,10 @@ type ExternalFileExtractor struct {
 
 const externalBaseDir = "layout/js/node_modules"
 
-const searchInDirectory = "dist"
+var searchInDirectories = []string{
+	"dist",
+	"out",
+}
 const jsFileSuffix = ".min.js"
 const cssFileSuffix = ".css"
 
@@ -29,60 +32,69 @@ func NewExternalFileExtractor(externals []External) *ExternalFileExtractor {
 func (e *ExternalFileExtractor) LookupExternalFiles() []External {
 	var result []External
 	for _, external := range e.Externals {
-		externalBaseDir := fmt.Sprintf("%s/%s/%s", externalBaseDir, external.Name, searchInDirectory)
-		external.Directory = externalBaseDir
+		for _, searchInDirectory := range searchInDirectories {
+			externalBaseDir := fmt.Sprintf("%s/%s/%s", externalBaseDir, external.Name, searchInDirectory)
 
-		if specialJsFile, ok := SPECIAL_EXTERNAL_JS_FILES[external.Name]; ok {
-			specialJsFileDir := fmt.Sprintf("%s/%s", externalBaseDir, specialJsFile)
-			if _, err := os.Stat(specialJsFileDir); err == nil {
-				external.JsFile = specialJsFile
-				external.HasJs = true
-				logging.GetLogger().Info("found special externals file",
-					zap.String("path", specialJsFileDir))
-			} else {
-				external.HasJs = false
-				logging.GetLogger().Warn("specal external file given does not exist",
-					zap.String("filename", specialJsFile),
-					zap.String("expected path", specialJsFileDir))
+			if !external.HasJs {
+				if specialJsFile, ok := SPECIAL_EXTERNAL_JS_FILES[external.Name]; ok {
+					specialJsFileDir := fmt.Sprintf("%s/%s", externalBaseDir, specialJsFile)
+					if _, err := os.Stat(specialJsFileDir); err == nil {
+						external.Directory = externalBaseDir
+						external.JsFile = specialJsFile
+						external.HasJs = true
+						logging.GetLogger().Info("found special externals file",
+							zap.String("path", specialJsFileDir))
+					} else {
+						external.HasJs = false
+						logging.GetLogger().Warn("specal external file given does not exist",
+							zap.String("filename", specialJsFile),
+							zap.String("expected path", specialJsFileDir))
+					}
+				} else {
+					externalDir := fmt.Sprintf("%s/%s%s", externalBaseDir, external.Name, jsFileSuffix)
+					if _, err := os.Stat(externalDir); err == nil {
+						external.Directory = externalBaseDir
+						external.JsFile = fmt.Sprintf("%s%s", external.Name, jsFileSuffix)
+						external.HasJs = true
+						logging.GetLogger().Info("found externals file",
+							zap.String("path", externalDir))
+					} else {
+						external.HasJs = false
+						logging.GetLogger().Warn("unable to find externals file",
+							zap.String("expected path", externalDir))
+					}
+				}
 			}
-		} else {
-			externalDir := fmt.Sprintf("%s/%s%s", externalBaseDir, external.Name, jsFileSuffix)
-			if _, err := os.Stat(externalDir); err == nil {
-				external.JsFile = fmt.Sprintf("%s%s", external.Name, jsFileSuffix)
-				external.HasJs = true
-				logging.GetLogger().Info("found externals file",
-					zap.String("path", externalDir))
-			} else {
-				external.HasJs = false
-				logging.GetLogger().Warn("unable to find externals file",
-					zap.String("expected path", externalDir))
-			}
-		}
 
-		if specialCssFile, ok := SPECIAL_EXTERNAL_CSS_FILES[external.Name]; ok {
-			specialCssFileDir := fmt.Sprintf("%s/%s", externalBaseDir, specialCssFile)
-			if _, err := os.Stat(specialCssFileDir); err == nil {
-				external.CssFile = specialCssFile
-				external.HasCss = true
-				logging.GetLogger().Info("found special externals file",
-					zap.String("path", specialCssFileDir))
-			} else {
-				external.HasCss = false
-				logging.GetLogger().Warn("specal external file given does not exist",
-					zap.String("filename", specialCssFile),
-					zap.String("expected path", specialCssFileDir))
-			}
-		} else {
-			externalDir := fmt.Sprintf("%s/%s%s", externalBaseDir, external.Name, cssFileSuffix)
-			if _, err := os.Stat(externalDir); err == nil {
-				external.CssFile = fmt.Sprintf("%s%s", external.Name, cssFileSuffix)
-				external.HasCss = true
-				logging.GetLogger().Info("found externals file",
-					zap.String("path", externalDir))
-			} else {
-				external.HasCss = false
-				logging.GetLogger().Warn("unable to find externals file",
-					zap.String("extected path", externalDir))
+			if !external.HasCss {
+				if specialCssFile, ok := SPECIAL_EXTERNAL_CSS_FILES[external.Name]; ok {
+					specialCssFileDir := fmt.Sprintf("%s/%s", externalBaseDir, specialCssFile)
+					if _, err := os.Stat(specialCssFileDir); err == nil {
+						external.Directory = externalBaseDir
+						external.CssFile = specialCssFile
+						external.HasCss = true
+						logging.GetLogger().Info("found special externals file",
+							zap.String("path", specialCssFileDir))
+					} else {
+						external.HasCss = false
+						logging.GetLogger().Warn("specal external file given does not exist",
+							zap.String("filename", specialCssFile),
+							zap.String("expected path", specialCssFileDir))
+					}
+				} else {
+					externalDir := fmt.Sprintf("%s/%s%s", externalBaseDir, external.Name, cssFileSuffix)
+					if _, err := os.Stat(externalDir); err == nil {
+						external.Directory = externalBaseDir
+						external.CssFile = fmt.Sprintf("%s%s", external.Name, cssFileSuffix)
+						external.HasCss = true
+						logging.GetLogger().Info("found externals file",
+							zap.String("path", externalDir))
+					} else {
+						external.HasCss = false
+						logging.GetLogger().Warn("unable to find externals file",
+							zap.String("extected path", externalDir))
+					}
+				}
 			}
 		}
 		result = append(result, external)

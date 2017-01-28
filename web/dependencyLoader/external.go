@@ -55,5 +55,7 @@ func NewExternal(name string, version string) External {
 	return External{
 		Name: name,
 		Version: version,
+		HasCss: false,
+		HasJs: false,
 	}
 }
