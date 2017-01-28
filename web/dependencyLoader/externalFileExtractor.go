@@ -2,7 +2,6 @@ package dependencyLoader
 
 import (
 	"fmt"
-	"github.com/suluvir/server/web/handler/externals"
 	"os"
 	"github.com/suluvir/server/logging"
 	"github.com/uber-go/zap"
