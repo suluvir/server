@@ -33,7 +33,7 @@ func (e *ExternalFileExtractor) LookupExternalFiles() []External {
 		externalBaseDir := fmt.Sprintf("%s/%s/%s", externalBaseDir, external.Name, searchInDirectory)
 		external.Directory = externalBaseDir
 
-		if specialJsFile, ok := externals.SPECIAL_EXTERNAL_JS_FILES[external.Name]; ok {
+		if specialJsFile, ok := SPECIAL_EXTERNAL_JS_FILES[external.Name]; ok {
 			specialJsFileDir := fmt.Sprintf("%s/%s", externalBaseDir, specialJsFile)
 			if _, err := os.Stat(specialJsFileDir); err == nil {
 				external.JsFile = specialJsFile
@@ -60,7 +60,7 @@ func (e *ExternalFileExtractor) LookupExternalFiles() []External {
 			}
 		}
 
-		if specialCssFile, ok := externals.SPECIAL_EXTERNAL_CSS_FILES[external.Name]; ok {
+		if specialCssFile, ok := SPECIAL_EXTERNAL_CSS_FILES[external.Name]; ok {
 			specialCssFileDir := fmt.Sprintf("%s/%s", externalBaseDir, specialCssFile)
 			if _, err := os.Stat(specialCssFileDir); err == nil {
 				external.CssFile = specialCssFile
