@@ -3,15 +3,15 @@ package handler
 import (
 	"net/http"
 	"github.com/suluvir/server/web/printer"
-	"github.com/suluvir/server/web/webpack"
+	"github.com/suluvir/server/web/dependencyLoader"
 )
 
 type indexTemplate struct {
-	Externals []webpack.External
+	Externals []dependencyLoader.External
 }
 
 func IndexHandler(w http.ResponseWriter, r *http.Request) {
-	extractor := webpack.NewExtractor("layout/js/webpack.config.js", "layout/js/package.json")
+	extractor := dependencyLoader.NewExtractor("layout/js/webpack.config.js", "layout/js/package.json")
 	variables := indexTemplate{
 		Externals: extractor.ExtractExternals(),
 	}

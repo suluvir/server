@@ -1,4 +1,4 @@
-package webpack
+package dependencyLoader
 
 import (
 	"io/ioutil"
