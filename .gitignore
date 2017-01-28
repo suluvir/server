@@ -4,3 +4,4 @@ server
 *.log
 *.db
 uploads/
+layout/js/dist/
