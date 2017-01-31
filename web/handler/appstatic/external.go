@@ -1,4 +1,4 @@
-package externals
+package appstatic
 
 import (
 	"net/http"
@@ -16,7 +16,7 @@ const jsSuffix = ".js"
 const cssSuffix = ".css"
 const mapSuffix = ".map"
 
-func ExternalHandler(w http.ResponseWriter, r *http.Request) {
+func AppStaticHandler(w http.ResponseWriter, r *http.Request) {
 	externalsExtractor := dependencyLoader.NewExtractor("layout/js/webpack.config.js", "layout/js/package.json")
 	externals := externalsExtractor.ExtractExternals()
 

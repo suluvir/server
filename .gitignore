@@ -5,3 +5,4 @@ server
 *.db
 uploads/
 layout/js/dist/
+node_modules/

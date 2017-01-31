@@ -11,7 +11,7 @@ import (
 
 	_ "github.com/suluvir/server/web/handler/api/v1"
 	_ "github.com/suluvir/server/web/handler"
-	_ "github.com/suluvir/server/web/handler/externals"
+	_ "github.com/suluvir/server/web/handler/appstatic"
 )
 
 func main() {
