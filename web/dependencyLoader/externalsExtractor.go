@@ -12,6 +12,8 @@ import (
 type ExternalsExtractor struct {
 	webpackConfigPath string
 	packageJsonPath string
+
+	packageContent packageContent
 }
 
 type externalsContent struct {
@@ -20,6 +22,8 @@ type externalsContent struct {
 
 type packageContent struct {
 	Dependencies map[string]string `json:"dependencies"`
+	Name string `json:"name"`
+	Version string `json:"version"`
 }
 
 func NewExtractor(webpackPath string, packagePath string) *ExternalsExtractor {
@@ -55,6 +59,10 @@ func (e *ExternalsExtractor) ExtractExternals() []External {
 		e.SetUrl()
 		result = append(result, e)
 	}
+
+	suluvirExternal := e.GetSuluvirExternal()
+	suluvirExternal.SetUrl()
+	result = append(result, suluvirExternal)
 
 	return result
 }
@@ -93,34 +101,58 @@ func (e *ExternalsExtractor) extractExternalNames(content string) []string {
 }
 
 func (e *ExternalsExtractor) extractExternalVersions(externalNames []string) ([]External, error) {
-	buf, err := ioutil.ReadFile(e.packageJsonPath)
-	if err != nil {
-		logging.GetLogger().Error("error while loading package.json",
-			zap.String("file", e.packageJsonPath),
-			zap.Error(err))
-		return []External{}, err
-	}
-
-	var packageContents packageContent
-	parseErr := json.Unmarshal(buf, &packageContents)
-	if parseErr != nil {
-		logging.GetLogger().Error("error while parsing package.json",
-			zap.Error(parseErr),
-			zap.String("content", string(buf)),
-			zap.String("file", e.packageJsonPath))
-	}
-
-	logging.GetLogger().Info("read package.json", zap.Object("content", packageContents))
+	e.readPackageJson()
 
 	externals := []External{}
 	for _, externalName := range externalNames {
-		if version, ok := packageContents.Dependencies[externalName]; ok {
+		if version, ok := e.packageContent.Dependencies[externalName]; ok {
 			external := NewExternal(externalName, normalizeVersion(version))
 			externals = append(externals, external)
 		}
 	}
 
 	return externals, nil
+}
+
+func (e *ExternalsExtractor) readPackageJson() error {
+	if e.packageContent.Name != "" {
+		// package.json has been already read
+		return nil
+	}
+
+	buf, err := ioutil.ReadFile(e.packageJsonPath)
+	if err != nil {
+		logging.GetLogger().Error("error while loading package.json",
+			zap.String("file", e.packageJsonPath),
+			zap.Error(err))
+		return err
+	}
+
+	var packageContents packageContent
+	parseErr := json.Unmarshal(buf, &packageContents)
+	e.packageContent = packageContents
+	if parseErr != nil {
+		logging.GetLogger().Error("error while parsing package.json",
+			zap.Error(parseErr),
+			zap.String("content", string(buf)),
+			zap.String("file", e.packageJsonPath))
+		return parseErr
+	}
+	logging.GetLogger().Info("read package.json", zap.Object("content", e.packageContent))
+	return nil
+}
+
+func (e *ExternalsExtractor) GetSuluvirExternal() External {
+	e.readPackageJson()
+
+	return External{
+		Directory: "layout/js/dist",
+		HasJs: true,
+		JsFile: "bundle.js",
+		HasCss: false,
+		Version: e.packageContent.Version,
+		Name: e.packageContent.Name,
+	}
 }
 
 func normalizeVersion(version string) string {
