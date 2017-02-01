@@ -1,16 +1,16 @@
 package main
 
 import (
-	"github.com/urfave/cli"
-	"os"
-	"github.com/suluvir/server/web"
 	"github.com/suluvir/server/config"
 	"github.com/suluvir/server/logging"
-	"github.com/uber-go/zap"
 	"github.com/suluvir/server/schema"
+	"github.com/suluvir/server/web"
+	"github.com/uber-go/zap"
+	"github.com/urfave/cli"
+	"os"
 
-	_ "github.com/suluvir/server/web/handler/api/v1"
 	_ "github.com/suluvir/server/web/handler"
+	_ "github.com/suluvir/server/web/handler/api/v1"
 	_ "github.com/suluvir/server/web/handler/appstatic"
 )
 
@@ -27,17 +27,17 @@ func main() {
 
 	app.Commands = []cli.Command{
 		{
-			Name: "serve",
+			Name:    "serve",
 			Aliases: []string{"s"},
-			Usage: "Runs the server",
+			Usage:   "Runs the server",
 			Action: func(c *cli.Context) error {
 				return web.InitializeServer(config.GetConfiguration().Web.Port)
 			},
 		},
 		{
-			Name: "update",
+			Name:    "update",
 			Aliases: []string{"u"},
-			Usage: "Creates or updates the database schema",
+			Usage:   "Creates or updates the database schema",
 			Action: func(c *cli.Context) error {
 				return schema.CreateOrUpdate()
 			},

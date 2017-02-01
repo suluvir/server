@@ -1,16 +1,16 @@
 package handler
 
 import (
-	"net/http"
-	"github.com/suluvir/server/web/printer"
-	"os"
-	"io"
-	"github.com/suluvir/server/config"
 	"fmt"
-	"github.com/suluvir/server/logging"
-	"github.com/uber-go/zap"
-	"github.com/suluvir/server/tags"
 	"github.com/pborman/uuid"
+	"github.com/suluvir/server/config"
+	"github.com/suluvir/server/logging"
+	"github.com/suluvir/server/tags"
+	"github.com/suluvir/server/web/printer"
+	"github.com/uber-go/zap"
+	"io"
+	"net/http"
+	"os"
 )
 
 func UploadPageHandler(w http.ResponseWriter, r *http.Request) {
@@ -18,7 +18,7 @@ func UploadPageHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func SongUploadHandler(w http.ResponseWriter, r *http.Request) {
-	r.ParseMultipartForm(2^16)
+	r.ParseMultipartForm(2 ^ 16)
 	uploadedFile, _, err := r.FormFile("media")
 	if err != nil {
 		logging.GetLogger().Error("error during form file access", zap.Error(err))
@@ -29,7 +29,7 @@ func SongUploadHandler(w http.ResponseWriter, r *http.Request) {
 
 	uploadedFilename := uuid.NewUUID().String()
 	targetFileName := getUploadFilePath(uploadedFilename)
-	targetFile, err := os.OpenFile(targetFileName, os.O_WRONLY | os.O_CREATE, 0666)
+	targetFile, err := os.OpenFile(targetFileName, os.O_WRONLY|os.O_CREATE, 0666)
 	logging.GetLogger().Info("uploading new media", zap.String("target file name", targetFileName))
 	defer targetFile.Close()
 	if err != nil {

@@ -1,8 +1,8 @@
 package v1
 
 import (
-	"github.com/suluvir/server/web/httpHelpers"
 	"github.com/suluvir/server/web"
+	"github.com/suluvir/server/web/httpHelpers"
 	"github.com/suluvir/server/web/routeNames"
 )
 

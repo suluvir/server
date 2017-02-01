@@ -1,14 +1,14 @@
 package appstatic
 
 import (
-	"net/http"
-	"github.com/suluvir/server/web/dependencyLoader"
-	"github.com/gorilla/mux"
-	"io/ioutil"
 	"fmt"
+	"github.com/gorilla/mux"
 	"github.com/suluvir/server/logging"
-	"github.com/uber-go/zap"
+	"github.com/suluvir/server/web/dependencyLoader"
 	"github.com/suluvir/server/web/httpHelpers"
+	"github.com/uber-go/zap"
+	"io/ioutil"
+	"net/http"
 	"strings"
 )
 

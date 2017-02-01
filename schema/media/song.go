@@ -1,25 +1,25 @@
 package media
 
 import (
-	"github.com/suluvir/server/schema"
-	"github.com/suluvir/server/logging"
-	"github.com/uber-go/zap"
 	"encoding/json"
-	"github.com/suluvir/server/web/routeNames"
-	"strconv"
-	"github.com/suluvir/server/web"
 	"fmt"
+	"github.com/suluvir/server/logging"
+	"github.com/suluvir/server/schema"
+	"github.com/suluvir/server/web"
+	"github.com/suluvir/server/web/routeNames"
+	"github.com/uber-go/zap"
+	"strconv"
 )
 
 type Song struct {
 	schema.DatabaseObject
-	Artists []Artist `gorm:"many2many:song_artists;" json:"-"`
-	Title string `json:"title"`
-	Size int64 `json:"size"`
-	Duration float64 `json:"duration"`
-	Filename string `gorm:"size:40" json:"-"`
-	AlbumID uint `json:"-"`
-	Album Album `json:"-"`
+	Artists  []Artist `gorm:"many2many:song_artists;" json:"-"`
+	Title    string   `json:"title"`
+	Size     int64    `json:"size"`
+	Duration float64  `json:"duration"`
+	Filename string   `gorm:"size:40" json:"-"`
+	AlbumID  uint     `json:"-"`
+	Album    Album    `json:"-"`
 }
 
 func init() {
@@ -57,7 +57,7 @@ func (s *Song) GetApiLink() string {
 func (s Song) MarshalJSON() ([]byte, error) {
 	streamLink := fmt.Sprintf("%s/%s", s.GetApiLink(), "stream")
 	var album Album
-	var artists []Artist;
+	var artists []Artist
 	schema.GetDatabase().Model(&s).Related(&album)
 	schema.GetDatabase().Model(&s).Related(&artists, "Artists")
 
@@ -68,15 +68,15 @@ func (s Song) MarshalJSON() ([]byte, error) {
 
 	return json.Marshal(struct {
 		JsonSong
-		ApiLink string `json:"@id"`
-		ApiAlbumLink string `json:"@album"`
-		StreamLink string `json:"@stream"`
+		ApiLink        string   `json:"@id"`
+		ApiAlbumLink   string   `json:"@album"`
+		StreamLink     string   `json:"@stream"`
 		ApiArtistLinks []string `json:"@artists"`
 	}{
-		JsonSong: JsonSong(s),
-		ApiLink: s.GetApiLink(),
-		ApiAlbumLink: album.GetApiLink(),
-		StreamLink: streamLink,
+		JsonSong:       JsonSong(s),
+		ApiLink:        s.GetApiLink(),
+		ApiAlbumLink:   album.GetApiLink(),
+		StreamLink:     streamLink,
 		ApiArtistLinks: artistLinks,
 	})
 }

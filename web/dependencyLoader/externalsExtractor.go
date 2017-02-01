@@ -1,17 +1,17 @@
 package dependencyLoader
 
 import (
-	"io/ioutil"
+	"encoding/json"
 	"github.com/suluvir/server/logging"
 	"github.com/uber-go/zap"
-	"strings"
-	"encoding/json"
+	"io/ioutil"
 	"regexp"
+	"strings"
 )
 
 type ExternalsExtractor struct {
 	webpackConfigPath string
-	packageJsonPath string
+	packageJsonPath   string
 
 	packageContent packageContent
 }
@@ -22,14 +22,14 @@ type externalsContent struct {
 
 type packageContent struct {
 	Dependencies map[string]string `json:"dependencies"`
-	Name string `json:"name"`
-	Version string `json:"version"`
+	Name         string            `json:"name"`
+	Version      string            `json:"version"`
 }
 
 func NewExtractor(webpackPath string, packagePath string) *ExternalsExtractor {
 	return &ExternalsExtractor{
 		webpackConfigPath: webpackPath,
-		packageJsonPath: packagePath,
+		packageJsonPath:   packagePath,
 	}
 }
 
@@ -147,11 +147,11 @@ func (e *ExternalsExtractor) GetSuluvirExternal() External {
 
 	return External{
 		Directory: "layout/js/dist",
-		HasJs: true,
-		JsFile: "bundle.js",
-		HasCss: false,
-		Version: e.packageContent.Version,
-		Name: e.packageContent.Name,
+		HasJs:     true,
+		JsFile:    "bundle.js",
+		HasCss:    false,
+		Version:   e.packageContent.Version,
+		Name:      e.packageContent.Name,
 	}
 }
 

@@ -1,9 +1,9 @@
 package web
 
 import (
+	"fmt"
 	"github.com/gorilla/mux"
 	"github.com/suluvir/server/config"
-	"fmt"
 )
 
 var router *mux.Router

@@ -1,23 +1,23 @@
 package dependencyLoader
 
 import (
+	"github.com/suluvir/server/logging"
 	"github.com/suluvir/server/web"
 	"github.com/suluvir/server/web/routeNames"
-	"github.com/suluvir/server/logging"
 	"github.com/uber-go/zap"
 )
 
 type External struct {
-	Name string
+	Name    string
 	Version string
-	HasCss bool
-	HasJs bool
-	JsUrl string
-	CssUrl string
+	HasCss  bool
+	HasJs   bool
+	JsUrl   string
+	CssUrl  string
 
 	Directory string
-	JsFile string
-	CssFile string
+	JsFile    string
+	CssFile   string
 }
 
 func (e *External) SetUrl() {
@@ -53,9 +53,9 @@ func (e *External) SetUrl() {
 
 func NewExternal(name string, version string) External {
 	return External{
-		Name: name,
+		Name:    name,
 		Version: version,
-		HasCss: false,
-		HasJs: false,
+		HasCss:  false,
+		HasJs:   false,
 	}
 }

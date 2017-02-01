@@ -2,9 +2,9 @@ package dependencyLoader
 
 import (
 	"fmt"
-	"os"
 	"github.com/suluvir/server/logging"
 	"github.com/uber-go/zap"
+	"os"
 )
 
 type ExternalFileExtractor struct {
@@ -17,6 +17,7 @@ var searchInDirectories = []string{
 	"dist",
 	"out",
 }
+
 const jsFileSuffix = ".min.js"
 const cssFileSuffix = ".css"
 

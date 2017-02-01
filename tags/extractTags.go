@@ -3,9 +3,9 @@ package tags
 import (
 	"github.com/mikkyang/id3-go"
 	"github.com/suluvir/server/logging"
-	"github.com/uber-go/zap"
-	"github.com/suluvir/server/schema/media"
 	"github.com/suluvir/server/schema"
+	"github.com/suluvir/server/schema/media"
+	"github.com/uber-go/zap"
 	"regexp"
 	"strings"
 )
@@ -29,9 +29,9 @@ func ExtractTags(fileName string) (media.Song, error) {
 	artists := getArtistsByNames(file.Artist())
 	album := getAlbumByName(file.Album())
 	song := media.Song{
-		Title: file.Title(),
+		Title:   file.Title(),
 		Artists: artists,
-		Album: album,
+		Album:   album,
 	}
 
 	return song, nil
@@ -67,7 +67,7 @@ func getArtistsByNames(artistNames string) []media.Artist {
 				zap.Uint64("id", databaseArtist.ID))
 		} else {
 			logging.GetLogger().Debug("create new artist", zap.String("name", artistNameSplit))
-			artists = append(artists, media.Artist{Name:artistNameSplit})
+			artists = append(artists, media.Artist{Name: artistNameSplit})
 		}
 	}
 

@@ -1,9 +1,9 @@
 package handler
 
 import (
-	"net/http"
-	"github.com/suluvir/server/web/printer"
 	"github.com/suluvir/server/web/dependencyLoader"
+	"github.com/suluvir/server/web/printer"
+	"net/http"
 )
 
 type indexTemplate struct {
