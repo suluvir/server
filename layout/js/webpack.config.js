@@ -2,7 +2,8 @@ module.exports = {
     entry: "./src/index.tsx",
     output: {
         filename: "bundle.js",
-        path: __dirname + "/dist"
+        path: __dirname + "/dist",
+        devtoolModuleFilenameTemplate: "webpack:///[absolute-resource-path]"
     },
 
     // Enable sourcemaps for debugging webpack's output.
@@ -17,7 +18,7 @@ module.exports = {
         rules: [
             {
                 // All files with a '.ts' or '.tsx' extension will be handled by 'awesome-typescript-loader'.
-                test: /\.tsx?$/, 
+                test: /\.tsx?$/,
                 use: [
                     "awesome-typescript-loader"
                 ]
