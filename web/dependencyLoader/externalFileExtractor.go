@@ -38,17 +38,19 @@ func (e *ExternalFileExtractor) LookupExternalFiles() []External {
 			externalBaseDir := fmt.Sprintf("%s/%s/%s", externalBaseDir, external.Name, searchInDirectory)
 
 			if !external.HasJs {
-				if specialJsFile, ok := SPECIAL_EXTERNAL_JS_FILES[external.Name]; ok {
-					specialJsFileDir := fmt.Sprintf("%s/%s", externalBaseDir, specialJsFile)
-					if _, err := os.Stat(specialJsFileDir); err == nil {
-						external.FileDirectoryMapping[specialJsFile] = externalBaseDir
-						external.JsFiles = append(external.JsFiles, specialJsFile)
-						logging.GetLogger().Info("found special externals file",
-							zap.String("path", specialJsFileDir))
-					} else {
-						logging.GetLogger().Warn("specal external file given does not exist",
-							zap.String("filename", specialJsFile),
-							zap.String("expected path", specialJsFileDir))
+				if specialJsFiles, ok := SPECIAL_EXTERNAL_JS_FILES[external.Name]; ok {
+					for _, specialJsFile := range specialJsFiles {
+						specialJsFileDir := fmt.Sprintf("%s/%s", externalBaseDir, specialJsFile)
+						if _, err := os.Stat(specialJsFileDir); err == nil {
+							external.FileDirectoryMapping[specialJsFile] = externalBaseDir
+							external.JsFiles = append(external.JsFiles, specialJsFile)
+							logging.GetLogger().Info("found special externals file",
+								zap.String("path", specialJsFileDir))
+						} else {
+							logging.GetLogger().Warn("specal external file given does not exist",
+								zap.String("filename", specialJsFile),
+								zap.String("expected path", specialJsFileDir))
+						}
 					}
 				} else {
 					externalDir := fmt.Sprintf("%s/%s%s", externalBaseDir, external.Name, jsFileSuffix)
