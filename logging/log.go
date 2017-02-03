@@ -19,7 +19,7 @@ func GetLogger() zap.Logger {
 }
 
 func InitializeLogger() {
-	file, err := os.OpenFile(LOG_FILE_NAME, os.O_WRONLY | os.O_APPEND, 0666)
+	file, err := os.OpenFile(LOG_FILE_NAME, os.O_WRONLY|os.O_APPEND, 0666)
 	if err != nil {
 		// TODO ignore this?
 	}

@@ -1,9 +1,9 @@
 package schema
 
 import (
-	"github.com/suluvir/server/logging"
 	"fmt"
 	"github.com/jinzhu/gorm"
+	"github.com/suluvir/server/logging"
 )
 
 type DatabaseLogger struct {

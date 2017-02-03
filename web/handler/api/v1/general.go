@@ -1,10 +1,10 @@
 package v1
 
 import (
-	"net/http"
-	"github.com/suluvir/server/schema"
 	"github.com/gorilla/mux"
+	"github.com/suluvir/server/schema"
 	"github.com/suluvir/server/web/httpHelpers"
+	"net/http"
 )
 
 func ResponseSingleObject(w http.ResponseWriter, r *http.Request, o interface{}) {

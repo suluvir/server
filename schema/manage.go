@@ -1,11 +1,11 @@
 package schema
 
 import (
-	"github.com/suluvir/server/logging"
-	"github.com/suluvir/server/config"
 	"github.com/jinzhu/gorm"
-	"github.com/uber-go/zap"
 	_ "github.com/jinzhu/gorm/dialects/sqlite"
+	"github.com/suluvir/server/config"
+	"github.com/suluvir/server/logging"
+	"github.com/uber-go/zap"
 )
 
 var database *gorm.DB

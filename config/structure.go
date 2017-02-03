@@ -1,23 +1,23 @@
 package config
 
 type Config struct {
-	Version string
-	Upload upload
-	Web web
+	Version  string
+	Upload   upload
+	Web      web
 	Database database
 }
 
 type upload struct {
-	Path string
+	Path     string
 	Relative bool
 }
 
 type web struct {
-	Port int
+	Port     int
 	Hostname string
 }
 
 type database struct {
-	Dialect string
+	Dialect          string
 	ConnectionString string `toml:"connection_string"`
 }

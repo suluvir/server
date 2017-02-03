@@ -1,18 +1,18 @@
 package media
 
 import (
-	"github.com/suluvir/server/schema"
-	"github.com/suluvir/server/web/routeNames"
-	"strconv"
-	"github.com/suluvir/server/logging"
-	"github.com/uber-go/zap"
-	"github.com/suluvir/server/web"
 	"encoding/json"
+	"github.com/suluvir/server/logging"
+	"github.com/suluvir/server/schema"
+	"github.com/suluvir/server/web"
+	"github.com/suluvir/server/web/routeNames"
+	"github.com/uber-go/zap"
+	"strconv"
 )
 
 type Artist struct {
 	schema.DatabaseObject
-	Name string `json:"name"`
+	Name   string  `json:"name"`
 	Albums []Album `json:"-"`
 }
 
@@ -45,11 +45,11 @@ func (a Artist) MarshalJSON() ([]byte, error) {
 
 	return json.Marshal(struct {
 		JsonArtist
-		ApiLink string `json:"@id"`
+		ApiLink       string   `json:"@id"`
 		ApiAlbumLinks []string `json:"@albums"`
 	}{
-		JsonArtist: JsonArtist(a),
-		ApiLink: a.GetApiLink(),
+		JsonArtist:    JsonArtist(a),
+		ApiLink:       a.GetApiLink(),
 		ApiAlbumLinks: albumLinks,
 	})
 }

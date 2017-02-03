@@ -1,8 +1,8 @@
 package printer
 
 import (
-	"net/http"
 	"html/template"
+	"net/http"
 )
 
 func PrintHtmlPageFromFile(w http.ResponseWriter, fileName string, data interface{}) {

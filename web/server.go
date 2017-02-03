@@ -2,9 +2,9 @@ package web
 
 import (
 	"fmt"
-	"net/http"
 	"github.com/suluvir/server/logging"
 	"github.com/uber-go/zap"
+	"net/http"
 )
 
 func InitializeServer(port int) error {

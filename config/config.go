@@ -8,7 +8,7 @@ import (
 
 const (
 	DEFAULT_CONFIG = "suluvir.default.toml"
-	USER_CONFIG = "suluvir.toml"
+	USER_CONFIG    = "suluvir.toml"
 )
 
 var configuration Config
