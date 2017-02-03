@@ -16,6 +16,7 @@ const externalBaseDir = "layout/js/node_modules"
 var searchInDirectories = []string{
 	"dist",
 	"out",
+	"extra",
 }
 
 const jsFileSuffix = ".min.js"

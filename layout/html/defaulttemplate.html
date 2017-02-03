@@ -6,7 +6,9 @@
 
         {{range .Externals}}
             {{if .HasCss}}
-                <link href="{{.CssUrl}}" rel="stylesheet">
+                {{range .CssUrls}}
+                    <link href="{{.}}" rel="stylesheet">
+                {{end}}
             {{end}}
         {{end}}
 
