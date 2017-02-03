@@ -1,14 +1,14 @@
 package appstatic
 
 import (
-	"net/http"
-	"github.com/suluvir/server/web/dependencyLoader"
-	"github.com/gorilla/mux"
-	"io/ioutil"
 	"fmt"
+	"github.com/gorilla/mux"
 	"github.com/suluvir/server/logging"
-	"github.com/uber-go/zap"
+	"github.com/suluvir/server/web/dependencyLoader"
 	"github.com/suluvir/server/web/httpHelpers"
+	"github.com/uber-go/zap"
+	"io/ioutil"
+	"net/http"
 	"strings"
 )
 
@@ -27,20 +27,20 @@ func AppStaticHandler(w http.ResponseWriter, r *http.Request) {
 
 	for _, external := range externals {
 		if external.Name == externalName && external.Version == externalVersion {
-			fileLocation := fmt.Sprintf("%s/%s", external.Directory, externalFileName)
-			file, err := ioutil.ReadFile(fileLocation)
-			if err != nil {
-				logging.GetLogger().Error("error during externals delivery",
-					zap.String("external name", external.Name),
-					zap.String("external version", external.Version),
-					zap.String("file name", externalFileName),
-					zap.Error(err))
-				w.WriteHeader(http.StatusNotFound)
+			if directory, ok := external.FileDirectoryMapping[externalFileName]; ok {
+				fileLocation := fmt.Sprintf("%s/%s", directory, externalFileName)
+				file, err := ioutil.ReadFile(fileLocation)
+				if err != nil {
+					logError(&w, external, externalFileName, err)
+					return
+				}
+				setHeaders(&w, externalFileName)
+				w.Write(file)
+				return
+			} else {
+				logError(&w, external, externalFileName, nil)
 				return
 			}
-			setHeaders(&w, externalFileName)
-			w.Write(file)
-			return
 		}
 	}
 }
@@ -53,4 +53,14 @@ func setHeaders(w *http.ResponseWriter, fileName string) {
 	} else if strings.HasSuffix(fileName, mapSuffix) {
 		(*w).Header().Add(httpHelpers.CONTENT_TYPE, httpHelpers.SOURCEMAP)
 	}
+}
+
+func logError(w *http.ResponseWriter, external dependencyLoader.External, externalFileName string, err error) {
+	logging.GetLogger().Error("error during externals delivery",
+		zap.String("external name", external.Name),
+		zap.String("external version", external.Version),
+		zap.String("file name", externalFileName),
+		zap.Error(err))
+	(*w).WriteHeader(http.StatusNotFound)
+	return
 }

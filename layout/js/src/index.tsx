@@ -1,9 +1,9 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 
-import {HelloWorld} from './components/HelloWorld';
+import {Page} from './pageFrame/Page';
 
 ReactDOM.render(
-    <HelloWorld compiler='TypeScript' framework='React' />,
+    <Page />,
     document.getElementById('application-root')
 );

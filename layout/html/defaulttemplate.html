@@ -14,17 +14,13 @@
     <body>
         <div id="application-root"></div>
 
-        <!-- Dependencies -->
-        <!--<script src="./node_modules/react/dist/react.js"></script>-->
-        <!--<script src="./node_modules/react-dom/dist/react-dom.js"></script>-->
-
         {{range .Externals}}
             {{if .HasJs}}
-                <script src="{{.JsUrl}}"></script>
+                {{range .JsUrls}}
+                    <script src="{{.}}"></script>
+                {{end}}
             {{end}}
         {{end}}
 
-        <!-- Main -->
-        <!--<script src="./dist/bundle.js"></script>-->
     </body>
 </html>
