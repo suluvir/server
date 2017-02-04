@@ -13,6 +13,7 @@
     "@types/react-dom": "^0.14.21",
     "@types/react-mdl": "^1.7.19",
     "@types/react-router": "^2.0.46",
+    "material-design-icons": "^3.0.1",
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
     "react-mdl": "^1.9.0",

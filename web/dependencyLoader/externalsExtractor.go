@@ -152,7 +152,8 @@ func (e *ExternalsExtractor) GetSuluvirExternal() External {
 		Version: e.packageContent.Version,
 		Name:    e.packageContent.Name,
 		FileDirectoryMapping: map[string]string{
-			"bundle.js": "layout/js/dist",
+			"bundle.js":     "layout/js/dist",
+			"bundle.js.map": "layout/js/dist",
 		},
 	}
 }

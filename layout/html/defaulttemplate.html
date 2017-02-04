@@ -4,7 +4,10 @@
         <meta charset="UTF-8" />
         <title>Suluvir</title>
 
-        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+        <!-- use /nodestatic here for no versioned, but faster way to provide icon font. If we use /appstatic here, -->
+        <!-- we have to provide a way to serve woff-files etc there. -->
+        <!-- do not use fonts.googleapis.com, serve all files via this server -->
+        <link rel="stylesheet" href="/nodestatic/material-design-icons/iconfont/material-icons.css">
 
         {{range .Externals}}
             {{if .HasCss}}
