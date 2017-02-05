@@ -1,9 +1,22 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
+import {createStore, applyMiddleware, combineReducers} from 'redux';
+import thunk from 'redux-thunk';
+import {Provider} from 'react-redux';
 
 import {Page} from './pageFrame/Page';
+import * as reducers from './reducers/reducers';
+
+const store = createStore(
+    combineReducers({
+        test: reducers.test
+    }),
+    applyMiddleware(thunk)
+);
 
 ReactDOM.render(
-    <Page />,
+    <Provider store={store}>
+        <Page />
+    </Provider>,
     document.getElementById('application-root')
 );
