@@ -1,1 +1,1 @@
-export const TEST = 'test';
+export const PLAY_SONG = 'PLAY_SONG';

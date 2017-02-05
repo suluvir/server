@@ -8,6 +8,9 @@ import {
     Navigation
 } from 'react-mdl';
 
+import Player from '../components/player/Player';
+import HelloWorld from '../components/HelloWorld';
+
 require('./Page.scss');
 
 export class Page extends React.Component<undefined, undefined> {
@@ -29,7 +32,8 @@ export class Page extends React.Component<undefined, undefined> {
                         </Navigation>
                     </Drawer>
                     <Content>
-                        content
+                        <HelloWorld/>
+                        <Player/>
                     </Content>
                 </Layout>
             </div>

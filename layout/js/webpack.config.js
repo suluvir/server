@@ -41,6 +41,7 @@ module.exports = {
     externals: {
         "react": "React",
         "react-dom": "ReactDOM",
-        "react-mdl": "ReactMDL"
+        "react-mdl": "ReactMDL",
+        "immutable": "Immutable"
     }
 };

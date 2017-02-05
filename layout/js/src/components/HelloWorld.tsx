@@ -1,17 +1,27 @@
 import * as React from 'react';
+import {connect} from 'react-redux';
+import {Button} from 'react-mdl';
 
-interface HelloWorldProps {compiler: string; framework: string};
+import {playSong} from '../actions/actions';
+import {Play} from '../reducers/states';
 
-export class HelloWorld extends React.Component<HelloWorldProps, undefined> {
-    constructor() {
-        super();
+interface HelloWorldProps {playSong:any}
+
+class HelloWorld extends React.Component<HelloWorldProps, void> {
+    onClick() {
+        const play: Play = {
+            url: "test"
+        };
+        this.props.playSong(play);
     }
 
     render() {
         return (
-            <h1>
-                Hello from {this.props.compiler} and {this.props.framework}
-            </h1>
+            <Button onClick={this.onClick.bind(this)}>
+                Play
+            </Button>
         );
     }
 }
+
+export default connect(undefined, {playSong})(HelloWorld);

@@ -9,7 +9,7 @@ import * as reducers from './reducers/reducers';
 
 const store = createStore(
     combineReducers({
-        test: reducers.test
+        play: reducers.play
     }),
     applyMiddleware(thunk)
 );
