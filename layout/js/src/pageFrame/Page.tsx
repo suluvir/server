@@ -1,19 +1,19 @@
-import * as React from 'react';
-import {
-    Layout,
-    Header,
-    Textfield,
-    Drawer,
-    Content,
-    Navigation
-} from 'react-mdl';
-
-import Player from '../components/player/Player';
-import HelloWorld from '../components/HelloWorld';
+import * as React from "react";
+import {Layout, Header, Textfield, Drawer, Content, Navigation} from "react-mdl";
+import {Route, Router, browserHistory} from "react-router";
+import SinglePageApplication from "./pageContents/SinglePageApplication";
 
 require('./Page.scss');
 
 export class Page extends React.Component<undefined, undefined> {
+    static getRouter() {
+        return (
+            <Router history={browserHistory}>
+                <Route component={SinglePageApplication} path="/"/>
+            </Router>
+        );
+    }
+
     render() {
         return (
             <div id="suluvir-root">
@@ -32,8 +32,7 @@ export class Page extends React.Component<undefined, undefined> {
                         </Navigation>
                     </Drawer>
                     <Content>
-                        <HelloWorld/>
-                        <Player/>
+                        <SinglePageApplication />
                     </Content>
                 </Layout>
             </div>

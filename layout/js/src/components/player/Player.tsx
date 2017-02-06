@@ -4,13 +4,15 @@ import * as Immutable from 'immutable';
 
 import {Play} from '../../reducers/states';
 
+require('./Player.scss');
+
 interface PlayerProps {
     playSongs: Immutable.List<Play>
 }
 
 class Player extends React.Component<PlayerProps, undefined> {
     render() {
-        const result: string[] = []
+        const result: string[] = [];
         this.props.playSongs.forEach(play => {
             result.push(play.url)
         });
