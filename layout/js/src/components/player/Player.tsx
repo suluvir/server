@@ -2,12 +2,12 @@ import * as React from 'react';
 import {connect} from 'react-redux';
 import * as Immutable from 'immutable';
 
-import {Play} from '../../reducers/states';
+import {Song} from '../../reducers/states';
 
 require('./Player.scss');
 
 interface PlayerProps {
-    playSongs: Immutable.List<Play>
+    playSongs: Immutable.List<Song>
 }
 
 class Player extends React.Component<PlayerProps, undefined> {

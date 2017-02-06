@@ -1,3 +1,3 @@
-export interface Play {
+export interface Song {
     url: string
 }

@@ -3,16 +3,16 @@ import {connect} from 'react-redux';
 import {Button} from 'react-mdl';
 
 import {playSong} from '../actions/actions';
-import {Play} from '../reducers/states';
+import {Song} from '../reducers/states';
 
 interface HelloWorldProps {playSong:any}
 
 class HelloWorld extends React.Component<HelloWorldProps, void> {
     onClick() {
-        const play: Play = {
+        const song: Song = {
             url: "test"
         };
-        this.props.playSong(play);
+        this.props.playSong(song);
     }
 
     render() {

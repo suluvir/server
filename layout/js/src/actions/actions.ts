@@ -1,4 +1,4 @@
-import {Play} from '../reducers/states';
+import {Song} from '../reducers/states';
 import Action from './action';
 
 import * as actionNames from './actionNames';
@@ -16,11 +16,11 @@ function createAction(type: string, payload: any): Action<any> {
 }
 
 /**
- * Clean list of songs to play and use the given one as the only one to play-
+ * Clean list of songs to play and use the given one as the only one to play
  *
- * @param play object to play
- * @returns {Action<Play>}
+ * @param song song to play
+ * @returns {Action<Song>}
  */
-export function playSong(play: Play): Action<Play> {
-    return createAction(actionNames.PLAY_SONG, play);
+export function playSong(song: Song): Action<Song> {
+    return createAction(actionNames.PLAY_SONG, song);
 }
