@@ -12,6 +12,7 @@ import (
 	_ "github.com/suluvir/server/web/handler"
 	_ "github.com/suluvir/server/web/handler/api/v1"
 	_ "github.com/suluvir/server/web/handler/appstatic"
+	_ "github.com/suluvir/server/web/handler/intnl"
 )
 
 func main() {
