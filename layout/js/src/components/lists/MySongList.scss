@@ -1,0 +1,9 @@
+@import '../../animations';
+
+.suluvir-my-song-list {
+
+    .mdl-list__item {
+        @include fadein();
+        color: white;
+    }
+}
