@@ -1,0 +1,20 @@
+// this file stores all constants for suluvir
+
+$CONSTANTS: (
+  'BACKGROUND_COLOR': #337180,
+  'BACKGROUND_COLOR_DARKER': #2a5e6b
+);
+
+/// Constant getter
+/// see https://www.sitepoint.com/dealing-constants-sass/
+/// @param {String} $name - Name of constant to get
+/// @return {*} Constant value
+/// @require $CONSTANTS
+/// @throw 'Unknown constant `#{$name}`.'
+@function const($name) {
+  @if not map-has-key($CONSTANTS, $name) {
+    @error 'Unknown constant `#{$name}`.';
+  }
+
+  @return map-get($CONSTANTS, $name);
+}
