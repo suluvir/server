@@ -62,8 +62,10 @@ func (s Song) MarshalJSON() ([]byte, error) {
 	schema.GetDatabase().Model(&s).Related(&artists, "Artists")
 
 	var artistLinks = []string{}
+	var artistNames = []string{}
 	for _, artist := range artists {
 		artistLinks = append(artistLinks, artist.GetApiLink())
+		artistNames = append(artistNames, artist.Name)
 	}
 
 	return json.Marshal(struct {
@@ -72,11 +74,13 @@ func (s Song) MarshalJSON() ([]byte, error) {
 		ApiAlbumLink   string   `json:"@album"`
 		StreamLink     string   `json:"@stream"`
 		ApiArtistLinks []string `json:"@artists"`
+		ArtistNames    []string `json:"artist_names"`
 	}{
 		JsonSong:       JsonSong(s),
 		ApiLink:        s.GetApiLink(),
 		ApiAlbumLink:   album.GetApiLink(),
 		StreamLink:     streamLink,
 		ApiArtistLinks: artistLinks,
+		ArtistNames:    artistNames,
 	})
 }

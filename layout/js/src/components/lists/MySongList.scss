@@ -1,7 +1,10 @@
 @import '../../animations';
 
 .suluvir-my-song-list {
-    .mdl-list__item {
+    padding: 1rem;
+
+    .mdl-data-table {
+        width: 100%;
         @include fadein();
     }
 }

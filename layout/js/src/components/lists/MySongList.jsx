@@ -1,10 +1,10 @@
-import React from 'react';
+import React from "react";
 import Immutable from 'immutable';
-import {connect} from 'react-redux';
-import {List} from 'react-mdl';
+import {connect} from "react-redux";
+import {DataTable, TableHeader} from "react-mdl";
 
-import {fetchMySongs} from '../../actions/thunkActions';
-import MySongListItem from './MySongListItem';
+import {artistNameJoin, playButton} from '../../utils/formatters';
+import {fetchMySongs} from "../../actions/thunkActions";
 
 require('./MySongList.scss');
 
@@ -16,18 +16,18 @@ class MySongList extends React.PureComponent {
             return <div />
         }
 
-        let listItems = new Immutable.List();
-        for (let song of mySongs) {
-            listItems = listItems.push(
-                <MySongListItem song={song} />
-            );
-        }
-
         return (
             <div className={"suluvir-my-song-list"}>
-                <List>
-                    {listItems}
-                </List>
+                <DataTable
+                    sortable
+                    shadow="3"
+                    rows={mySongs.toJS()}
+                >
+                    <TableHeader name="@id" cellFormatter={playButton} />
+                    <TableHeader name="title">Title</TableHeader>
+                    <TableHeader name="artist_names" cellFormatter={artistNameJoin}>Artist</TableHeader>
+                    <TableHeader name="duration">Duration</TableHeader>
+                </DataTable>
             </div>
         );
     }
