@@ -3,16 +3,10 @@
 html, body {
   margin: 0;
   padding: 0;
-
-  color: white;
 }
 
 * {
   box-sizing: border-box;
-}
-
-body {
-  background-color: const('BACKGROUND_COLOR');
 }
 
 html, body, div#application-root, div#suluvir-root {
@@ -20,9 +14,4 @@ html, body, div#application-root, div#suluvir-root {
   height: 100%;
 
   position: relative;
-}
-
-// override react mdl for now
-header.mdl-layout__header {
-  background-color: const('BACKGROUND_COLOR_DARKER') !important;
 }
