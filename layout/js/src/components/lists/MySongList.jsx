@@ -1,12 +1,9 @@
 import React from "react";
 import Immutable from 'immutable';
 import {connect} from "react-redux";
-import {DataTable, TableHeader} from "react-mdl";
 
-import {artistNameJoin, playButton} from '../../utils/formatters';
+import SongList from './SongList';
 import {fetchMySongs} from "../../actions/thunkActions";
-
-require('./MySongList.scss');
 
 class MySongList extends React.PureComponent {
     render() {
@@ -18,16 +15,7 @@ class MySongList extends React.PureComponent {
 
         return (
             <div className={"suluvir-my-song-list"}>
-                <DataTable
-                    sortable
-                    shadow="3"
-                    rows={mySongs.toJS()}
-                >
-                    <TableHeader name="@id" cellFormatter={playButton} />
-                    <TableHeader name="title">Title</TableHeader>
-                    <TableHeader name="artist_names" cellFormatter={artistNameJoin}>Artist</TableHeader>
-                    <TableHeader name="duration">Duration</TableHeader>
-                </DataTable>
+                <SongList songs={mySongs} />
             </div>
         );
     }
