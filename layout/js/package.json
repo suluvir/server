@@ -30,6 +30,7 @@
     "eslint": "^3.15.0",
     "eslint-loader": "^1.6.1",
     "eslint-plugin-react": "^6.9.0",
+    "eslint-plugin-requirejs": "^3.1.1",
     "node-sass": "^4.5.0",
     "sass-loader": "^5.0.0",
     "source-map-loader": "^0.1.6",

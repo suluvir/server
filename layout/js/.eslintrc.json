@@ -5,7 +5,8 @@
         "es6":   true
     },
     "plugins": [
-        "react"
+        "react",
+        "requirejs"
     ],
     "parserOptions": {
         "ecmaFeatures": {
@@ -16,7 +17,8 @@
     },
     "extends": [
         "eslint:recommended",
-        "plugin:react/recommended"
+        "plugin:react/recommended",
+        "plugin:requirejs/recommended"
     ],
     "root": true
 }

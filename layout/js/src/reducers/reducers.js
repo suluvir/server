@@ -15,7 +15,6 @@ export function mySongs(state = defaultStates.MY_SONGS, action) {
 export function play(state = defaultStates.PLAY, action) {
     switch (action.type) {
         case actionNames.PLAY_SONG:
-            console.log(action);
             return Immutable.List.of(action.payload);
         default:
             return state;
