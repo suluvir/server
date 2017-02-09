@@ -10,3 +10,14 @@ export function fetchMySongs() {
         })
     }
 }
+
+export function playSongById(songId) {
+    return (dispatch, getState) => {
+        getState().mySongs.forEach(song => {
+            if (song.get('@id') === songId) {
+                dispatch(actions.playSong(song));
+                return;
+            }
+        });
+    }
+}
