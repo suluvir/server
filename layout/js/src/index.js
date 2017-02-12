@@ -6,10 +6,11 @@ import {Provider} from 'react-redux';
 
 import {Page} from './pageFrame/Page';
 import * as reducers from './reducers/reducers';
+import {dispatchLogger} from './utils/helpers';
 
 const store = createStore(
     combineReducers(reducers),
-    applyMiddleware(thunk)
+    applyMiddleware(dispatchLogger, thunk)
 );
 
 ReactDOM.render(
