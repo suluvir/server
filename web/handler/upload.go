@@ -49,6 +49,7 @@ func SongUploadHandler(w http.ResponseWriter, r *http.Request) {
 	song.Create()
 }
 
+// FIXME: remove this duplication
 func getUploadFilePath(filename string) string {
 	c := config.GetConfiguration()
 	if c.Upload.Relative {

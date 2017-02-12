@@ -2,7 +2,9 @@ package media
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
+	"github.com/suluvir/server/config"
 	"github.com/suluvir/server/logging"
 	"github.com/suluvir/server/schema"
 	"github.com/suluvir/server/web"
@@ -83,4 +85,15 @@ func (s Song) MarshalJSON() ([]byte, error) {
 		ApiArtistLinks: artistLinks,
 		ArtistNames:    artistNames,
 	})
+}
+
+func (s *Song) GetUploadFilePath() (string, error) {
+	if s.Filename == "" {
+		return "", errors.New("song has no filename")
+	}
+	c := config.GetConfiguration()
+	if c.Upload.Relative {
+		return fmt.Sprintf("./%s/%s", c.Upload.Path, s.Filename), nil
+	}
+	return fmt.Sprintf("%s/%s", c.Upload.Path, s.Filename), nil
 }
