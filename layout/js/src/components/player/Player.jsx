@@ -4,6 +4,7 @@ import {connect} from 'react-redux';
 import classNames from 'classnames';
 
 import Controls from './Controls';
+import SongInfo from './SongInfo';
 
 require('./Player.scss');
 
@@ -35,6 +36,9 @@ class Player extends React.Component {
         return (
             <div id="suluvir-player" className={className}>
                 <audio id="demo" src={songToPlay.get('@stream')} autoPlay ref={audio => this.audio = audio}></audio>
+                <div id="suluvir-player__songinfo">
+                    <SongInfo song={songToPlay} />
+                </div>
                 <div id="suluvir-player__controls">
                     <Controls play={this.play} pause={this.pause} />
                 </div>

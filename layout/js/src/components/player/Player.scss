@@ -1,6 +1,9 @@
 @import '../../animations';
 
 .suluvir-player {
+    display: flex;
+    align-items: center;
+
     @include heightTransition();
 }
 
