@@ -6,18 +6,25 @@ import (
 	"github.com/suluvir/server/schema"
 	"github.com/suluvir/server/schema/media"
 	"github.com/uber-go/zap"
+	"os"
 	"regexp"
 	"strings"
 )
 
 // Extract tags and return appropriate structs. Only the primitive types are initialized, all others
 // have to be set separately. Returns the song, all artists, the primary artist and the album
-func ExtractTags(fileName string) (media.Song, error) {
-	file, err := id3.Open(fileName)
+func ExtractTags(fileName string, originalFileName string) (media.Song, error) {
+	file, idErr := id3.Open(fileName)
+	f, fErr := os.OpenFile(fileName, os.O_RDONLY, 0666)
+	defer f.Close()
 	defer file.Close()
-	if err != nil {
-		logging.GetLogger().Error("error loading mp3 file for id extraction", zap.Error(err))
-		return media.Song{}, err
+	if fErr != nil {
+		logging.GetLogger().Error("error loading mp3 file", zap.Error(fErr))
+		return media.Song{}, fErr
+	}
+	if idErr != nil {
+		logging.GetLogger().Error("error loading mp3 file for id extraction", zap.Error(idErr))
+		return media.Song{}, idErr
 	}
 	logging.GetLogger().Info("extracted information",
 		zap.String("artist", file.Artist()),
@@ -28,10 +35,21 @@ func ExtractTags(fileName string) (media.Song, error) {
 
 	artists := getArtistsByNames(file.Artist())
 	album := getAlbumByName(file.Album())
+
+	stat, statErr := f.Stat()
+	if statErr != nil {
+		logging.GetLogger().Error("error during file stat generation", zap.Error(statErr))
+	}
+
+	originalFileNameSplit := strings.Split(originalFileName, ".")
+	extension := originalFileNameSplit[len(originalFileNameSplit)-1]
+
 	song := media.Song{
 		Title:   file.Title(),
 		Artists: artists,
 		Album:   album,
+		Type:    extension,
+		Size:    stat.Size(),
 	}
 
 	return song, nil

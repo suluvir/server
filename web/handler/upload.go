@@ -19,7 +19,7 @@ func UploadPageHandler(w http.ResponseWriter, r *http.Request) {
 
 func SongUploadHandler(w http.ResponseWriter, r *http.Request) {
 	r.ParseMultipartForm(2 ^ 16)
-	uploadedFile, _, err := r.FormFile("media")
+	uploadedFile, uploadedFileHeader, err := r.FormFile("media")
 	if err != nil {
 		logging.GetLogger().Error("error during form file access", zap.Error(err))
 		w.WriteHeader(http.StatusInternalServerError)
@@ -44,7 +44,7 @@ func SongUploadHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	logging.GetLogger().Info("file copy complete", zap.Int64("bytes written", bytesWritten))
 
-	song, _ := tags.ExtractTags(targetFileName)
+	song, _ := tags.ExtractTags(targetFileName, uploadedFileHeader.Filename)
 	song.Filename = uploadedFilename
 	song.Create()
 }

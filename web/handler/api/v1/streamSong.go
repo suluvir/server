@@ -27,9 +27,14 @@ func SongApiStreamHandler(w http.ResponseWriter, r *http.Request) {
 		logging.GetLogger().Error("error during song reading", zap.Error(readErr))
 	}
 
-	contentDisposition := fmt.Sprintf("inline;filename=\"%s.%s\"", song.Title, "mp3")
-	w.Header().Add(httpHelpers.CONTENT_TYPE, httpHelpers.MP3)
+	contentType, typeErr := httpHelpers.GetContentType(song.Type)
+	if typeErr != nil {
+		logging.GetLogger().Error("error during content type calculation", zap.Error(typeErr))
+	}
+
+	contentDisposition := fmt.Sprintf("inline;filename=\"%s.%s\"", song.Title, song.Type)
+	w.Header().Add(httpHelpers.CONTENT_TYPE, contentType)
 	w.Header().Add(httpHelpers.CONTENT_DISPOSITION, contentDisposition)
-	//$contentDisposition = "inline;filename=\"{$song->getTitle()}.{$song->getExtension()}\"";
+	w.Header().Add(httpHelpers.CONTENT_LENGTH, fmt.Sprintf("%d", song.Size))
 	w.Write(songData)
 }

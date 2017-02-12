@@ -22,6 +22,7 @@ type Song struct {
 	Filename string   `gorm:"size:40" json:"-"`
 	AlbumID  uint     `json:"-"`
 	Album    Album    `json:"-"`
+	Type     string   `json:"type"`
 }
 
 func init() {
