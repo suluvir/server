@@ -1,0 +1,9 @@
+@import '../../animations';
+
+.suluvir-player {
+    @include heightTransition();
+}
+
+.suluvir-player--active {
+    @include heightTransitionExpanded();
+}
