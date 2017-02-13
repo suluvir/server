@@ -72,7 +72,7 @@ func getArtistsByNames(artistNames string) []media.Artist {
 	var artists []media.Artist
 	var databaseArtist media.Artist
 
-	artistNamesSplit := regexp.MustCompile("(,|feat\\.|ft.)").Split(artistNames, -1)
+	artistNamesSplit := regexp.MustCompile("(,|feat\\.|ft\\.)").Split(artistNames, -1)
 	for _, artistNameSplit := range artistNamesSplit {
 		artistNameSplit := strings.Trim(artistNameSplit, " ")
 
