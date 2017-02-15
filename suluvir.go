@@ -1,3 +1,18 @@
+// Suluvir streaming server
+// Copyright (C) 2017  Jannis Fink
+//
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, version 3.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 package main
 
 import (
@@ -23,6 +38,10 @@ func main() {
 	app.Name = "Suluvir"
 	app.Usage = "Manage your own music"
 	app.Version = config.GetConfiguration().Version
+	app.Copyright = "Suluvir Copyright (C) 2017 Jannis Fink\n" +
+		"   This program comes with ABSOLUTELY NO WARRANTY; for details type `show w' (TODO).\n" +
+		"   This is free software, and you are welcome to redistribute it\n" +
+		"   under certain conditions; type `show c' (TODO) for details.\n"
 
 	logging.GetLogger().Info("suluvir started", zap.String("version", config.GetConfiguration().Version))
 
