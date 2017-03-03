@@ -1,19 +1,10 @@
 import React from "react";
-import {Layout, Header, Textfield, Drawer, Content, Navigation} from "react-mdl";
-import {Route, Router, browserHistory} from "react-router";
+import {Layout, Header, Textfield, Content} from "react-mdl";
 import SinglePageApplication from "./pageContents/SinglePageApplication";
 
 require('./Page.scss');
 
 export class Page extends React.Component {
-    static getRouter() {
-        return (
-            <Router history={browserHistory}>
-                <Route component={SinglePageApplication} path="/"/>
-            </Router>
-        );
-    }
-
     render() {
         return (
             <div id="suluvir-root">
@@ -26,11 +17,6 @@ export class Page extends React.Component {
                             expandableIcon="search"
                         />
                     </Header>
-                    <Drawer>
-                        <Navigation>
-                            <a href="/">Link</a>
-                        </Navigation>
-                    </Drawer>
                     <Content>
                         <SinglePageApplication />
                     </Content>

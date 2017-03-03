@@ -1,0 +1,10 @@
+@import '../../animations';
+
+.suluvir-artist-list {
+  padding: 1rem;
+
+  .mdl-data-table {
+    width: 100%;
+    @include fadein();
+  }
+}

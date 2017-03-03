@@ -15,11 +15,16 @@
 
 package intnl
 
-import "github.com/suluvir/server/web"
+import (
+	"github.com/suluvir/server/schema"
+	"github.com/suluvir/server/schema/media"
+	"github.com/suluvir/server/web/httpHelpers"
+	"net/http"
+)
 
-func init() {
-	r := web.GetRouter().PathPrefix("/api/internal").Subrouter()
-	r.HandleFunc("/my/songs", MySongsHandler)
-	r.HandleFunc("/my/artists", MyArtistsHandler)
-	r.HandleFunc("/my/albums", MyAlbumsHandler)
+func MyArtistsHandler(w http.ResponseWriter, r *http.Request) {
+	var myArtists []media.Artist
+
+	schema.GetDatabase().Find(&myArtists)
+	httpHelpers.ServeJsonWithoutCache(w, myArtists)
 }
