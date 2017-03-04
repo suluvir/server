@@ -21,6 +21,15 @@ export function myArtists(state = defaultStates.MY_ARTISTS, action) {
     }
 }
 
+export function myAlbums(state = defaultStates.MY_ALBUMS, action) {
+    switch (action.type) {
+        case actionNames.SET_MY_ALBUMS:
+            return action.payload;
+        default:
+            return state;
+    }
+}
+
 export function play(state = defaultStates.PLAY, action) {
     switch (action.type) {
         case actionNames.PLAY_SONG:

@@ -15,6 +15,10 @@ export function setMyArtists(myArtists) {
     return createAction(actionNames.SET_MY_ARTISTS, myArtists);
 }
 
+export function setMyAlbums(myAlbums) {
+    return createAction(actionNames.SET_MY_ALBUMS, myAlbums);
+}
+
 export function playSong(song) {
     return createAction(actionNames.PLAY_SONG, song);
 }

@@ -19,6 +19,14 @@ export function fetchMyArtists() {
     }
 }
 
+export function fetchMyAlbums() {
+    return dispatch => {
+        getJson('/api/internal/my/albums').then(myALbums => {
+            dispatch(actions.setMyAlbums(Immutable.fromJS(myALbums)));
+        })
+    }
+}
+
 export function playSongById(songId) {
     return (dispatch, getState) => {
         getState().mySongs.forEach(song => {

@@ -5,15 +5,19 @@ import {Tabs, Tab} from 'react-mdl';
 import Player from '../../components/player/Player';
 import MySongList from '../../components/lists/MySongList';
 import MyArtistList from '../../components/lists/MyArtistList';
+import MyAlbumList from '../../components/lists/MyAlbumList';
 
 require('./SinglePageApplication.scss');
 
 export default class SinglePageApplication extends React.PureComponent {
     constructor() {
         super();
+
+        const tabs = ['/', '/artists', '/albums'];
+        const activeTab = tabs.indexOf(window.location.pathname);
         this.state = {
-            tabs: ['/', '/artists'],
-            activeTab: 0
+            tabs,
+            activeTab
         };
     }
 
@@ -22,6 +26,7 @@ export default class SinglePageApplication extends React.PureComponent {
             <Router history={browserHistory}>
                 <Route component={MySongList} path="/"/>
                 <Route component={MyArtistList} path="artists"/>
+                <Route component={MyAlbumList} path="albums"/>
             </Router>
         );
     }
@@ -31,6 +36,7 @@ export default class SinglePageApplication extends React.PureComponent {
             <Tabs activeTab={this.state.activeTab} onChange={(tabId) => this.setState({ activeTab: tabId })} ripple>
                 <Tab>Songs</Tab>
                 <Tab>Artists</Tab>
+                <Tab>Albums</Tab>
             </Tabs>
         );
     }
