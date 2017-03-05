@@ -5,6 +5,7 @@ import Immutable from 'immutable';
 import {fetchMyAlbums} from '../../actions/thunkActions';
 
 import AlbumList from './AlbumList';
+import Loading from '../util/Loading';
 
 class MyAlbumList extends React.Component {
     render() {
@@ -12,7 +13,7 @@ class MyAlbumList extends React.Component {
 
         if (albums.size === 0) {
             fetchMyAlbums();
-            return <div />;
+            return <Loading />;
         }
 
         return <AlbumList albums={albums} />;

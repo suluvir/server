@@ -5,6 +5,7 @@ import Immutable from 'immutable';
 import {fetchMyArtists} from '../../actions/thunkActions';
 
 import ArtistList from './ArtistList';
+import Loading from '../util/Loading';
 
 class MyArtistList extends React.Component {
     render() {
@@ -12,7 +13,7 @@ class MyArtistList extends React.Component {
 
         if (artists.size === 0) {
             fetchMyArtists();
-            return <div />;
+            return <Loading />;
         }
 
         return <ArtistList artists={artists} />;
