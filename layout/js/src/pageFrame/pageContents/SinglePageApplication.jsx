@@ -23,11 +23,13 @@ export default class SinglePageApplication extends React.PureComponent {
 
     static getRouter() {
         return (
-            <Router history={browserHistory}>
-                <Route component={MySongList} path="/"/>
-                <Route component={MyArtistList} path="artists"/>
-                <Route component={MyAlbumList} path="albums"/>
-            </Router>
+            <div className="suluvir-scroll-content">
+                <Router history={browserHistory}>
+                    <Route component={MySongList} path="/"/>
+                    <Route component={MyArtistList} path="artists"/>
+                    <Route component={MyAlbumList} path="albums"/>
+                </Router>
+            </div>
         );
     }
 
