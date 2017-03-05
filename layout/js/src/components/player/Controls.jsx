@@ -1,4 +1,5 @@
 import React from 'react';
+import Immutable from 'immutable';
 import {IconButton} from 'react-mdl';
 
 export default class Controls extends React.PureComponent {
@@ -26,6 +27,16 @@ export default class Controls extends React.PureComponent {
         });
     }
 
+    componentWillReceiveProps(nextProps) {
+        const {songToPlay: currentSongToPlay} = this.props;
+        const {songToPlay: newSongToPlay} = nextProps;
+        if (currentSongToPlay !== newSongToPlay) {
+            this.setState({
+                play: true
+            });
+        }
+    }
+
     render() {
         const {play} = this.state;
         return (
@@ -38,5 +49,6 @@ export default class Controls extends React.PureComponent {
 
 Controls.propTypes = {
     play: React.PropTypes.func.isRequired,
-    pause: React.PropTypes.func.isRequired
+    pause: React.PropTypes.func.isRequired,
+    songToPlay: React.PropTypes.instanceOf(Immutable.Map).isRequired
 }

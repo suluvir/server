@@ -40,7 +40,7 @@ class Player extends React.Component {
                     <SongInfo song={songToPlay} />
                 </div>
                 <div id="suluvir-player__controls">
-                    <Controls play={this.play} pause={this.pause} />
+                    <Controls play={this.play} pause={this.pause} songToPlay={songToPlay} />
                 </div>
             </div>
         );
