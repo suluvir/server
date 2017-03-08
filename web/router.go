@@ -19,32 +19,63 @@ import (
 	"fmt"
 	"github.com/gorilla/mux"
 	"github.com/suluvir/server/config"
+	"net/http"
 )
 
-var router *mux.Router
+var suluvirRouter *SuluvirRouter
 
 const httpPort = 80
 const httpsPort = 443
 
-func InitializeRouter() *mux.Router {
-	if router != nil {
-		return router
-	}
-	router = mux.NewRouter().Host(getHostname()).Subrouter()
-	return router
+type SuluvirRouter struct {
+	mux *mux.Router
 }
 
-func getHostname() string {
+func (s *SuluvirRouter) HandleFunc(path string, f func(http.ResponseWriter, *http.Request)) *mux.Route {
+	return s.mux.HandleFunc(path, f)
+}
+
+func (s *SuluvirRouter) Handler(path string, handler http.Handler) *mux.Route {
+	return s.mux.PathPrefix(path).Handler(handler)
+}
+
+func (s *SuluvirRouter) GetRoute(name string) *mux.Route {
+	return s.mux.Get(name)
+}
+
+func (s *SuluvirRouter) Subrouter(pathPrefix string) *SuluvirRouter {
+	subrouter := &SuluvirRouter{
+		mux: s.mux.PathPrefix(pathPrefix).Subrouter(),
+	}
+	return subrouter
+}
+
+func initializeRouter() *mux.Router {
+	if suluvirRouter != nil {
+		return suluvirRouter.mux
+	}
+	router := mux.NewRouter().Host(getHostnameFromConfig()).Subrouter()
+	suluvirRouter = &SuluvirRouter{
+		mux: router,
+	}
+	return suluvirRouter.mux
+}
+
+func getHostnameFromConfig() string {
 	c := config.GetConfiguration()
-	if c.Web.Port == httpPort || c.Web.Port == httpsPort {
-		return c.Web.Hostname
-	}
-	return fmt.Sprintf("%s:%d", c.Web.Hostname, c.Web.Port)
+	return makeHostname(c.Web.Hostname, c.Web.Port)
 }
 
-func GetRouter() *mux.Router {
-	if router == nil {
-		return InitializeRouter()
+func makeHostname(hostname string, port int) string {
+	if port == httpPort || port == httpsPort {
+		return hostname
 	}
-	return router
+	return fmt.Sprintf("%s:%d", hostname, port)
+}
+
+func GetRouter() *SuluvirRouter {
+	if suluvirRouter == nil {
+		initializeRouter()
+	}
+	return suluvirRouter
 }

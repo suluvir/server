@@ -39,8 +39,7 @@ func init() {
 type JsonAlbum Album
 
 func (a *Album) GetApiLink() string {
-	router := web.GetRouter()
-	url, err := router.Get(routeNames.API_ALBUM).URL("id", strconv.FormatUint(a.ID, 10))
+	url, err := web.GetRouter().GetRoute(routeNames.API_ALBUM).URL("id", strconv.FormatUint(a.ID, 10))
 
 	if err != nil {
 		logging.GetLogger().Error("error generating api url for album", zap.Uint64("id", a.ID), zap.Error(err))

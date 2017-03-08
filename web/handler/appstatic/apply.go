@@ -21,6 +21,6 @@ import (
 )
 
 func init() {
-	s := web.GetRouter().PathPrefix("/appstatic").Subrouter()
+	s := web.GetRouter().Subrouter("/appstatic")
 	s.HandleFunc("/{name}/{version}/{file}", AppStaticHandler).Name(routeNames.EXTERNAL_RESOURCE)
 }

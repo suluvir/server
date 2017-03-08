@@ -18,7 +18,7 @@ package intnl
 import "github.com/suluvir/server/web"
 
 func init() {
-	r := web.GetRouter().PathPrefix("/api/internal").Subrouter()
+	r := web.GetRouter().Subrouter("/api/internal")
 	r.HandleFunc("/my/songs", MySongsHandler)
 	r.HandleFunc("/my/artists", MyArtistsHandler)
 	r.HandleFunc("/my/albums", MyAlbumsHandler)
