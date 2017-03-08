@@ -31,12 +31,16 @@ type SuluvirRouter struct {
 	mux *mux.Router
 }
 
+func applyMiddleware(handler http.Handler) http.Handler {
+	return logMiddleWare(handler)
+}
+
 func (s *SuluvirRouter) HandleFunc(path string, f func(http.ResponseWriter, *http.Request)) *mux.Route {
-	return s.mux.HandleFunc(path, f)
+	return s.mux.Handle(path, applyMiddleware(http.HandlerFunc(f)))
 }
 
 func (s *SuluvirRouter) Handler(path string, handler http.Handler) *mux.Route {
-	return s.mux.PathPrefix(path).Handler(handler)
+	return s.mux.PathPrefix(path).Handler(applyMiddleware(handler))
 }
 
 func (s *SuluvirRouter) GetRoute(name string) *mux.Route {
