@@ -1,6 +1,7 @@
 import React from 'react';
 
 import PlayButton from '../components/player/PlayButton';
+import SongMenuButton from '../components/lists/menu/SongMenuButton';
 
 const SECONDS_PER_MINUTE = 60;
 
@@ -23,4 +24,8 @@ export function formatTime(duration) {
     const minutesStr = minutes < 10 ? '0' + minutes : '' + minutes;
     const secondsStr = seconds < 10 ? '0' + seconds : '' + seconds;
     return `${minutesStr}:${secondsStr}`;
+}
+
+export function songMenuButton(songIdLink) {
+    return <SongMenuButton songId={songIdLink} />;
 }
