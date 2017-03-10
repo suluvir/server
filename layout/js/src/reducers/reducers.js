@@ -33,7 +33,7 @@ export function myAlbums(state = defaultStates.MY_ALBUMS, action) {
 export function play(state = defaultStates.PLAY, action) {
     switch (action.type) {
         case actionNames.PLAY_SONG:
-            return Immutable.List.of(action.payload);
+            return state.set('list', Immutable.List.of(action.payload)).set('current', 0);
         default:
             return state;
     }

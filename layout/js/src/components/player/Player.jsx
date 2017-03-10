@@ -34,14 +34,16 @@ class Player extends React.Component {
     }
 
     render() {
-        const {songs} = this.props;
+        const {playList, current} = this.props;
 
-        const className = classNames('suluvir-player', {'suluvir-player--active': songs.size > 0});
-        if (songs.size == 0) {
+        const active = playList !== undefined && playList !== null &&
+            playList.size > 0 && playList.size > current;
+        const className = classNames('suluvir-player', {'suluvir-player--active': active});
+        if (!active) {
             return (<div id="suluvir-player" className={className}/>);
         }
 
-        const songToPlay = songs.first();
+        const songToPlay = playList.get(current);
 
         return (
             <div id="suluvir-player" className={className}>
@@ -67,12 +69,14 @@ class Player extends React.Component {
 }
 
 Player.propTypes = {
-    songs: React.PropTypes.instanceOf(Immutable.List).isRequired
+    current: React.PropTypes.number,
+    playList: React.PropTypes.instanceOf(Immutable.Map)
 }
 
 function mapStateToProps(state) {
     return {
-        songs: state.play
+        playList: state.play.get('list'),
+        current: state.play.get('current')
     };
 }
 
