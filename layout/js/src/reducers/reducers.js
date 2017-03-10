@@ -34,6 +34,8 @@ export function play(state = defaultStates.PLAY, action) {
     switch (action.type) {
         case actionNames.PLAY_SONG:
             return state.set('list', Immutable.List.of(action.payload)).set('current', 0);
+        case actionNames.ADD_TO_PLAY_QUERE:
+            return state.set('list', state.get('list').push(action.payload));
         default:
             return state;
     }

@@ -3,6 +3,12 @@ import Immutable from 'immutable';
 import * as actions from './actions'
 import {getJson} from '../utils/fetch';
 
+function getSongById(songs, id) {
+    return songs.find(song => {
+        return song.get('@id') === id
+    });
+}
+
 export function fetchMySongs() {
     return dispatch => {
         getJson('/api/internal/my/songs').then(mySongs => {
@@ -29,11 +35,18 @@ export function fetchMyAlbums() {
 
 export function playSongById(songId) {
     return (dispatch, getState) => {
-        getState().mySongs.forEach(song => {
-            if (song.get('@id') === songId) {
-                dispatch(actions.playSong(song));
-                return;
-            }
-        });
+        const song = getSongById(getState().mySongs, songId);
+        dispatch(actions.playSong(song));
+    }
+}
+
+export function addToPlayQuereById(songId) {
+    return (dispatch, getState) => {
+        const state = getState();
+        const song = getSongById(state.mySongs, songId);
+        if (state.play.get('list').last() === song) {
+            return;
+        }
+        dispatch(actions.addToPlayQueue(song));
     }
 }

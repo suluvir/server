@@ -22,3 +22,7 @@ export function setMyAlbums(myAlbums) {
 export function playSong(song) {
     return createAction(actionNames.PLAY_SONG, song);
 }
+
+export function addToPlayQueue(song) {
+    return createAction(actionNames.ADD_TO_PLAY_QUERE, song);
+}
