@@ -5,6 +5,7 @@ import classNames from 'classnames';
 
 import Controls from './Controls';
 import SongInfo from './SongInfo';
+import TimeDisplay from './TimeDisplay';
 
 require('./Player.scss');
 
@@ -13,6 +14,9 @@ class Player extends React.Component {
         super();
         this.play = this.play.bind(this);
         this.pause = this.pause.bind(this);
+        this.state = {};
+
+        this.setReadyState = this.setReadyState.bind(this);
     }
 
     play() {
@@ -21,6 +25,12 @@ class Player extends React.Component {
 
     pause() {
         this.audio.pause();
+    }
+
+    setReadyState() {
+        this.setState({
+            readyState: this.audio.readyState
+        });
     }
 
     render() {
@@ -35,12 +45,21 @@ class Player extends React.Component {
 
         return (
             <div id="suluvir-player" className={className}>
-                <audio id="demo" src={songToPlay.get('@stream')} autoPlay ref={audio => this.audio = audio}></audio>
+                <audio 
+                    autoPlay
+                    onLoadedData={this.setReadyState}
+                    src={songToPlay.get('@stream')}
+                    ref={audio => this.audio = audio}
+                >
+                </audio>
                 <div id="suluvir-player__songinfo">
                     <SongInfo song={songToPlay} />
                 </div>
                 <div id="suluvir-player__controls">
                     <Controls play={this.play} pause={this.pause} songToPlay={songToPlay} />
+                </div>
+                <div id="suluvir-player__timedisplay">
+                    <TimeDisplay getAudio={() => this.audio} readyState={this.state.readyState} />
                 </div>
             </div>
         );

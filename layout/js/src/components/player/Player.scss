@@ -6,6 +6,10 @@
     align-items: center;
 
     @include heightTransition();
+
+    #suluvir-player__timedisplay {
+        flex-grow: 10000000000;
+    }
 }
 
 .suluvir-player--active {
