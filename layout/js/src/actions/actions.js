@@ -34,3 +34,7 @@ export function previousSong() {
 export function addToPlayQueue(song) {
     return createAction(actionNames.ADD_TO_PLAY_QUERE, song);
 }
+
+export function setVolume(volume) {
+    return createAction(actionNames.SET_VOLUME, volume);
+}

@@ -40,6 +40,8 @@ export function play(state = defaultStates.PLAY, action) {
             return state.set('current', state.get('current') + 1);
         case actionNames.PREVIOUS_SONG:
             return state.set('current', state.get('current') - 1);
+        case actionNames.SET_VOLUME:
+            return state.set('volume', action.payload);
         default:
             return state;
     }

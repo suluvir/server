@@ -6,6 +6,7 @@ import classNames from 'classnames';
 import Controls from './Controls';
 import SongInfo from './SongInfo';
 import TimeDisplay from './TimeDisplay';
+import Volume from './Volume';
 
 import {nextSong} from '../../actions/actions';
 
@@ -33,6 +34,13 @@ class Player extends React.Component {
         this.setState({
             readyState: this.audio.readyState
         });
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (this.audio === undefined || this.audio === null) {
+            return;
+        }
+        this.audio.volume = nextProps.volume;
     }
 
     render() {
@@ -66,6 +74,9 @@ class Player extends React.Component {
                 <div id="suluvir-player__timedisplay">
                     <TimeDisplay getAudio={() => this.audio} readyState={this.state.readyState} />
                 </div>
+                <div className="suluvir-player__volume-container">
+                    <Volume />
+                </div>
             </div>
         );
     }
@@ -74,13 +85,15 @@ class Player extends React.Component {
 Player.propTypes = {
     current: React.PropTypes.number,
     nextSong: React.PropTypes.func.isRequired,
-    playList: React.PropTypes.instanceOf(Immutable.Map)
+    playList: React.PropTypes.instanceOf(Immutable.Map),
+    volume: React.PropTypes.number.isRequired
 }
 
 function mapStateToProps(state) {
     return {
         playList: state.play.get('list'),
-        current: state.play.get('current')
+        current: state.play.get('current'),
+        volume: state.play.get('volume')
     };
 }
 
