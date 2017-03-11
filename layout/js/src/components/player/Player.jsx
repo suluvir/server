@@ -17,6 +17,7 @@ class Player extends React.Component {
         super();
         this.play = this.play.bind(this);
         this.pause = this.pause.bind(this);
+        this.playNextSong = this.playNextSong.bind(this);
         this.state = {};
 
         this.setReadyState = this.setReadyState.bind(this);
@@ -43,8 +44,15 @@ class Player extends React.Component {
         this.audio.volume = nextProps.volume;
     }
 
+    playNextSong() {
+        const {nextSong, hasNext} = this.props;
+        if (hasNext) {
+            nextSong();
+        }
+    }
+
     render() {
-        const {playList, current, nextSong} = this.props;
+        const {playList, current} = this.props;
 
         const active = playList !== undefined && playList !== null &&
             playList.size > 0 && playList.size > current;
@@ -59,7 +67,7 @@ class Player extends React.Component {
             <div id="suluvir-player" className={className}>
                 <audio 
                     autoPlay
-                    onEnded={nextSong}
+                    onEnded={this.playNextSong}
                     onLoadedData={this.setReadyState}
                     src={songToPlay.get('@stream')}
                     ref={audio => this.audio = audio}
@@ -84,6 +92,7 @@ class Player extends React.Component {
 
 Player.propTypes = {
     current: React.PropTypes.number,
+    hasNext: React.PropTypes.bool.isRequired,
     nextSong: React.PropTypes.func.isRequired,
     playList: React.PropTypes.instanceOf(Immutable.Map),
     volume: React.PropTypes.number.isRequired
@@ -91,6 +100,7 @@ Player.propTypes = {
 
 function mapStateToProps(state) {
     return {
+        hasNext: state.play.get('list').size > state.play.get('current') + 1,
         playList: state.play.get('list'),
         current: state.play.get('current'),
         volume: state.play.get('volume')
