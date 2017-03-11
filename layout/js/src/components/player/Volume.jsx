@@ -13,10 +13,35 @@ class Volume extends React.PureComponent {
     constructor() {
         super();
         this.volumeChange = this.volumeChange.bind(this); 
+        this.toggleMute = this.toggleMute.bind(this);
+        this.state = {
+            muted: false,
+            unmutedVolume: 1
+        }
     }
 
     volumeChange(event) {
-        this.props.setVolume(event.target.value / 100);
+        const unmutedVolume = event.target.value / 100;
+        this.props.setVolume(unmutedVolume);
+        this.setState({
+            unmutedVolume
+        });
+    }
+
+    toggleMute() {
+        const {muted, unmutedVolume} = this.state;
+        const {setVolume} = this.props;
+
+        if (!muted) {
+            // not muted, so mute
+            setVolume(0);
+        } else {
+            setVolume(unmutedVolume);
+        }
+
+        this.setState({
+            muted: !muted
+        })
     }
 
     render() {
@@ -30,7 +55,7 @@ class Volume extends React.PureComponent {
         }
         return (
             <div className="suluvir-player__volume">
-                <IconButton name={iconName} />
+                <IconButton name={iconName} onClick={this.toggleMute} />
                 <Slider min={0} max={100} onChange={this.volumeChange} value={this.props.volume * 100} />
             </div>
         );
