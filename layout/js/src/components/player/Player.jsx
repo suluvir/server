@@ -7,6 +7,8 @@ import Controls from './Controls';
 import SongInfo from './SongInfo';
 import TimeDisplay from './TimeDisplay';
 
+import {nextSong} from '../../actions/actions';
+
 require('./Player.scss');
 
 class Player extends React.Component {
@@ -34,7 +36,7 @@ class Player extends React.Component {
     }
 
     render() {
-        const {playList, current} = this.props;
+        const {playList, current, nextSong} = this.props;
 
         const active = playList !== undefined && playList !== null &&
             playList.size > 0 && playList.size > current;
@@ -49,6 +51,7 @@ class Player extends React.Component {
             <div id="suluvir-player" className={className}>
                 <audio 
                     autoPlay
+                    onEnded={nextSong}
                     onLoadedData={this.setReadyState}
                     src={songToPlay.get('@stream')}
                     ref={audio => this.audio = audio}
@@ -58,7 +61,7 @@ class Player extends React.Component {
                     <SongInfo song={songToPlay} />
                 </div>
                 <div id="suluvir-player__controls">
-                    <Controls play={this.play} pause={this.pause} songToPlay={songToPlay} />
+                    <Controls getAudio={() => this.audio} play={this.play} pause={this.pause} songToPlay={songToPlay} />
                 </div>
                 <div id="suluvir-player__timedisplay">
                     <TimeDisplay getAudio={() => this.audio} readyState={this.state.readyState} />
@@ -70,6 +73,7 @@ class Player extends React.Component {
 
 Player.propTypes = {
     current: React.PropTypes.number,
+    nextSong: React.PropTypes.func.isRequired,
     playList: React.PropTypes.instanceOf(Immutable.Map)
 }
 
@@ -80,4 +84,4 @@ function mapStateToProps(state) {
     };
 }
 
-export default connect(mapStateToProps)(Player);
+export default connect(mapStateToProps, {nextSong})(Player);
