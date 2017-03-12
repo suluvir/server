@@ -44,7 +44,7 @@ export function addToPlayQuereById(songId) {
     return (dispatch, getState) => {
         const state = getState();
         const song = getSongById(state.mySongs, songId);
-        if (state.play.get('list') !== undefined && state.play.get('list').indexOf(song) !== -1) {
+        if (state.play.get('list') !== undefined && state.play.get('list').last() === song) {
             // make it not possible to add a song to the play quere twice
             return;
         }
