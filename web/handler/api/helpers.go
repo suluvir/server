@@ -13,16 +13,15 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-package v1
+package api
 
 import (
-	"github.com/suluvir/server/web/handler/api"
-	"github.com/suluvir/server/web/httpHelpers"
+	"github.com/gorilla/mux"
+	"github.com/suluvir/server/schema"
 	"net/http"
 )
 
-func ResponseSingleObject(w http.ResponseWriter, r *http.Request, o interface{}) {
-	api.GetObjectById(r, o)
-
-	httpHelpers.ServeJsonWithoutCache(w, o)
+func GetObjectById(r *http.Request, o interface{}) {
+	vars := mux.Vars(r)
+	schema.GetDatabase().First(o, "id = ?", vars["id"])
 }

@@ -22,4 +22,5 @@ func init() {
 	r.HandleFunc("/my/songs", MySongsHandler)
 	r.HandleFunc("/my/artists", MyArtistsHandler)
 	r.HandleFunc("/my/albums", MyAlbumsHandler)
+	r.HandleFunc("/my/playlists", MyPlaylistHandler)
 }

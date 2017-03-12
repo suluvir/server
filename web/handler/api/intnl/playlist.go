@@ -13,16 +13,18 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-package v1
+package intnl
 
 import (
-	"github.com/suluvir/server/web/handler/api"
+	"github.com/suluvir/server/schema"
+	"github.com/suluvir/server/schema/media"
 	"github.com/suluvir/server/web/httpHelpers"
 	"net/http"
 )
 
-func ResponseSingleObject(w http.ResponseWriter, r *http.Request, o interface{}) {
-	api.GetObjectById(r, o)
+func MyPlaylistHandler(w http.ResponseWriter, r *http.Request) {
+	var myPlaylists []media.Playlist
 
-	httpHelpers.ServeJsonWithoutCache(w, o)
+	schema.GetDatabase().Find(&myPlaylists)
+	httpHelpers.ServeJsonWithoutCache(w, &myPlaylists)
 }

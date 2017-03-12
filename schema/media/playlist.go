@@ -17,6 +17,7 @@ package media
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/suluvir/server/logging"
 	"github.com/suluvir/server/schema"
 	"github.com/suluvir/server/web"
@@ -54,11 +55,15 @@ func (p *Playlist) GetApiLink() string {
 }
 
 func (p Playlist) MarshalJSON() ([]byte, error) {
+	apiLink := p.GetApiLink()
+	songsLink := fmt.Sprintf("%s/songs", apiLink)
 	return json.Marshal(struct {
 		JsonPlaylist
-		ApiLink string `json:"@id"`
+		ApiLink   string `json:"@id"`
+		SongsLink string `json:"@songs"`
 	}{
 		JsonPlaylist: JsonPlaylist(p),
-		ApiLink:      p.GetApiLink(),
+		ApiLink:      apiLink,
+		SongsLink:    songsLink,
 	})
 }

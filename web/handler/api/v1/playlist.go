@@ -21,6 +21,7 @@ import (
 	"github.com/suluvir/server/logging"
 	"github.com/suluvir/server/schema"
 	"github.com/suluvir/server/schema/media"
+	"github.com/suluvir/server/web/handler/api"
 	"github.com/suluvir/server/web/httpHelpers"
 	"github.com/uber-go/zap"
 	"net/http"
@@ -71,4 +72,14 @@ func PlaylistAddSong(w http.ResponseWriter, r *http.Request) {
 	playlist.AddSong(songToAdd)
 
 	httpHelpers.ServeJsonWithoutCache(w, &songToAdd)
+}
+
+func PlaylistGetAllSongs(w http.ResponseWriter, r *http.Request) {
+	var playlist media.Playlist
+	var songs []media.Song
+	api.GetObjectById(r, &playlist)
+
+	schema.GetDatabase().Model(&playlist).Related(&songs, "Songs")
+
+	httpHelpers.ServeJsonWithoutCache(w, songs)
 }

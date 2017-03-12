@@ -32,4 +32,5 @@ func init() {
 	s.HandleFunc("/playlist", PlaylistCreateHandler).Methods(httpHelpers.POST)
 	s.HandleFunc("/playlist/{id:[0-9]+}/song", PlaylistAddSong).Methods(httpHelpers.POST)
 	s.HandleFunc("/playlist/{id:[0-9]+}", PlaylistGet).Methods(httpHelpers.GET).Name(routeNames.API_PLAYLIST)
+	s.HandleFunc("/playlist/{id:[0-9]+}/songs", PlaylistGetAllSongs).Methods(httpHelpers.GET)
 }
