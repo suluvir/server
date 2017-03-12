@@ -36,10 +36,15 @@ export default class TimeDisplay extends React.PureComponent {
         })
     }
 
-    componentWillReceiveProps() {
-        this.setState({
-            currentTime: 0
-        });
+    componentWillReceiveProps(nextProps) {
+        const {songId: current} = this.props;
+        const {songId: next} = nextProps;
+
+        if (current !== next) {
+            this.setState({
+                currentTime: 0
+            });
+        }
     }
 
     render() {
@@ -72,5 +77,6 @@ export default class TimeDisplay extends React.PureComponent {
 
 TimeDisplay.propTypes = {
     getAudio: React.PropTypes.func.isRequired,
-    readyState: React.PropTypes.number.isRequired
+    readyState: React.PropTypes.number.isRequired,
+    songId: React.PropTypes.string.isRequired
 }

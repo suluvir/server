@@ -80,7 +80,7 @@ class Player extends React.Component {
                     <Controls getAudio={() => this.audio} play={this.play} pause={this.pause} songToPlay={songToPlay} />
                 </div>
                 <div id="suluvir-player__timedisplay">
-                    <TimeDisplay getAudio={() => this.audio} readyState={this.state.readyState} />
+                    <TimeDisplay getAudio={() => this.audio} readyState={this.state.readyState} songId={songToPlay.get('@id')} />
                 </div>
                 <div className="suluvir-player__volume-container">
                     <Volume />
