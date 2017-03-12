@@ -20,6 +20,7 @@ const (
 	API_SONG        = "api_song"
 	API_SONG_STREAM = "api_song_stream"
 	API_ARTIST      = "api_artist"
+	API_PLAYLIST    = "api_playlist"
 
 	EXTERNAL_RESOURCE = "external_resource"
 )

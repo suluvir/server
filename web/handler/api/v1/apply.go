@@ -28,4 +28,8 @@ func init() {
 	s.HandleFunc("/album/{id:[0-9]+}", AlbumApiHandler).Methods(httpHelpers.GET).Name(routeNames.API_ALBUM)
 
 	s.HandleFunc("/song/{id:[0-9]+}/stream", SongApiStreamHandler).Methods(httpHelpers.GET).Name(routeNames.API_SONG_STREAM)
+
+	s.HandleFunc("/playlist", PlaylistCreateHandler).Methods(httpHelpers.POST)
+	s.HandleFunc("/playlist/{id:[0-9]+}/song", PlaylistAddSong).Methods(httpHelpers.POST)
+	s.HandleFunc("/playlist/{id:[0-9]+}", PlaylistGet).Methods(httpHelpers.GET).Name(routeNames.API_PLAYLIST)
 }
