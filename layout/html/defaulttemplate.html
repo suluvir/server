@@ -8,6 +8,24 @@
         <!-- we have to provide a way to serve woff-files etc there. -->
         <!-- do not use fonts.googleapis.com, serve all files via this server -->
         <link rel="stylesheet" href="/nodestatic/material-design-icons/iconfont/material-icons.css">
+        <style>
+            .suluvir-noscript {
+                text-align: center;
+            }
+
+            .suluvir-noscript__content {
+                display: inline-block;
+                margin-top: 5rem;
+            }
+
+            .suluvir-noscript__content__image {
+                width: 15rem;
+            }
+
+            .suluvir-noscript__content__headline {
+                margin-top: 2rem;
+            }
+        </style>
 
         {{range .Externals}}
             {{if .HasCss}}
@@ -20,6 +38,18 @@
     </head>
     <body>
         <div id="application-root"></div>
+
+        <noscript>
+            <div class="suluvir-noscript">
+                <div class="suluvir-noscript__content">
+                    <img alt="Logo" src="/static/img/logo/png/suluvir.png" class="suluvir-noscript__content__image">
+                    <h1 class="suluvir-noscript__content__headline">Suluvir Web Application</h1>
+                    <div class="suluvir-noscript__content__text">
+                        Please activate JavaScript in order to use this page.
+                    </div>
+                </div>
+            </div>
+        </noscript>
 
         {{range .Externals}}
             {{if .HasJs}}
