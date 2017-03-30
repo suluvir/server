@@ -18,8 +18,10 @@ export function formatTime(duration) {
         return '00:00';
     }
 
+    duration = parseInt(duration);
+
     const minutes = Math.floor(duration / SECONDS_PER_MINUTE);
-    const seconds = parseInt(duration % SECONDS_PER_MINUTE);
+    const seconds = duration % SECONDS_PER_MINUTE;
 
     const minutesStr = minutes < 10 ? '0' + minutes : '' + minutes;
     const secondsStr = seconds < 10 ? '0' + seconds : '' + seconds;
