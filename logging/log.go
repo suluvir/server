@@ -16,8 +16,11 @@
 package logging
 
 import (
+	"github.com/suluvir/server/environment"
 	"github.com/uber-go/zap"
+	"log"
 	"os"
+	"path"
 )
 
 // don't use configuration here because of import cycle
@@ -34,9 +37,10 @@ func GetLogger() zap.Logger {
 }
 
 func InitializeLogger() {
-	file, err := os.OpenFile(LOG_FILE_NAME, os.O_WRONLY|os.O_APPEND, 0666)
+	logFile := path.Join(environment.GetLogDir(), LOG_FILE_NAME)
+	file, err := os.OpenFile(logFile, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
 	if err != nil {
-		// TODO ignore this?
+		log.Fatal("error opening log file: ", err)
 	}
 
 	tmpLogger := zap.New(

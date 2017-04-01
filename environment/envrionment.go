@@ -61,3 +61,8 @@ func GetConfigurationFile() string {
 	}
 	panic("cannot find configuration file")
 }
+
+// GetLogDir returns the directory for the log files
+func GetLogDir() string {
+	return GetBaseDirectory()
+}
