@@ -24,6 +24,7 @@ import (
 func init() {
 	router := web.GetRouter()
 	router.HandleFunc("/", IndexHandler).Methods(httpHelpers.GET)
+	router.HandleFunc("/songs", IndexHandler).Methods(httpHelpers.GET)
 	router.HandleFunc("/artists", IndexHandler).Methods(httpHelpers.GET)
 	router.HandleFunc("/albums", IndexHandler).Methods(httpHelpers.GET)
 

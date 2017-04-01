@@ -6,14 +6,17 @@ import Player from '../../components/player/Player';
 import MySongList from '../../components/lists/MySongList';
 import MyArtistList from '../../components/lists/MyArtistList';
 import MyAlbumList from '../../components/lists/MyAlbumList';
+import Overview from '../../components/overview/Overview';
 
 require('./SinglePageApplication.scss');
+
+// FIXME remove js error
 
 export default class SinglePageApplication extends React.PureComponent {
     constructor() {
         super();
 
-        const tabs = ['/', '/artists', '/albums'];
+        const tabs = ['/', '/artists', '/albums', '/songs'];
         const activeTab = tabs.indexOf(window.location.pathname);
         this.state = {
             tabs,
@@ -25,7 +28,8 @@ export default class SinglePageApplication extends React.PureComponent {
         return (
             <div className="suluvir-scroll-content">
                 <Router history={browserHistory}>
-                    <Route component={MySongList} path="/"/>
+                    <Route component={Overview} path="/"/>
+                    <Route component={MySongList} path="songs"/>
                     <Route component={MyArtistList} path="artists"/>
                     <Route component={MyAlbumList} path="albums"/>
                 </Router>
@@ -36,9 +40,10 @@ export default class SinglePageApplication extends React.PureComponent {
     getTabs() {
         return (
             <Tabs activeTab={this.state.activeTab} onChange={(tabId) => this.setState({ activeTab: tabId })} ripple>
-                <Tab>Songs</Tab>
+                <Tab>Start</Tab>
                 <Tab>Artists</Tab>
                 <Tab>Albums</Tab>
+                <Tab>Songs</Tab>
             </Tabs>
         );
     }
