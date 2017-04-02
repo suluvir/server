@@ -3,6 +3,7 @@ import {Route, Router, browserHistory} from 'react-router';
 
 import Player from '../components/player/Player';
 
+import StartpageContainer from '../containers/StartpageContainer';
 import MySongsContainer from '../containers/MySongsContainer';
 import MyArtistsContainer from '../containers/MyArtistsContainer';
 import MyAlbumsContainer from '../containers/MyAlbumsContainer';
@@ -14,6 +15,7 @@ export default class RoutedPage extends React.PureComponent {
         return (
             <div className="suluvir-routed-page">
                 <Router history={browserHistory}>
+                    <Route component={StartpageContainer} path="/"/>
                     <Route component={MySongsContainer} path="songs"/>
                     <Route component={MyAlbumsContainer} path="albums"/>
                     <Route component={MyArtistsContainer} path="artists"/>
