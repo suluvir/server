@@ -1,5 +1,5 @@
 import React from "react";
-import {Layout, Header, Textfield, Content, Drawer, Navigation} from "react-mdl";
+import {Layout, Header, Textfield, Content, Drawer, Navigation, Icon} from "react-mdl";
 import SinglePageApplication from "./pageContents/SinglePageApplication";
 import {Link} from 'react-router';
 
@@ -18,11 +18,12 @@ export default class Page extends React.Component {
                             expandableIcon="search"
                         />
                     </Header>
-                    <Drawer title="Suluvir">
+                    <Drawer title="Menu">
                         <Navigation>
-                            <Link to="/artists">Artists</Link>
-                            <Link to="/albums">Albums</Link>
-                            <Link to="/songs">Songs</Link>
+                            <Link to="/"><Icon name="home"/> Home</Link>
+                            <Link to="/artists"><Icon name="person"/> Artists</Link>
+                            <Link to="/albums"><Icon name="album"/> Albums</Link>
+                            <Link to="/songs"><Icon name="music_note"/> Songs</Link>
                         </Navigation>
                     </Drawer>
                     <Content>
