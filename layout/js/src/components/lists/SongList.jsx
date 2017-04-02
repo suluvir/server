@@ -20,7 +20,7 @@ export default class SongList extends React.Component {
 
         return (
             <div className={"suluvir-song-list"}>
-                <table className="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--3dp">
+                <table className="mdl-data-table mdl-js-data-table mdl-shadow--3dp">
                     <thead>
                         <th className="mdl-data-table__cell--non-numeric"></th>
                         <th className="mdl-data-table__cell--non-numeric">Title</th>

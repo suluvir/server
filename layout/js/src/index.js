@@ -4,7 +4,7 @@ import {createStore, applyMiddleware, combineReducers} from 'redux';
 import thunk from 'redux-thunk';
 import {Provider} from 'react-redux';
 
-import {Page} from './pageFrame/Page';
+import RoutedPage from './pageFrame/RoutedPage';
 import * as reducers from './reducers/reducers';
 import {dispatchLogger} from './utils/helpers';
 
@@ -15,7 +15,7 @@ const store = createStore(
 
 ReactDOM.render(
     <Provider store={store}>
-        <Page />
+        <RoutedPage />
     </Provider>,
     document.getElementById('application-root')
 );
