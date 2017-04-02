@@ -39,6 +39,7 @@ func init() {
 }
 
 func (p *Playlist) AddSong(song Song) {
+	// FIXME check if song isn't already in list
 	p.Songs = append(p.Songs, song)
 	schema.GetDatabase().Save(&p)
 }

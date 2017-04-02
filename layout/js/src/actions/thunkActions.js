@@ -1,7 +1,7 @@
 import Immutable from 'immutable';
 
 import * as actions from './actions'
-import {getJson} from '../utils/fetch';
+import {getJson, postJson} from '../utils/fetch';
 
 function getSongById(songs, id) {
     return songs.find(song => {
@@ -57,5 +57,17 @@ export function addToPlayQuereById(songId) {
             return;
         }
         dispatch(actions.addToPlayQueue(song));
+    }
+}
+
+export function addSongToPlaylist(song, playlist) {
+    return dispatch => {
+        const data = {
+            song_id: song.get('id')
+        };
+        const url = playlist.get('@id') + '/song';
+        postJson(url, data).then(() => {
+            dispatch(fetchMyPlaylists());
+        })
     }
 }

@@ -18,7 +18,7 @@ import {connect} from 'react-redux';
 
 import Loading from '../util/Loading';
 
-import {fetchMyPlaylists} from '../../actions/thunkActions';
+import {fetchMyPlaylists, addSongToPlaylist} from '../../actions/thunkActions';
 
 class PlaylistModal extends React.PureComponent {
     componentWillReceiveProps(newProps) {
@@ -28,7 +28,7 @@ class PlaylistModal extends React.PureComponent {
     }
 
     render()  {
-        const {onCancel, show, playlists} = this.props;
+        const {onCancel, show, song, playlists, addSongToPlaylist} = this.props;
 
         const playlistListItems = [];
         for (const playlist of playlists.toJS()) {
@@ -38,7 +38,7 @@ class PlaylistModal extends React.PureComponent {
                         {playlist.name}
                     </ListItemContent>
                     <ListItemAction>
-                        <IconButton name="playlist_add" />
+                        <IconButton name="playlist_add" onClick={() => addSongToPlaylist(song, Immutable.fromJS(playlist))} />
                     </ListItemAction>
                 </ListItem>
             );
@@ -67,6 +67,7 @@ class PlaylistModal extends React.PureComponent {
 }
 
 PlaylistModal.propTypes = {
+    addSongToPlaylist: React.PropTypes.func.isRequired,
     fetchMyPlaylists: React.PropTypes.func.isRequired,
     onCancel: React.PropTypes.func,
     playlists: React.PropTypes.instanceOf(Immutable.List).isRequired,
@@ -80,4 +81,4 @@ function mapStateToProps(state) {
     }
 }
 
-export default connect(mapStateToProps, {fetchMyPlaylists})(PlaylistModal);
+export default connect(mapStateToProps, {fetchMyPlaylists, addSongToPlaylist})(PlaylistModal);
