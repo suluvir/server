@@ -28,6 +28,6 @@ export function formatTime(duration) {
     return `${minutesStr}:${secondsStr}`;
 }
 
-export function songMenuButton(songIdLink) {
-    return <SongMenuButton songId={songIdLink} />;
+export function songMenuButton(song) {
+    return <SongMenuButton song={song} />;
 }

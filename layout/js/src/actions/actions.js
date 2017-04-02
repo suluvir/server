@@ -19,6 +19,10 @@ export function setMyAlbums(myAlbums) {
     return createAction(actionNames.SET_MY_ALBUMS, myAlbums);
 }
 
+export function setMyPlaylists(myPlaylists) {
+    return createAction(actionNames.SET_MY_PLAYLISTS, myPlaylists);
+}
+
 export function playSong(song) {
     return createAction(actionNames.PLAY_SONG, song);
 }

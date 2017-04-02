@@ -1,18 +1,34 @@
 import React from 'react';
+import Immutable from 'immutable';
 import {Menu, MenuItem, IconButton} from 'react-mdl';
 import {connect} from 'react-redux';
+
+import PlaylistModal from '../../playlist/PlaylistModal';
 
 import {addToPlayQuereById} from '../../../actions/thunkActions';
 
 class SongMenuButton extends React.PureComponent {
+    constructor() {
+        super();
+
+        this.state = {
+            showModal: false
+        };
+    }
+
     render() {
-        const {songId, addToPlayQuereById} = this.props;
+        const {showModal} = this.state;
+        const {song, addToPlayQuereById} = this.props;
+        const songId = song.get('@id');
         const id = `suluvir-song-menu-${songId}`
         return (
             <div>
+                <PlaylistModal show={showModal} song={song} onCancel={() => this.setState({showModal: false})}/>
+
                 <IconButton name="more_vert" id={id} />
                 <Menu target={id} align="right" ripple>
                     <MenuItem onClick={() => addToPlayQuereById(songId)}>Add to play quere</MenuItem>
+                    <MenuItem onClick={() => this.setState({showModal: true})}>Add to playlist</MenuItem>
                 </Menu>
             </div>
         );
@@ -21,7 +37,7 @@ class SongMenuButton extends React.PureComponent {
 
 SongMenuButton.propTypes = {
     addToPlayQuereById: React.PropTypes.func.isRequired,
-    songId: React.PropTypes.string.isRequired
+    song: React.PropTypes.instanceOf(Immutable.Map).isRequired
 }
 
 export default connect(undefined, {addToPlayQuereById})(SongMenuButton);

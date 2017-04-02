@@ -14,7 +14,7 @@ export default class SongList extends React.Component {
                 <td className="mdl-data-table__cell--non-numeric">{song.get('title')}</td>
                 <td className="mdl-data-table__cell--non-numeric">{artistNameJoin(song.get('artist_names'))}</td>
                 <td className="mdl-data-table__cell--non-numeric">{formatTime(song.get('duration'))}</td>
-                <td className="mdl-data-table__cell--non-numeric">{songMenuButton(song.get('@id'))}</td>
+                <td className="mdl-data-table__cell--non-numeric">{songMenuButton(song)}</td>
             </tr>);
         });
 

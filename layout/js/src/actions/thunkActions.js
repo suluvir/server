@@ -33,6 +33,14 @@ export function fetchMyAlbums() {
     }
 }
 
+export function fetchMyPlaylists() {
+    return dispatch => {
+        getJson('/api/internal/my/playlists').then(myPlaylists => {
+            dispatch(actions.setMyPlaylists(Immutable.fromJS(myPlaylists)));
+        }) 
+    }
+}
+
 export function playSongById(songId) {
     return (dispatch, getState) => {
         const song = getSongById(getState().mySongs, songId);
