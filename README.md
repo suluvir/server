@@ -1,6 +1,6 @@
 # Suluvir server
 
-[![Go Report Card](https://goreportcard.com/badge/github.com/suluvir/server)](https://goreportcard.com/report/github.com/suluvir/server)
+[![Build Status](https://travis-ci.org/suluvir/server.svg?branch=master)](https://travis-ci.org/suluvir/server) [![Go Report Card](https://goreportcard.com/badge/github.com/suluvir/server)](https://goreportcard.com/report/github.com/suluvir/server)
 
 ## Setup
 
