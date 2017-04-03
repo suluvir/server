@@ -31,16 +31,25 @@ const (
 // base directory (lowercased, so that it is not exported)
 const eNV_VAR_BASE_PATH string = "SULUVIR_BASE_PATH"
 
+// eNV_VAR_CI_BASE_PATH is the name of the envrironment variable used by ci to store the base directory
+const eNV_VAR_CI_BASE_PATH = "TRAVIS_BUILD_DIR"
+
 // GetBaseDirectory returns the base directory by checking the following folders for existence
 // (the first folder existing will be returned):
 //   1. as defined in `SULUVIR_BASE_PATH` (if the path exists)
-//   2. the directory of the binary
+//   2. as defined in `TRAVIS_BUILD_DIR` (if on ci)
+//   3. the directory of the binary
 //
 // this directory is used for further directory determination. This function is guaranteed to return a valid directory
 func GetBaseDirectory() string {
 	envDir, envVarExists := os.LookupEnv(eNV_VAR_BASE_PATH)
 	if envVarExists && util.ExistsDir(envDir) {
 		return envDir
+	}
+
+	ciEnvDir, ciEnvVarExists := os.LookupEnv(eNV_VAR_CI_BASE_PATH)
+	if ciEnvVarExists && util.ExistsDir(ciEnvDir) {
+		return ciEnvDir
 	}
 
 	binDir, _ := filepath.Abs(filepath.Dir(os.Args[0]))
