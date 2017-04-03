@@ -31,10 +31,18 @@ func init() {
 func LoadConfiguration() {
 	// TODO ensure that it is not called multiple times?
 	configurationFile := environment.GetConfigurationFile()
-	if _, err := toml.DecodeFile(configurationFile, &configuration); err != nil {
+	configuration = ReadConfiguration(configurationFile)
+}
+
+func ReadConfiguration(filename string) Config {
+	var config Config
+
+	if _, err := toml.DecodeFile(filename, &config); err != nil {
 		logging.GetLogger().Error("Error loading configuration", zap.Error(err))
 	}
-	logging.GetLogger().Info("read configuration file", zap.String("file", configurationFile))
+	logging.GetLogger().Info("read configuration file", zap.String("file", filename))
+
+	return config
 }
 
 func GetConfiguration() Config {

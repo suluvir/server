@@ -60,15 +60,22 @@ func GetBaseDirectory() string {
 // found, it will panic
 func GetConfigurationFile() string {
 	configFile := path.Join(GetBaseDirectory(), uSER_CONFIG)
-	defaultConfigFile := path.Join(GetBaseDirectory(), dEFAULT_CONFIG)
 
 	if util.ExistsFile(configFile) {
 		return configFile
 	}
-	if util.ExistsFile(defaultConfigFile) {
-		return defaultConfigFile
+
+	return GetDefaultConfigFile()
+}
+
+func GetDefaultConfigFile() string {
+	file := path.Join(GetBaseDirectory(), dEFAULT_CONFIG)
+
+	if util.ExistsFile(file) {
+		return file
 	}
-	panic("cannot find configuration file")
+
+	panic("configuration file not found")
 }
 
 // GetLogDir returns the directory for the log files
