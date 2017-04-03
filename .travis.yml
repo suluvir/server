@@ -1,5 +1,10 @@
 language: go
 
+before_install:
+  - make build
+  - ./server u
+  - ls
+
 go:
   - 1.6
   - 1.7.x
