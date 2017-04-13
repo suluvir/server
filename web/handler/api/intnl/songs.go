@@ -18,6 +18,7 @@ package intnl
 import (
 	"github.com/suluvir/server/schema"
 	"github.com/suluvir/server/schema/media"
+	"github.com/suluvir/server/web/handler/api"
 	"github.com/suluvir/server/web/httpHelpers"
 	"net/http"
 )
@@ -27,4 +28,20 @@ func MySongsHandler(w http.ResponseWriter, r *http.Request) {
 
 	schema.GetDatabase().Find(&mySongs)
 	httpHelpers.ServeJsonWithoutCache(w, mySongs)
+}
+
+func SongsInPlaylistsHandler(w http.ResponseWriter, r *http.Request) {
+	var song media.Song
+	var playlists []media.Playlist
+	api.GetObjectById(r, &song)
+
+	schema.GetDatabase().Model(&song).Related(&playlists, "Playlists")
+
+	result := map[string]bool{}
+
+	for _, playlist := range playlists {
+		result[playlist.GetApiLink()] = true
+	}
+
+	httpHelpers.ServeJsonWithoutCache(w, result)
 }

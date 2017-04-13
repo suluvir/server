@@ -30,14 +30,15 @@ import (
 
 type Song struct {
 	schema.DatabaseObject
-	Artists  []Artist `gorm:"many2many:song_artists;" json:"-"`
-	Title    string   `json:"title"`
-	Size     int64    `json:"size"`
-	Duration float64  `json:"duration"`
-	Filename string   `gorm:"size:40" json:"-"`
-	AlbumID  uint     `json:"-"`
-	Album    Album    `json:"-"`
-	Type     string   `json:"type"`
+	Artists   []Artist   `gorm:"many2many:song_artists;" json:"-"`
+	Title     string     `json:"title"`
+	Size      int64      `json:"size"`
+	Duration  float64    `json:"duration"`
+	Filename  string     `gorm:"size:40" json:"-"`
+	AlbumID   uint       `json:"-"`
+	Album     Album      `json:"-"`
+	Type      string     `json:"type"`
+	Playlists []Playlist `gorm:"many2many:playlist_songs;" json:"-"`
 }
 
 func init() {

@@ -23,4 +23,6 @@ func init() {
 	r.HandleFunc("/my/artists", MyArtistsHandler)
 	r.HandleFunc("/my/albums", MyAlbumsHandler)
 	r.HandleFunc("/my/playlists", MyPlaylistHandler)
+
+	r.HandleFunc("/song/{id:[0-9]+}/playlists", SongsInPlaylistsHandler)
 }
