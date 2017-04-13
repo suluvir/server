@@ -59,6 +59,8 @@ class PlaylistModal extends React.PureComponent {
                 const playlistContainsSong = playlistsOfSong !== undefined &&
                     playlistsOfSong.get(playlist.get('@id')) === true;
                 const iconName = playlistContainsSong ? 'playlist_add_check' : 'playlist_add';
+                const title = playlistContainsSong ? 'The song is already in this playlist' :
+                    'Add the song to this playlist';
 
                 playlistListItems.push(
                     <ListItem>
@@ -70,6 +72,7 @@ class PlaylistModal extends React.PureComponent {
                                 disabled={playlistContainsSong}
                                 name={iconName} 
                                 onClick={this.addSongToPlaylist(playlist)}
+                                title={title}
                             />
                         </ListItemAction>
                     </ListItem>

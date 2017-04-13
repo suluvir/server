@@ -17,11 +17,19 @@ class PlaylistCreateForm extends React.PureComponent {
         this.createPlaylist = this.createPlaylist.bind(this);
     }
 
-    createPlaylist() {
+    isNameSet() {
+        const {name} = this.state;
+        return name.length !== 0 && name.trim().length !== 0;
+    }
+
+    createPlaylist(event) {
+        if (event !== undefined) {
+            event.preventDefault();
+        }
         const {createPlaylist} = this.props;
         const {name} = this.state;
 
-        if (name === '') {
+        if (!this.isNameSet()) {
             // don't create playlists with empty names
             return;
         }
@@ -36,14 +44,21 @@ class PlaylistCreateForm extends React.PureComponent {
 
         return (
             <div className="suluvir__playlist-create">
-                <Textfield 
-                    className="suluvir-playlist-create__text-input"
-                    floatingLabel
-                    label="Create new playlist..."
-                    onChange={event => this.setState({name: event.target.value})}
-                    value={name}
+                <form onSubmit={this.createPlaylist}>
+                    <Textfield 
+                        className="suluvir-playlist-create__text-input"
+                        floatingLabel
+                        label="Create new playlist..."
+                        onChange={event => this.setState({name: event.target.value})}
+                        value={name}
+                    />
+                </form>
+                <IconButton
+                    disabled={!this.isNameSet()}
+                    name="add"
+                    onClick={this.createPlaylist}
+                    title="Create new playlist"
                 />
-                <IconButton name="create" onClick={this.createPlaylist} />
             </div>
         );
     }
