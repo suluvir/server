@@ -11,7 +11,7 @@ class MyArtistList extends React.Component {
     render() {
         const {artists, fetchMyArtists} = this.props;
 
-        if (artists.size === 0) {
+        if (artists === null) {
             fetchMyArtists();
             return <Loading />;
         }

@@ -9,7 +9,7 @@ import {fetchMySongs} from "../../actions/thunkActions";
 class MySongList extends React.PureComponent {
     render() {
         const {mySongs, fetchMySongs} = this.props;
-        if (mySongs.size === 0) {
+        if (mySongs === null) {
             fetchMySongs();
             return <Loading />;
         }
@@ -24,7 +24,7 @@ class MySongList extends React.PureComponent {
 
 MySongList.propTypes = {
     fetchMySongs: React.PropTypes.func.isRequired,
-    mySongs: React.PropTypes.instanceOf(Immutable.List).isRequired
+    mySongs: React.PropTypes.instanceOf(Immutable.List)
 }
 
 function mapStateToProps(state) {

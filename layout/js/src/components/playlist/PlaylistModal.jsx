@@ -31,31 +31,36 @@ class PlaylistModal extends React.PureComponent {
         const {onCancel, show, song, playlists, addSongToPlaylist} = this.props;
 
         const playlistListItems = [];
-        for (const playlist of playlists.toJS()) {
-            playlistListItems.push(
-                <ListItem>
-                    <ListItemContent>
-                        {playlist.name}
-                    </ListItemContent>
-                    <ListItemAction>
-                        <IconButton name="playlist_add" onClick={() => addSongToPlaylist(song, Immutable.fromJS(playlist))} />
-                    </ListItemAction>
-                </ListItem>
+        let playlistDisplay;
+        if (playlists !== null) {
+            for (const playlist of playlists.toJS()) {
+                playlistListItems.push(
+                    <ListItem>
+                        <ListItemContent>
+                            {playlist.name}
+                        </ListItemContent>
+                        <ListItemAction>
+                            <IconButton name="playlist_add" onClick={() => addSongToPlaylist(song, Immutable.fromJS(playlist))} />
+                        </ListItemAction>
+                    </ListItem>
+                );
+            }
+
+            playlistDisplay = (
+                <List>
+                    {playlistListItems}
+                </List>
             );
+        } else {
+            playlistDisplay = <Loading />;
         }
-        
-        const playlistList = (
-            <List>
-                {playlistListItems}
-            </List>
-        );
 
         return (
             <div>
                 <Dialog open={show} onCancel={onCancel}>
                     <DialogTitle>Playlists</DialogTitle>
                     <DialogContent>
-                        {playlistListItems.length === 0 ? <Loading /> : playlistList}
+                        {playlistDisplay}
                     </DialogContent>
                     <DialogActions>
                         <Button type="button" onClick={onCancel}>Cancel</Button>

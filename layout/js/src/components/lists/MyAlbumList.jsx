@@ -11,7 +11,7 @@ class MyAlbumList extends React.Component {
     render() {
         const {albums, fetchMyAlbums} = this.props;
 
-        if (albums.size === 0) {
+        if (albums === null) {
             fetchMyAlbums();
             return <Loading />;
         }
