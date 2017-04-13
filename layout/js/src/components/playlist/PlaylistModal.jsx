@@ -19,31 +19,58 @@ import {connect} from 'react-redux';
 import Loading from '../util/Loading';
 import PlaylistCreateForm from './PlaylistCreateForm';
 
-import {fetchMyPlaylists, addSongToPlaylist} from '../../actions/thunkActions';
+import {fetchMyPlaylists, addSongToPlaylist, fetchPlaylistsOfSong} from '../../actions/thunkActions';
 
 require('./PlaylistModal.scss');
 
 class PlaylistModal extends React.PureComponent {
+    constructor() {
+        super();
+
+        this.addSongToPlaylist = this.addSongToPlaylist.bind(this);
+    }
+
+    addSongToPlaylist(playlist) {
+        const {song, addSongToPlaylist, fetchPlaylistsOfSong} = this.props;
+
+        return () => {
+            addSongToPlaylist(song, playlist).then(() => {
+                fetchPlaylistsOfSong(song);
+            });
+
+        };
+    }
+
     componentWillReceiveProps(newProps) {
-        if (newProps.show === true && this.props.show === false) {
-            this.props.fetchMyPlaylists();
+        const {fetchMyPlaylists, fetchPlaylistsOfSong, show, song} = this.props;
+        if (newProps.show === true && show === false) {
+            fetchMyPlaylists();
+            fetchPlaylistsOfSong(song);
         }
     }
 
     render()  {
-        const {onCancel, show, song, playlists, addSongToPlaylist} = this.props;
+        const {onCancel, show, playlists, playlistsOfSong} = this.props;
 
         const playlistListItems = [];
         let playlistDisplay;
         if (playlists !== null) {
-            for (const playlist of playlists.toJS()) {
+            for (const playlist of playlists.toArray()) {
+                const playlistContainsSong = playlistsOfSong !== undefined &&
+                    playlistsOfSong.get(playlist.get('@id')) === true;
+                const iconName = playlistContainsSong ? 'playlist_add_check' : 'playlist_add';
+
                 playlistListItems.push(
                     <ListItem>
                         <ListItemContent>
-                            {playlist.name}
+                            {playlist.get('name')}
                         </ListItemContent>
                         <ListItemAction>
-                            <IconButton name="playlist_add" onClick={() => addSongToPlaylist(song, Immutable.fromJS(playlist))} />
+                            <IconButton
+                                disabled={playlistContainsSong}
+                                name={iconName} 
+                                onClick={this.addSongToPlaylist(playlist)}
+                            />
                         </ListItemAction>
                     </ListItem>
                 );
@@ -78,16 +105,19 @@ class PlaylistModal extends React.PureComponent {
 PlaylistModal.propTypes = {
     addSongToPlaylist: React.PropTypes.func.isRequired,
     fetchMyPlaylists: React.PropTypes.func.isRequired,
+    fetchPlaylistsOfSong: React.PropTypes.func.isRequired,
     onCancel: React.PropTypes.func,
     playlists: React.PropTypes.instanceOf(Immutable.List).isRequired,
+    playlistsOfSong: React.PropTypes.instanceOf(Immutable.Map),
     show: React.PropTypes.bool.isRequired,
     song: React.PropTypes.instanceOf(Immutable.Map).isRequired
 }
 
-function mapStateToProps(state) {
+function mapStateToProps(state, ownProps) {
     return {
-        playlists: state.myPlaylists
+        playlists: state.myPlaylists,
+        playlistsOfSong: state.playlistsOfSong.get(ownProps.song.get('@id'))
     }
 }
 
-export default connect(mapStateToProps, {fetchMyPlaylists, addSongToPlaylist})(PlaylistModal);
+export default connect(mapStateToProps, {fetchMyPlaylists, addSongToPlaylist, fetchPlaylistsOfSong})(PlaylistModal);

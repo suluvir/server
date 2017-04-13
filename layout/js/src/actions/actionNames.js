@@ -7,3 +7,4 @@ export const ADD_TO_PLAY_QUERE = 'ADD_TO_PLAY_QUERE';
 export const NEXT_SONG = 'NEXT_SONG';
 export const PREVIOUS_SONG = 'PREVIOUS_SONG';
 export const SET_VOLUME = 'SET_VOLUME';
+export const SET_PLAYLISTS_FOR_SONG = 'SET_PLAYLISTS_FOR_SONG';

@@ -55,3 +55,12 @@ export function play(state = defaultStates.PLAY, action) {
             return state;
     }
 }
+
+export function playlistsOfSong(state = defaultStates.PLAYLIST_OF_SONG, action) {
+    switch (action.type) {
+        case actionNames.SET_PLAYLISTS_FOR_SONG:
+            return state.set(action.payload.song.get('@id'), action.payload.playlists);
+        default:
+            return state;
+    }
+}

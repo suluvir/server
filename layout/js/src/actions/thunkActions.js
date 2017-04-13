@@ -11,7 +11,7 @@ function getSongById(songs, id) {
 
 export function fetchMySongs() {
     return dispatch => {
-        getJson('/api/internal/my/songs').then(mySongs => {
+        return getJson('/api/internal/my/songs').then(mySongs => {
             dispatch(actions.setMySongs(Immutable.fromJS(mySongs)));
         })
     }
@@ -19,7 +19,7 @@ export function fetchMySongs() {
 
 export function fetchMyArtists() {
     return dispatch => {
-        getJson('/api/internal/my/artists').then(myArtists => {
+        return getJson('/api/internal/my/artists').then(myArtists => {
             dispatch(actions.setMyArtists(Immutable.fromJS(myArtists)));
         }) 
     }
@@ -27,7 +27,7 @@ export function fetchMyArtists() {
 
 export function fetchMyAlbums() {
     return dispatch => {
-        getJson('/api/internal/my/albums').then(myALbums => {
+        return getJson('/api/internal/my/albums').then(myALbums => {
             dispatch(actions.setMyAlbums(Immutable.fromJS(myALbums)));
         })
     }
@@ -35,9 +35,19 @@ export function fetchMyAlbums() {
 
 export function fetchMyPlaylists() {
     return dispatch => {
-        getJson('/api/internal/my/playlists').then(myPlaylists => {
+        return getJson('/api/internal/my/playlists').then(myPlaylists => {
             dispatch(actions.setMyPlaylists(Immutable.fromJS(myPlaylists)));
         }) 
+    }
+}
+
+export function fetchPlaylistsOfSong(song) {
+    return dispatch => {
+        const songId = song.get('id');
+        const url = `/api/internal/song/${songId}/playlists`;
+        return getJson(url).then(playlists => {
+            dispatch(actions.setPlaylistsForSong(song, Immutable.fromJS(playlists)));
+        });
     }
 }
 

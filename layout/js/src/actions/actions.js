@@ -42,3 +42,7 @@ export function addToPlayQueue(song) {
 export function setVolume(volume) {
     return createAction(actionNames.SET_VOLUME, volume);
 }
+
+export function setPlaylistsForSong(song, playlists) {
+    return createAction(actionNames.SET_PLAYLISTS_FOR_SONG, {song, playlists});
+}
