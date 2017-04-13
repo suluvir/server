@@ -8,11 +8,15 @@ import AlbumList from './AlbumList';
 import Loading from '../util/Loading';
 
 class MyAlbumList extends React.Component {
+    componentWillMount() {
+        const {fetchMyAlbums} = this.props;
+        fetchMyAlbums();
+    }
+
     render() {
-        const {albums, fetchMyAlbums} = this.props;
+        const {albums} = this.props;
 
         if (albums === null) {
-            fetchMyAlbums();
             return <Loading />;
         }
 

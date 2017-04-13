@@ -7,10 +7,14 @@ import Loading from '../util/Loading';
 import {fetchMySongs} from "../../actions/thunkActions";
 
 class MySongList extends React.PureComponent {
+    componentWillMount() {
+        const {fetchMySongs} = this.props;
+        fetchMySongs();
+    }
+
     render() {
-        const {mySongs, fetchMySongs} = this.props;
+        const {mySongs} = this.props;
         if (mySongs === null) {
-            fetchMySongs();
             return <Loading />;
         }
 

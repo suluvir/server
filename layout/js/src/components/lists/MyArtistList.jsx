@@ -8,11 +8,15 @@ import ArtistList from './ArtistList';
 import Loading from '../util/Loading';
 
 class MyArtistList extends React.Component {
+    componentWillMount() {
+        const {fetchMyArtists} = this.props;
+        fetchMyArtists();
+    }
+
     render() {
-        const {artists, fetchMyArtists} = this.props;
+        const {artists} = this.props;
 
         if (artists === null) {
-            fetchMyArtists();
             return <Loading />;
         }
 
