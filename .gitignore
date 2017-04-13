@@ -6,3 +6,4 @@ server
 uploads/
 layout/js/dist/
 node_modules/
+.vscode

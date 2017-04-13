@@ -38,10 +38,32 @@ func init() {
 	schema.AddSchema(&Playlist{})
 }
 
-func (p *Playlist) AddSong(song Song) {
-	// FIXME check if song isn't already in list
-	p.Songs = append(p.Songs, song)
-	schema.GetDatabase().Save(&p)
+// AddSong adds the given song to the playlist. Returns true, if song could be added, false if the song was already
+// inside of the playlist
+func (p *Playlist) AddSong(song Song) bool {
+	if !p.ContainsSong(song) {
+		p.Songs = append(p.Songs, song)
+		schema.GetDatabase().Save(&p)
+		logging.GetLogger().Debug("add song to playlist",
+			zap.Uint64("playlist", p.ID), zap.Uint64("song", song.ID))
+		return true
+	} else {
+		logging.GetLogger().Info("not adding song to playlist because it is already in it",
+			zap.Uint64("playlist", p.ID), zap.Uint64("song", song.ID))
+		return false
+	}
+}
+
+// ContainsSong checks if the playlist contains the given song
+func (p *Playlist) ContainsSong(song Song) bool {
+	rows, err := schema.GetDatabase().Table("playlist_songs").Where(
+		"playlist_id = ? AND song_id = ?", p.ID, song.ID).Rows()
+
+	if err != nil {
+		logging.GetLogger().Error("error during playlist_song fetch", zap.Error(err))
+	}
+
+	return rows.Next()
 }
 
 func (p *Playlist) GetApiLink() string {
