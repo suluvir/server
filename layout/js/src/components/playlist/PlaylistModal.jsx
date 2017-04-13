@@ -17,8 +17,11 @@ import {
 import {connect} from 'react-redux';
 
 import Loading from '../util/Loading';
+import PlaylistCreateForm from './PlaylistCreateForm';
 
 import {fetchMyPlaylists, addSongToPlaylist} from '../../actions/thunkActions';
+
+require('./PlaylistModal.scss');
 
 class PlaylistModal extends React.PureComponent {
     componentWillReceiveProps(newProps) {
@@ -47,7 +50,7 @@ class PlaylistModal extends React.PureComponent {
             }
 
             playlistDisplay = (
-                <List>
+                <List className="suluvir-playlist__list">
                     {playlistListItems}
                 </List>
             );
@@ -60,6 +63,7 @@ class PlaylistModal extends React.PureComponent {
                 <Dialog open={show} onCancel={onCancel}>
                     <DialogTitle>Playlists</DialogTitle>
                     <DialogContent>
+                        <PlaylistCreateForm />
                         {playlistDisplay}
                     </DialogContent>
                     <DialogActions>

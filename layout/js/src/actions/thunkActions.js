@@ -66,8 +66,16 @@ export function addSongToPlaylist(song, playlist) {
             song_id: song.get('id')
         };
         const url = playlist.get('@id') + '/song';
-        postJson(url, data).then(() => {
+        return postJson(url, data).then(() => {
             dispatch(fetchMyPlaylists());
         })
+    }
+}
+
+export function createPlaylist(name) {
+    return dispatch => {
+        return postJson('/api/v1/playlist', {name}).then(() => {
+            dispatch(fetchMyPlaylists());
+        });
     }
 }
