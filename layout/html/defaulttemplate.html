@@ -10,6 +10,8 @@
         <!-- we have to provide a way to serve woff-files etc there. -->
         <!-- do not use fonts.googleapis.com, serve all files via this server -->
         <link rel="stylesheet" href="/nodestatic/material-design-icons/iconfont/material-icons.css">
+
+        <link rel="stylesheet" href="/nodestatic/dialog-polyfill/dialog-polyfill.css">
         <style>
             .suluvir-noscript {
                 text-align: center;
@@ -53,6 +55,7 @@
             </div>
         </noscript>
 
+        <script src="/nodestatic/dialog-polyfill/dialog-polyfill.js"></script>
         {{range .Externals}}
             {{if .HasJs}}
                 {{range .JsUrls}}
