@@ -1,20 +1,33 @@
 import React from 'react';
 import Immutable from 'immutable';
-import {DataTable, TableHeader} from "react-mdl";
+
+import {playlistPlayButton} from '../../utils/formatters';
 
 require('./PlaylistList.scss');
 
 export default class PlaylistList extends React.PureComponent {
     render() {
+        const rows = [];
+        this.props.playlists.forEach(playlist => {
+            rows.push(
+                <tr>
+                    <td className="mdl-data-table__cell--non-numeric">{playlistPlayButton(playlist)}</td>
+                    <td className="mdl-data-table__cell--non-numeric">{playlist.get('name')}</td>
+                </tr>
+            );
+        });
+
         return (
             <div className="suluvir-playlist-list">
-                <DataTable
-                    sortable
-                    shadow="3"
-                    rows={this.props.playlists.toJS()}
-                >
-                    <TableHeader name="name">Name</TableHeader>
-                </DataTable>
+                <table className="mdl-data-table mdl-js-data-table mdl-shadow--3dp">
+                    <thead>
+                        <th className="mdl-data-table__cell--non-numeric"></th>
+                        <th className="mdl-data-table__cell--non-numeric">Name</th>
+                    </thead>
+                    <tbody>
+                        {rows}
+                    </tbody>
+                </table>
             </div>
         );
     }

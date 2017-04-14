@@ -89,3 +89,11 @@ export function createPlaylist(name) {
         });
     }
 }
+
+export function playPlaylist(playlist) {
+    return dispatch => {
+        return getJson(playlist.get('@songs')).then(songs => {
+            dispatch(actions.setPlayQueue(Immutable.fromJS(songs)));
+        });
+    }
+}
