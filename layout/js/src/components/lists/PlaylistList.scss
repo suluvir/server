@@ -1,0 +1,10 @@
+@import '../../animations';
+
+.suluvir-playlist-list {
+  padding: 1rem;
+
+  .mdl-data-table {
+    width: 100%;
+    @include fadein();
+  }
+}

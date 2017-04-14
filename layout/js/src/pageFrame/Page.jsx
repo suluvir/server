@@ -24,6 +24,7 @@ export default class Page extends React.Component {
                             <Link to="/artists"><Icon name="person"/> Artists</Link>
                             <Link to="/albums"><Icon name="album"/> Albums</Link>
                             <Link to="/songs"><Icon name="music_note"/> Songs</Link>
+                            <Link to="/playlists"><Icon name="list"/> Playlists</Link>
                         </Navigation>
                     </Drawer>
                     <Content>
