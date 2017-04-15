@@ -13,17 +13,20 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-package routeNames
+package auth
 
-const (
-	API_ALBUM       = "api_album"
-	API_SONG        = "api_song"
-	API_SONG_STREAM = "api_song_stream"
-	API_ARTIST      = "api_artist"
-	API_PLAYLIST    = "api_playlist"
+import "testing"
 
-	LOGIN    = "login"
-	REGISTER = "register"
+func TestNotAllowed(t *testing.T) {
+	c := NewUrlWhitelistCheck("/")
+	if c.Check() {
+		t.Error("url '/' should not match")
+	}
+}
 
-	EXTERNAL_RESOURCE = "external_resource"
-)
+func TestAllowed(t *testing.T) {
+	c := NewUrlWhitelistCheck("/appstatic/dksjfhgskdjhfg")
+	if !c.Check() {
+		t.Error("url under '/appstatic/' should be allowed")
+	}
+}

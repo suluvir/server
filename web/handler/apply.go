@@ -18,6 +18,7 @@ package handler
 import (
 	"github.com/suluvir/server/web"
 	"github.com/suluvir/server/web/httpHelpers"
+	"github.com/suluvir/server/web/routeNames"
 	"net/http"
 )
 
@@ -28,6 +29,9 @@ func init() {
 	router.HandleFunc("/artists", IndexHandler).Methods(httpHelpers.GET)
 	router.HandleFunc("/albums", IndexHandler).Methods(httpHelpers.GET)
 	router.HandleFunc("/playlists", IndexHandler).Methods(httpHelpers.GET)
+
+	router.HandleFunc("/login", IndexHandler).Methods(httpHelpers.GET).Name(routeNames.LOGIN)
+	router.HandleFunc("/register", IndexHandler).Methods(httpHelpers.GET).Name(routeNames.REGISTER)
 
 	router.HandleFunc("/upload", UploadPageHandler).Methods(httpHelpers.GET)
 	router.HandleFunc("/upload", SongUploadHandler).Methods(httpHelpers.POST)

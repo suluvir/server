@@ -19,6 +19,8 @@ import (
 	"fmt"
 	"github.com/suluvir/server/auth"
 	"github.com/suluvir/server/logging"
+	"github.com/suluvir/server/schema"
+	"github.com/suluvir/server/web/routeNames"
 	"github.com/uber-go/zap"
 	"net/http"
 	"time"
@@ -44,9 +46,32 @@ func authenticationMiddleware(next http.Handler) http.Handler {
 		}
 
 		if user == nil {
-			logging.GetLogger().Info("user is not logged in while fetching page",
+			logging.GetLogger().Debug("user is not logged in while fetching page",
 				zap.String("url", r.URL.String()))
+
+			checker := auth.NewUrlWhitelistCheck(r.URL.String())
+			if !checker.Check() {
+				http.Redirect(w, r, getRedirectUrl(), 302)
+			}
+
 		}
 		next.ServeHTTP(w, r)
 	})
+}
+
+func getRedirectUrl() string {
+	var registeredUsers uint64
+	schema.GetDatabase().Table("users").Count(&registeredUsers)
+	routeName := routeNames.LOGIN
+	if registeredUsers == 0 {
+		routeName = routeNames.REGISTER
+	}
+	url, _ := GetRouter().GetRoute(routeName).URL()
+
+	result := url.String()
+	if registeredUsers == 0 {
+		result += "?admin=1"
+	}
+
+	return result
 }
