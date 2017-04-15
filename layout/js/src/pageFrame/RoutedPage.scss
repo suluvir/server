@@ -1,3 +1,19 @@
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body, div#application-root {
+  width: 100%;
+  height: 100%;
+
+  position: relative;
+}
+
 .suluvir-routed-page {
   position: absolute;
   top: 0;
