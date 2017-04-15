@@ -17,6 +17,7 @@ package web
 
 import (
 	"fmt"
+	"github.com/suluvir/server/auth"
 	"github.com/suluvir/server/logging"
 	"github.com/uber-go/zap"
 	"net/http"
@@ -32,5 +33,20 @@ func logMiddleWare(next http.Handler) http.Handler {
 		logging.GetLogger().Debug("incoming request finished",
 			zap.String("url", r.URL.String()),
 			zap.String("elapsed", fmt.Sprintf("%s", elapsed)))
+	})
+}
+
+func authenticationMiddleware(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		user, err := auth.GetUserForSession(r)
+		if err != nil {
+			logging.GetLogger().Error("error retrieving user from session", zap.Error(err))
+		}
+
+		if user == nil {
+			logging.GetLogger().Info("user is not logged in while fetching page",
+				zap.String("url", r.URL.String()))
+		}
+		next.ServeHTTP(w, r)
 	})
 }

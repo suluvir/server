@@ -32,7 +32,7 @@ type SuluvirRouter struct {
 }
 
 func applyMiddleware(handler http.Handler) http.Handler {
-	return logMiddleWare(handler)
+	return logMiddleWare(authenticationMiddleware(handler))
 }
 
 func (s *SuluvirRouter) HandleFunc(path string, f func(http.ResponseWriter, *http.Request)) *mux.Route {
