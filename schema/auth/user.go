@@ -25,8 +25,8 @@ type User struct {
 	schema.DatabaseObject
 	ActiveAt time.Time `json:"-"`
 	Username string    `gorm:"size:128"`
-	Email    string
-	Password string `gorm:"size:64"`
+	Email    string    `gorm:"size:128"`
+	Password string    `gorm:"size:64"`
 }
 
 func init() {
