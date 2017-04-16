@@ -40,7 +40,7 @@ func logMiddleWare(next http.Handler) http.Handler {
 
 func authenticationMiddleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		user, err := auth.GetUserForSession(r)
+		user, err := auth.GetUserForSession(w, r)
 		if err != nil {
 			logging.GetLogger().Error("error retrieving user from session", zap.Error(err))
 		}

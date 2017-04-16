@@ -52,7 +52,7 @@ func GetUserSession(r *http.Request) (*sessions.Session, error) {
 	return session, err
 }
 
-func GetUserForSession(r *http.Request) (*auth.User, error) {
+func GetUserForSession(w http.ResponseWriter, r *http.Request) (*auth.User, error) {
 	session, err := GetUserSession(r)
 	if err != nil {
 		logging.GetLogger().Error("error during session initialization", zap.Error(err))
@@ -63,6 +63,8 @@ func GetUserForSession(r *http.Request) (*auth.User, error) {
 	if !ok {
 		return nil, errors.New("object stored in session is no user")
 	}
+
+	session.Save(r, w)
 
 	return user, nil
 }
