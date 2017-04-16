@@ -28,7 +28,7 @@ import (
 // TODO improve secret
 var store = sessions.NewCookieStore([]byte("some very secret value"))
 
-func CreateUser(name string, password string) auth.User {
+func CreateUser(name string, email string, password string) auth.User {
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
 
 	if err != nil {
@@ -37,12 +37,13 @@ func CreateUser(name string, password string) auth.User {
 
 	return auth.User{
 		Username: name,
+		Email:    email,
 		Password: string(hashedPassword),
 	}
 }
 
 func GetUserSession(r *http.Request) (*sessions.Session, error) {
-	session, err := store.Get(r, "suluvir-user")
+	session, err := store.Get(r, "suluvir-user-session")
 	session.Options = &sessions.Options{
 		Path:     "/",
 		MaxAge:   0,

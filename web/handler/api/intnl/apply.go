@@ -15,14 +15,19 @@
 
 package intnl
 
-import "github.com/suluvir/server/web"
+import (
+	"github.com/suluvir/server/web"
+	"github.com/suluvir/server/web/httpHelpers"
+)
 
 func init() {
 	r := web.GetRouter().Subrouter("/api/internal")
-	r.HandleFunc("/my/songs", MySongsHandler)
-	r.HandleFunc("/my/artists", MyArtistsHandler)
-	r.HandleFunc("/my/albums", MyAlbumsHandler)
-	r.HandleFunc("/my/playlists", MyPlaylistHandler)
+	r.HandleFunc("/my/songs", MySongsHandler).Methods(httpHelpers.GET)
+	r.HandleFunc("/my/artists", MyArtistsHandler).Methods(httpHelpers.GET)
+	r.HandleFunc("/my/albums", MyAlbumsHandler).Methods(httpHelpers.GET)
+	r.HandleFunc("/my/playlists", MyPlaylistHandler).Methods(httpHelpers.GET)
 
-	r.HandleFunc("/song/{id:[0-9]+}/playlists", SongsInPlaylistsHandler)
+	r.HandleFunc("/song/{id:[0-9]+}/playlists", SongsInPlaylistsHandler).Methods(httpHelpers.GET)
+
+	r.HandleFunc("/user/register", CreateUser).Methods(httpHelpers.POST)
 }

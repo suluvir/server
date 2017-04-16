@@ -18,10 +18,28 @@ package api
 import (
 	"github.com/gorilla/mux"
 	"github.com/suluvir/server/schema"
+	"github.com/suluvir/server/web/httpHelpers"
 	"net/http"
 )
+
+type errorResponse struct {
+	Status  int    `json:"status"`
+	Message string `json:"message"`
+	Details string `json:"details"`
+}
 
 func GetObjectById(r *http.Request, o interface{}) {
 	vars := mux.Vars(r)
 	schema.GetDatabase().First(o, "id = ?", vars["id"])
+}
+
+func SendJsonError(w http.ResponseWriter, status int, details string) {
+	response := errorResponse{
+		Status:  status,
+		Message: http.StatusText(status),
+		Details: details,
+	}
+
+	w.WriteHeader(status)
+	httpHelpers.ServeJsonWithoutCache(w, response)
 }

@@ -28,6 +28,7 @@ var whitelistedUrls = []string{
 	"/appstatic/*",
 	"/nodestatic/*",
 	"/static/*",
+	"/api/internal/register",
 }
 
 var whitelistedUrlsRegexp = []*regexp.Regexp{}
