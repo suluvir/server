@@ -3,6 +3,7 @@
     height: 100%;
 
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
 
@@ -12,4 +13,9 @@
             margin-top: 2rem;
         }
     }
+}
+
+.suluvir-registration__logo {
+    width: 15rem;
+    margin-bottom: 5rem;
 }

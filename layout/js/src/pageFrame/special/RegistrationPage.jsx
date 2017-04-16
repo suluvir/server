@@ -9,6 +9,10 @@ export default class RegistrationPage extends React.PureComponent {
     render() {
         return (
             <div className="suluvir-registration">
+                <div>
+                    <img src="/static/img/logo/png/suluvir.png" alt="Logo" className="suluvir-registration__logo"/>
+                </div>
+
                 <div className="suluvir-registration__form-container">
                     <form className="suluvir-registration__form">
                         <div>
