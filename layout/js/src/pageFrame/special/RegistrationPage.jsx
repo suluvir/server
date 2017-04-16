@@ -12,8 +12,18 @@ export default class RegistrationPage extends React.PureComponent {
                 <div className="suluvir-registration__form-container">
                     <form className="suluvir-registration__form">
                         <div>
-                            <IconTextfield iconName="person" label="Username" />
-                            <IconTextfield iconName="email" label="E-Mail Adress" />
+                            <IconTextfield 
+                                error="Username is too long"
+                                iconName="person" 
+                                label="Username"
+                                pattern="\S{0,120}"
+                            />
+                            <IconTextfield
+                                error="Has to be a valid email"
+                                iconName="email" 
+                                label="E-Mail Adress"
+                                pattern="\S+@\S+\.[a-z]{2,3}"
+                            />
                             <IconTextfield iconName="vpn_key" label="Password" />
                             <IconTextfield iconName="vpn_key" label="Repeat Password" />
                         </div>
@@ -21,6 +31,8 @@ export default class RegistrationPage extends React.PureComponent {
                         <Button>
                             Register
                         </Button>
+
+                        <br className="clear"/>
                     </form>
                 </div>
             </div>

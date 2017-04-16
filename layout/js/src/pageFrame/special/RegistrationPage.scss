@@ -5,4 +5,11 @@
     display: flex;
     align-items: center;
     justify-content: center;
+
+    form {
+        button {
+            float: right;
+            margin-top: 2rem;
+        }
+    }
 }
