@@ -37,49 +37,51 @@ export default class RegistrationPage extends React.PureComponent {
 
         return (
             <div className="suluvir-registration">
-                <div>
-                    <img src="/static/img/logo/svg/suluvir.svg" alt="Logo" className="suluvir-registration__logo"/>
-                </div>
+                <div className="suluvir-registration__container mdl-card mdl-shadow--3dp">
+                    <div>
+                        <img src="/static/img/logo/svg/suluvir.svg" alt="Logo" className="suluvir-registration__logo"/>
+                    </div>
 
-                <div className="suluvir-registration__form-container">
-                    <form className="suluvir-registration__form">
-                        <div>
-                            <IconTextfield 
-                                error="Username is too long"
-                                iconName="person" 
-                                label="Username"
-                                onChange={this.onInputChange('username')}
-                                pattern="\S{0,120}"
-                                value={username}
-                            />
-                            <IconTextfield
-                                error="Has to be a valid email"
-                                iconName="email" 
-                                label="E-Mail Adress"
-                                onChange={this.onInputChange('email')}
-                                pattern="\S+@\S+\.[a-z]{2,3}"
-                                value={email}
-                            />
-                            <IconTextfield 
-                                iconName="vpn_key" 
-                                label="Password"
-                                onChange={this.onInputChange('password')} 
-                                value={password}
-                            />
-                            <IconTextfield
-                                iconName="vpn_key"
-                                label="Repeat Password"
-                                onChange={this.onInputChange('password_repeat')}
-                                value={password_repeat}
-                            />
-                        </div>
+                    <div className="suluvir-registration__form-container">
+                        <form className="suluvir-registration__form">
+                            <div>
+                                <IconTextfield 
+                                    error="Username is too long"
+                                    iconName="person" 
+                                    label="Username"
+                                    onChange={this.onInputChange('username')}
+                                    pattern="\S{0,120}"
+                                    value={username}
+                                />
+                                <IconTextfield
+                                    error="Has to be a valid email"
+                                    iconName="email" 
+                                    label="E-Mail Adress"
+                                    onChange={this.onInputChange('email')}
+                                    pattern="\S+@\S+\.[a-z]{2,3}"
+                                    value={email}
+                                />
+                                <IconTextfield 
+                                    iconName="vpn_key" 
+                                    label="Password"
+                                    onChange={this.onInputChange('password')} 
+                                    value={password}
+                                />
+                                <IconTextfield
+                                    iconName="vpn_key"
+                                    label="Repeat Password"
+                                    onChange={this.onInputChange('password_repeat')}
+                                    value={password_repeat}
+                                />
+                            </div>
 
-                        <Button onClick={this.registerUser}>
-                            Register
-                        </Button>
+                            <Button onClick={this.registerUser}>
+                                Register
+                            </Button>
 
-                        <br className="clear"/>
-                    </form>
+                            <br className="clear"/>
+                        </form>
+                    </div>
                 </div>
             </div>
         );
