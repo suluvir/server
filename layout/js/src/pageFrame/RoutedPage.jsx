@@ -4,6 +4,7 @@ import {Route, Router, browserHistory} from 'react-router';
 import Player from '../components/player/Player';
 
 import RegistrationPage from './special/RegistrationPage';
+import LoginPage from './special/LoginPage';
 
 import StartpageContainer from '../containers/StartpageContainer';
 import MySongsContainer from '../containers/MySongsContainer';
@@ -21,6 +22,7 @@ export default class RoutedPage extends React.PureComponent {
                     <Route component={StartpageContainer} path="/"/>
 
                     <Route component={RegistrationPage} path="/register"/>
+                    <Route component={LoginPage} path="/login"/>
 
                     <Route component={MySongsContainer} path="songs"/>
                     <Route component={MyAlbumsContainer} path="albums"/>

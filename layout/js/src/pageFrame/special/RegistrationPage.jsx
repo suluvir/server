@@ -62,12 +62,14 @@ export default class RegistrationPage extends React.PureComponent {
                                 iconName="vpn_key" 
                                 label="Password"
                                 onChange={this.onInputChange('password')} 
+                                type="password"
                                 value={password}
                             />
                             <IconTextfield
                                 iconName="vpn_key"
                                 label="Repeat Password"
                                 onChange={this.onInputChange('password_repeat')}
+                                type="password"
                                 value={password_repeat}
                             />
                         </div>
@@ -78,7 +80,7 @@ export default class RegistrationPage extends React.PureComponent {
 
                         <br className="clear"/>
 
-                        <Link to="/login" className="suluvir-registration__login-link">Already have an account? Login</Link>
+                        <Link to="/login" className="suluvir-registration__login-link">Already have an account? Login!</Link>
                     </form>
                 </SmallLogoContainer>
             </div>
