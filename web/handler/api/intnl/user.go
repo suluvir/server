@@ -20,10 +20,12 @@ import (
 	"github.com/suluvir/server/auth"
 	"github.com/suluvir/server/logging"
 	"github.com/suluvir/server/schema"
+	a "github.com/suluvir/server/schema/auth"
 	"github.com/suluvir/server/web/handler/api"
 	"github.com/suluvir/server/web/httpHelpers"
 	"github.com/uber-go/zap"
 	"net/http"
+	"time"
 )
 
 type createUser struct {
@@ -31,6 +33,11 @@ type createUser struct {
 	Email          string `json:"email"`
 	Password       string `json:"password"`
 	PasswordRepeat string `json:"password_repeat"`
+}
+
+type loginUser struct {
+	Login    string `json:"login"`
+	Password string `json:"password"`
 }
 
 func CreateUser(w http.ResponseWriter, r *http.Request) {
@@ -52,4 +59,36 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 	schema.GetDatabase().Create(&user)
 
 	httpHelpers.ServeJsonWithoutCache(w, &user)
+}
+
+func LoginUser(w http.ResponseWriter, r *http.Request) {
+	var payload loginUser
+	decoder := json.NewDecoder(r.Body)
+	err := decoder.Decode(&payload)
+	if err != nil {
+		logging.GetLogger().Error("error dezerializing request body", zap.Error(err))
+		api.SendJsonError(w, http.StatusBadRequest, "error dezerializing request body")
+		return
+	}
+
+	var user a.User
+	schema.GetDatabase().Where("username = ? or email = ?", payload.Login, payload.Login).First(&user)
+	if user.Username == payload.Login || user.Email == payload.Login {
+		err := auth.LoginUser(w, r, user, payload.Password)
+		if err != nil {
+			responseInvalidCredentials(w)
+			return
+		} else {
+			api.SendJsonError(w, http.StatusOK, "")
+			return
+		}
+	} else {
+		responseInvalidCredentials(w)
+		return
+	}
+}
+
+func responseInvalidCredentials(w http.ResponseWriter) {
+	time.Sleep(1 * time.Second)
+	api.SendJsonError(w, http.StatusForbidden, "Username or password is incorrect")
 }

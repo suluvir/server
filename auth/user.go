@@ -19,6 +19,7 @@ import (
 	"errors"
 	"github.com/gorilla/sessions"
 	"github.com/suluvir/server/logging"
+	"github.com/suluvir/server/schema"
 	"github.com/suluvir/server/schema/auth"
 	"github.com/uber-go/zap"
 	"golang.org/x/crypto/bcrypt"
@@ -26,7 +27,7 @@ import (
 )
 
 // TODO improve secret
-var store = sessions.NewCookieStore([]byte("some very secret value"))
+var store = sessions.NewCookieStore([]byte("a"))
 
 func CreateUser(name string, email string, password string) auth.User {
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
@@ -43,13 +44,11 @@ func CreateUser(name string, email string, password string) auth.User {
 }
 
 func GetUserSession(r *http.Request) (*sessions.Session, error) {
-	session, err := store.Get(r, "suluvir-user-session")
+	session, err := store.Get(r, "suluvir")
 	session.Options = &sessions.Options{
 		Path:     "/",
-		MaxAge:   0,
 		HttpOnly: true,
 	}
-
 	return session, err
 }
 
@@ -60,12 +59,38 @@ func GetUserForSession(w http.ResponseWriter, r *http.Request) (*auth.User, erro
 		return nil, err
 	}
 	val := session.Values["user"]
-	user, ok := val.(*auth.User)
+	username, ok := val.(string)
 	if !ok {
-		return nil, errors.New("object stored in session is no user")
+		return nil, errors.New("object stored in session is no string")
 	}
 
-	session.Save(r, w)
+	var user auth.User
+	schema.GetDatabase().Where("username = ?", username).First(&user)
 
-	return user, nil
+	if user.Username != "" {
+		logging.GetLogger().Debug("restored user for session", zap.String("user name", user.Username))
+	}
+
+	return &user, nil
+}
+
+func LoginUser(w http.ResponseWriter, r *http.Request, user auth.User, password string) error {
+	err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(password))
+
+	if err == nil {
+		session, getErr := GetUserSession(r)
+		if getErr != nil {
+			logging.GetLogger().Error("error while getting the user session", zap.Error(getErr))
+			return getErr
+		}
+
+		session.Values["user"] = user.Username
+		saveErr := session.Save(r, w)
+		if saveErr != nil {
+			logging.GetLogger().Error("error while saving the users session", zap.Error(saveErr))
+			return saveErr
+		}
+	}
+
+	return err
 }

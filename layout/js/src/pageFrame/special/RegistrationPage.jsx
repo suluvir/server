@@ -40,7 +40,7 @@ export default class RegistrationPage extends React.PureComponent {
         return (
             <div className="suluvir-registration">
                 <SmallLogoContainer>
-                    <form className="suluvir-registration__form">
+                    <form className="suluvir-registration__form" onSubmit={this.registerUser}>
                         <div>
                             <IconTextfield 
                                 error="Username is too long"
