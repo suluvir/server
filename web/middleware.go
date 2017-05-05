@@ -45,15 +45,18 @@ func authenticationMiddleware(next http.Handler) http.Handler {
 			logging.GetLogger().Error("error retrieving user from session", zap.Error(err))
 		}
 
-		if user == nil {
+		if user == nil || user.Username == "" {
 			logging.GetLogger().Debug("user is not logged in while fetching page",
 				zap.String("url", r.URL.String()))
 
-			checker := auth.NewUrlWhitelistCheck(r.URL.String())
+			checker := auth.NewUrlWhitelistCheck(r.URL.EscapedPath())
 			if !checker.Check() {
 				http.Redirect(w, r, getRedirectUrl(), 302)
+				return
 			}
 
+		} else {
+			logging.GetLogger().Debug("got user for session", zap.String("user", user.Username))
 		}
 		next.ServeHTTP(w, r)
 	})

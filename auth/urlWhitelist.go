@@ -23,12 +23,14 @@ import (
 
 // whitelistedUrls contains all urls excluded from access check. Interpreted as regexp
 var whitelistedUrls = []string{
-	"/login",
-	"/register*",
-	"/appstatic/*",
-	"/nodestatic/*",
-	"/static/*",
-	"/api/internal/register",
+	"^/login",
+	"^/register*",
+	"^/appstatic/*",
+	"^/nodestatic/*",
+	"^/static/*",
+	"^/api/internal/register",
+	"^/api/internal/user/register",
+	"^/api/internal/user/login",
 }
 
 var whitelistedUrlsRegexp = []*regexp.Regexp{}
