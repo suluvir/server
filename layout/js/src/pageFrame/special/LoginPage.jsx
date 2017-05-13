@@ -28,7 +28,9 @@ export default class LoginPage extends React.PureComponent {
 
         event.preventDefault();
         
-        postJson('/api/internal/user/login', {login, password});
+        postJson('/api/internal/user/login', {login, password}).then(() => {
+            window.location.href = '/';
+        });
     }
 
     render() {
