@@ -1,3 +1,21 @@
+function internalFetch(url, method='GET', init={}) {
+    const commonInit = {
+        method,
+        credentials: 'include'
+    }
+    const mergedInit = Object.assign({}, commonInit, init);
+
+    return new Promise((resolve, reject) => {
+        fetch(url, mergedInit).then(response => {
+            if (response.ok) {
+                resolve(response);
+            } else {
+                reject(response);
+            }
+        }).catch(reject);
+    })
+}
+
 /**
  * Fetches a given url and returns the value as json.
  *
@@ -5,9 +23,7 @@
  * @returns {Promise} a promise passing through the parsed json
  */
 export function getJson (url) {
-    return fetch(url, {
-        credentials: 'include'
-    }).then(response => {
+    return internalFetch(url).then(response => {
         return response.json();
     });
 }
@@ -23,15 +39,13 @@ export function postJson(url, data = undefined) {
         data = {};
     }
     const init = {
-        credentials: 'include',
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
         },
-        method: "POST",
         body: JSON.stringify(data)
     };
-    return fetch(url, init).then(response => {
+    return internalFetch(url, 'POST', init).then(response => {
         return response.json();
     });
 }
