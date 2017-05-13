@@ -5,7 +5,9 @@
  * @returns {Promise} a promise passing through the parsed json
  */
 export function getJson (url) {
-    return fetch(url).then(response => {
+    return fetch(url, {
+        credentials: 'include'
+    }).then(response => {
         return response.json();
     });
 }
@@ -21,6 +23,7 @@ export function postJson(url, data = undefined) {
         data = {};
     }
     const init = {
+        credentials: 'include',
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
