@@ -22,7 +22,7 @@ import (
 	"net/http"
 )
 
-func MyPlaylistHandler(w http.ResponseWriter, r *http.Request) {
+func myPlaylistHandler(w http.ResponseWriter, r *http.Request) {
 	var myPlaylists []media.Playlist
 
 	schema.GetDatabase().Find(&myPlaylists)

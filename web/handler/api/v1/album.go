@@ -20,7 +20,7 @@ import (
 	"net/http"
 )
 
-func AlbumApiHandler(w http.ResponseWriter, r *http.Request) {
+func albumApiHandler(w http.ResponseWriter, r *http.Request) {
 	var album media.Album
 	ResponseSingleObject(w, r, &album)
 }

@@ -22,7 +22,7 @@ import (
 	"net/http"
 )
 
-func MyArtistsHandler(w http.ResponseWriter, r *http.Request) {
+func myArtistsHandler(w http.ResponseWriter, r *http.Request) {
 	var myArtists []media.Artist
 
 	schema.GetDatabase().Find(&myArtists)

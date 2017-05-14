@@ -40,7 +40,7 @@ type loginUser struct {
 	Password string `json:"password"`
 }
 
-func CreateUser(w http.ResponseWriter, r *http.Request) {
+func createUser(w http.ResponseWriter, r *http.Request) {
 	var payload createUser
 	decoder := json.NewDecoder(r.Body)
 	err := decoder.Decode(&payload)
@@ -61,7 +61,7 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 	httpHelpers.ServeJsonWithoutCache(w, &user)
 }
 
-func LoginUser(w http.ResponseWriter, r *http.Request) {
+func loginUser(w http.ResponseWriter, r *http.Request) {
 	var payload loginUser
 	decoder := json.NewDecoder(r.Body)
 	err := decoder.Decode(&payload)
@@ -93,7 +93,7 @@ func responseInvalidCredentials(w http.ResponseWriter) {
 	api.SendJsonError(w, http.StatusForbidden, "Username or password is incorrect")
 }
 
-func GetMyUser(w http.ResponseWriter, r *http.Request) {
+func getMyUser(w http.ResponseWriter, r *http.Request) {
 	user := auth.MustGetUserForSession(w, r)
 
 	httpHelpers.ServeJsonWithoutCache(w, &user)

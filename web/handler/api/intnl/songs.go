@@ -23,14 +23,14 @@ import (
 	"net/http"
 )
 
-func MySongsHandler(w http.ResponseWriter, r *http.Request) {
+func mySongsHandler(w http.ResponseWriter, r *http.Request) {
 	var mySongs []media.Song
 
 	schema.GetDatabase().Find(&mySongs)
 	httpHelpers.ServeJsonWithoutCache(w, mySongs)
 }
 
-func SongsInPlaylistsHandler(w http.ResponseWriter, r *http.Request) {
+func songsInPlaylistsHandler(w http.ResponseWriter, r *http.Request) {
 	var song media.Song
 	var playlists []media.Playlist
 	api.GetObjectById(r, &song)

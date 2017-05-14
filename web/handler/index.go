@@ -25,7 +25,7 @@ type indexTemplate struct {
 	Externals []dependencyLoader.External
 }
 
-func IndexHandler(w http.ResponseWriter, r *http.Request) {
+func indexHandler(w http.ResponseWriter, r *http.Request) {
 	extractor := dependencyLoader.NewExtractor("layout/js/webpack.config.js", "layout/js/package.json")
 	variables := indexTemplate{
 		Externals: extractor.ExtractExternals(),

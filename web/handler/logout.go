@@ -22,7 +22,7 @@ import (
 	"net/http"
 )
 
-func LogoutHandler(w http.ResponseWriter, r *http.Request) {
+func logoutHandler(w http.ResponseWriter, r *http.Request) {
 	redirectUrl, _ := web.GetRouter().GetRoute(routeNames.INDEX).URL()
 
 	auth.LogoutUser(w, r)

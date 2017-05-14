@@ -20,7 +20,7 @@ import (
 	"net/http"
 )
 
-func SongApiHandler(w http.ResponseWriter, r *http.Request) {
+func songApiHandler(w http.ResponseWriter, r *http.Request) {
 	var song media.Song
 	ResponseSingleObject(w, r, &song)
 }

@@ -28,11 +28,11 @@ import (
 	"os"
 )
 
-func UploadPageHandler(w http.ResponseWriter, r *http.Request) {
+func uploadPageHandler(w http.ResponseWriter, r *http.Request) {
 	printer.PrintHtmlPageFromFile(w, "templates/upload.html", nil)
 }
 
-func SongUploadHandler(w http.ResponseWriter, r *http.Request) {
+func songUploadHandler(w http.ResponseWriter, r *http.Request) {
 	r.ParseMultipartForm(2 ^ 16)
 	uploadedFile, uploadedFileHeader, err := r.FormFile("media")
 	if err != nil {

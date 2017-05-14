@@ -22,15 +22,15 @@ import (
 
 func init() {
 	r := web.GetRouter().Subrouter("/api/internal")
-	r.HandleFunc("/my/songs", MySongsHandler).Methods(httpHelpers.GET)
-	r.HandleFunc("/my/artists", MyArtistsHandler).Methods(httpHelpers.GET)
-	r.HandleFunc("/my/albums", MyAlbumsHandler).Methods(httpHelpers.GET)
-	r.HandleFunc("/my/playlists", MyPlaylistHandler).Methods(httpHelpers.GET)
+	r.HandleFunc("/my/songs", mySongsHandler).Methods(httpHelpers.GET)
+	r.HandleFunc("/my/artists", myArtistsHandler).Methods(httpHelpers.GET)
+	r.HandleFunc("/my/albums", myAlbumsHandler).Methods(httpHelpers.GET)
+	r.HandleFunc("/my/playlists", myPlaylistHandler).Methods(httpHelpers.GET)
 
-	r.HandleFunc("/my/user", GetMyUser).Methods(httpHelpers.GET)
+	r.HandleFunc("/my/user", getMyUser).Methods(httpHelpers.GET)
 
-	r.HandleFunc("/song/{id:[0-9]+}/playlists", SongsInPlaylistsHandler).Methods(httpHelpers.GET)
+	r.HandleFunc("/song/{id:[0-9]+}/playlists", songsInPlaylistsHandler).Methods(httpHelpers.GET)
 
-	r.HandleFunc("/user/register", CreateUser).Methods(httpHelpers.POST)
-	r.HandleFunc("/user/login", LoginUser).Methods(httpHelpers.POST)
+	r.HandleFunc("/user/register", createUser).Methods(httpHelpers.POST)
+	r.HandleFunc("/user/login", loginUser).Methods(httpHelpers.POST)
 }

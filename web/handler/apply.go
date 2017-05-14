@@ -24,20 +24,20 @@ import (
 
 func init() {
 	router := web.GetRouter()
-	router.HandleFunc("/", IndexHandler).Methods(httpHelpers.GET).Name(routeNames.INDEX)
-	router.HandleFunc("/songs", IndexHandler).Methods(httpHelpers.GET)
-	router.HandleFunc("/artists", IndexHandler).Methods(httpHelpers.GET)
-	router.HandleFunc("/albums", IndexHandler).Methods(httpHelpers.GET)
-	router.HandleFunc("/playlists", IndexHandler).Methods(httpHelpers.GET)
+	router.HandleFunc("/", indexHandler).Methods(httpHelpers.GET).Name(routeNames.INDEX)
+	router.HandleFunc("/songs", indexHandler).Methods(httpHelpers.GET)
+	router.HandleFunc("/artists", indexHandler).Methods(httpHelpers.GET)
+	router.HandleFunc("/albums", indexHandler).Methods(httpHelpers.GET)
+	router.HandleFunc("/playlists", indexHandler).Methods(httpHelpers.GET)
 
-	router.HandleFunc("/profile", IndexHandler).Methods(httpHelpers.GET)
+	router.HandleFunc("/profile", indexHandler).Methods(httpHelpers.GET)
 
-	router.HandleFunc("/login", IndexHandler).Methods(httpHelpers.GET).Name(routeNames.LOGIN)
-	router.HandleFunc("/logout", LogoutHandler)
-	router.HandleFunc("/register", IndexHandler).Methods(httpHelpers.GET).Name(routeNames.REGISTER)
+	router.HandleFunc("/login", indexHandler).Methods(httpHelpers.GET).Name(routeNames.LOGIN)
+	router.HandleFunc("/logout", logoutHandler)
+	router.HandleFunc("/register", indexHandler).Methods(httpHelpers.GET).Name(routeNames.REGISTER)
 
-	router.HandleFunc("/upload", UploadPageHandler).Methods(httpHelpers.GET)
-	router.HandleFunc("/upload", SongUploadHandler).Methods(httpHelpers.POST)
+	router.HandleFunc("/upload", uploadPageHandler).Methods(httpHelpers.GET)
+	router.HandleFunc("/upload", songUploadHandler).Methods(httpHelpers.POST)
 
 	router.Handler("/static", http.StripPrefix("/static", http.FileServer(http.Dir("layout/static/"))))
 	router.Handler("/nodestatic", http.StripPrefix("/nodestatic", http.FileServer(http.Dir("layout/js/node_modules"))))

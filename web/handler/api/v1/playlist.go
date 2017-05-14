@@ -31,12 +31,12 @@ type playlistAddSongPayload struct {
 	SongId int `json:"song_id"`
 }
 
-func PlaylistGet(w http.ResponseWriter, r *http.Request) {
+func playlistGet(w http.ResponseWriter, r *http.Request) {
 	var playlist media.Playlist
 	ResponseSingleObject(w, r, &playlist)
 }
 
-func PlaylistCreateHandler(w http.ResponseWriter, r *http.Request) {
+func playlistCreateHandler(w http.ResponseWriter, r *http.Request) {
 	decoder := json.NewDecoder(r.Body)
 	var playlist media.Playlist
 
@@ -53,7 +53,7 @@ func PlaylistCreateHandler(w http.ResponseWriter, r *http.Request) {
 	ResponseSingleObject(w, r, &playlist)
 }
 
-func PlaylistAddSong(w http.ResponseWriter, r *http.Request) {
+func playlistAddSong(w http.ResponseWriter, r *http.Request) {
 	var playlist media.Playlist
 	var payload playlistAddSongPayload
 	var songToAdd media.Song
@@ -74,7 +74,7 @@ func PlaylistAddSong(w http.ResponseWriter, r *http.Request) {
 	httpHelpers.ServeJsonWithoutCache(w, &songToAdd)
 }
 
-func PlaylistGetAllSongs(w http.ResponseWriter, r *http.Request) {
+func playlistGetAllSongs(w http.ResponseWriter, r *http.Request) {
 	var playlist media.Playlist
 	var songs []media.Song
 	api.GetObjectById(r, &playlist)

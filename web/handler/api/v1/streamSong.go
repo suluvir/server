@@ -27,7 +27,7 @@ import (
 	"net/http"
 )
 
-func SongApiStreamHandler(w http.ResponseWriter, r *http.Request) {
+func songApiStreamHandler(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	var song media.Song
 	schema.GetDatabase().First(&song, "id = ?", vars["id"])

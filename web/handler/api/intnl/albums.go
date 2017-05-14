@@ -22,7 +22,7 @@ import (
 	"net/http"
 )
 
-func MyAlbumsHandler(w http.ResponseWriter, r *http.Request) {
+func myAlbumsHandler(w http.ResponseWriter, r *http.Request) {
 	var myAlbums []media.Album
 
 	schema.GetDatabase().Find(&myAlbums)
