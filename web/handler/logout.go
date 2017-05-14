@@ -13,14 +13,19 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-package httpHelpers
+package handler
 
-const (
-	CONTENT_TYPE        = "Content-Type"
-	EXPIRES             = "Expires"
-	CACHE_CONTROL       = "Cache-Control"
-	CONTENT_DISPOSITION = "Content-Disposition"
-	CONTENT_LENGTH      = "Content-Length"
-
-	NO_CACHE = "No-Cache"
+import (
+	"github.com/suluvir/server/auth"
+	"github.com/suluvir/server/web"
+	"github.com/suluvir/server/web/routeNames"
+	"net/http"
 )
+
+func LogoutHandler(w http.ResponseWriter, r *http.Request) {
+	redirectUrl, _ := web.GetRouter().GetRoute(routeNames.INDEX).URL()
+
+	auth.LogoutUser(w, r)
+
+	http.Redirect(w, r, redirectUrl.String(), http.StatusFound)
+}

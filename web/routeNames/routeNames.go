@@ -24,6 +24,7 @@ const (
 
 	LOGIN    = "login"
 	REGISTER = "register"
+	INDEX    = "index"
 
 	EXTERNAL_RESOURCE = "external_resource"
 )

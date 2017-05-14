@@ -51,7 +51,7 @@ func authenticationMiddleware(next http.Handler) http.Handler {
 
 			checker := auth.NewUrlWhitelistCheck(r.URL.EscapedPath())
 			if !checker.Check() {
-				http.Redirect(w, r, getRedirectUrl(), 302)
+				http.Redirect(w, r, getRedirectUrl(), http.StatusFound)
 				return
 			}
 

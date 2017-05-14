@@ -52,6 +52,14 @@ func GetUserSession(r *http.Request) (*sessions.Session, error) {
 	return session, err
 }
 
+func MustGetUserSession(r *http.Request) *sessions.Session {
+	session, err := GetUserSession(r)
+	if err != nil {
+		logging.GetLogger().Error("error while retrieving user session", zap.Error(err))
+	}
+	return session
+}
+
 func GetUserForSession(w http.ResponseWriter, r *http.Request) (*auth.User, error) {
 	session, err := GetUserSession(r)
 	if err != nil {
@@ -101,4 +109,11 @@ func LoginUser(w http.ResponseWriter, r *http.Request, user auth.User, password 
 	}
 
 	return err
+}
+
+func LogoutUser(w http.ResponseWriter, r *http.Request) {
+	session := MustGetUserSession(r)
+	session.Values["name"] = ""
+
+	session.Save(r, w)
 }

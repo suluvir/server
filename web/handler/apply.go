@@ -24,7 +24,7 @@ import (
 
 func init() {
 	router := web.GetRouter()
-	router.HandleFunc("/", IndexHandler).Methods(httpHelpers.GET)
+	router.HandleFunc("/", IndexHandler).Methods(httpHelpers.GET).Name(routeNames.INDEX)
 	router.HandleFunc("/songs", IndexHandler).Methods(httpHelpers.GET)
 	router.HandleFunc("/artists", IndexHandler).Methods(httpHelpers.GET)
 	router.HandleFunc("/albums", IndexHandler).Methods(httpHelpers.GET)
@@ -33,6 +33,7 @@ func init() {
 	router.HandleFunc("/profile", IndexHandler).Methods(httpHelpers.GET)
 
 	router.HandleFunc("/login", IndexHandler).Methods(httpHelpers.GET).Name(routeNames.LOGIN)
+	router.HandleFunc("/logout", LogoutHandler)
 	router.HandleFunc("/register", IndexHandler).Methods(httpHelpers.GET).Name(routeNames.REGISTER)
 
 	router.HandleFunc("/upload", UploadPageHandler).Methods(httpHelpers.GET)
