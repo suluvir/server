@@ -66,3 +66,12 @@ export function playlistsOfSong(state = defaultStates.PLAYLIST_OF_SONG, action) 
             return state;
     }
 }
+
+export function user(state = defaultStates.USER, action) {
+    switch(action.type) {
+        case actionNames.FETCH_USER:
+            return action.payload;
+        default:
+            return state;
+    }
+}

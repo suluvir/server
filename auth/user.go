@@ -74,6 +74,14 @@ func GetUserForSession(w http.ResponseWriter, r *http.Request) (*auth.User, erro
 	return &user, nil
 }
 
+func MustGetUserForSession(w http.ResponseWriter, r *http.Request) *auth.User {
+	user, err := GetUserForSession(w, r)
+	if err != nil {
+		logging.GetLogger().Error("error getting user for session", zap.Error(err))
+	}
+	return user
+}
+
 func LoginUser(w http.ResponseWriter, r *http.Request, user auth.User, password string) error {
 	err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(password))
 

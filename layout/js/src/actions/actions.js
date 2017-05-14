@@ -50,3 +50,7 @@ export function setPlaylistsForSong(song, playlists) {
 export function setPlayQueue(songs) {
     return createAction(actionNames.SET_PLAY_QUEUE, songs);
 }
+
+export function setUser(user) {
+    return createAction(actionNames.FETCH_USER, user);
+}

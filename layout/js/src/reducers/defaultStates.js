@@ -10,3 +10,4 @@ export const PLAY = Immutable.fromJS({
     volume: 1.0
 });
 export const PLAYLIST_OF_SONG = new Immutable.Map();
+export const USER = new Immutable.Map();

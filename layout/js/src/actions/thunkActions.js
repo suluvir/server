@@ -97,3 +97,11 @@ export function playPlaylist(playlist) {
         });
     }
 }
+
+export function fetchUser() {
+    return dispatch => {
+        return getJson('/api/internal/my/user').then(user => {
+            dispatch(actions.setUser(Immutable.fromJS(user)));
+        });
+    }
+}

@@ -30,6 +30,8 @@ func init() {
 	router.HandleFunc("/albums", IndexHandler).Methods(httpHelpers.GET)
 	router.HandleFunc("/playlists", IndexHandler).Methods(httpHelpers.GET)
 
+	router.HandleFunc("/profile", IndexHandler).Methods(httpHelpers.GET)
+
 	router.HandleFunc("/login", IndexHandler).Methods(httpHelpers.GET).Name(routeNames.LOGIN)
 	router.HandleFunc("/register", IndexHandler).Methods(httpHelpers.GET).Name(routeNames.REGISTER)
 

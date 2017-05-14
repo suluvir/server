@@ -92,3 +92,9 @@ func responseInvalidCredentials(w http.ResponseWriter) {
 	time.Sleep(1 * time.Second)
 	api.SendJsonError(w, http.StatusForbidden, "Username or password is incorrect")
 }
+
+func GetMyUser(w http.ResponseWriter, r *http.Request) {
+	user := auth.MustGetUserForSession(w, r)
+
+	httpHelpers.ServeJsonWithoutCache(w, &user)
+}

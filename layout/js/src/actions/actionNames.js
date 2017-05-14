@@ -9,3 +9,4 @@ export const PREVIOUS_SONG = 'PREVIOUS_SONG';
 export const SET_VOLUME = 'SET_VOLUME';
 export const SET_PLAYLISTS_FOR_SONG = 'SET_PLAYLISTS_FOR_SONG';
 export const SET_PLAY_QUEUE = 'SET_PLAY_QUEUE';
+export const FETCH_USER = 'FETCH_USER';
