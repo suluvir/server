@@ -43,6 +43,7 @@ export default class RegistrationPage extends React.PureComponent {
                     <form className="suluvir-registration__form" onSubmit={this.registerUser}>
                         <div>
                             <IconTextfield 
+                                autoFocus
                                 error="Username is too long"
                                 iconName="person" 
                                 label="Username"
