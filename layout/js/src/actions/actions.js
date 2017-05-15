@@ -1,6 +1,6 @@
 import * as actionNames from './actionNames';
 
-function createAction(type, payload) {
+export function createAction(type, payload) {
     return {
         type,
         payload

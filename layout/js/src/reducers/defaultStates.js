@@ -11,3 +11,5 @@ export const PLAY = Immutable.fromJS({
 });
 export const PLAYLIST_OF_SONG = new Immutable.Map();
 export const USER = new Immutable.Map();
+
+export const ERRORS = new Immutable.List();

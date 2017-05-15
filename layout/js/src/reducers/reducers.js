@@ -3,6 +3,8 @@ import Immutable from 'immutable';
 import * as defaultStates from './defaultStates';
 import * as actionNames from '../actions/actionNames';
 
+import * as errorActionNames from '../actions/names/error';
+
 export function mySongs(state = defaultStates.MY_SONGS, action) {
     switch (action.type) {
         case actionNames.SET_MY_SONGS:
@@ -68,9 +70,18 @@ export function playlistsOfSong(state = defaultStates.PLAYLIST_OF_SONG, action) 
 }
 
 export function user(state = defaultStates.USER, action) {
-    switch(action.type) {
+    switch (action.type) {
         case actionNames.FETCH_USER:
             return action.payload;
+        default:
+            return state;
+    }
+}
+
+export function errors(state = defaultStates.ERRORS, action) {
+    switch (action.type) {
+        case errorActionNames.ADD_ERROR:
+            return state.push(Immutable.fromJS(action.payload));
         default:
             return state;
     }
