@@ -40,7 +40,7 @@ type loginUser struct {
 	Password string `json:"password"`
 }
 
-func createUser(w http.ResponseWriter, r *http.Request) {
+func createUserHandler(w http.ResponseWriter, r *http.Request) {
 	var payload createUser
 	decoder := json.NewDecoder(r.Body)
 	err := decoder.Decode(&payload)
@@ -61,7 +61,7 @@ func createUser(w http.ResponseWriter, r *http.Request) {
 	httpHelpers.ServeJsonWithoutCache(w, &user)
 }
 
-func loginUser(w http.ResponseWriter, r *http.Request) {
+func loginUserHandler(w http.ResponseWriter, r *http.Request) {
 	var payload loginUser
 	decoder := json.NewDecoder(r.Body)
 	err := decoder.Decode(&payload)

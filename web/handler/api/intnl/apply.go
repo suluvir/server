@@ -31,6 +31,6 @@ func init() {
 
 	r.HandleFunc("/song/{id:[0-9]+}/playlists", songsInPlaylistsHandler).Methods(httpHelpers.GET)
 
-	r.HandleFunc("/user/register", createUser).Methods(httpHelpers.POST)
-	r.HandleFunc("/user/login", loginUser).Methods(httpHelpers.POST)
+	r.HandleFunc("/user/register", createUserHandler).Methods(httpHelpers.POST)
+	r.HandleFunc("/user/login", loginUserHandler).Methods(httpHelpers.POST)
 }
