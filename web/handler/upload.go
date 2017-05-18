@@ -18,6 +18,7 @@ package handler
 import (
 	"fmt"
 	"github.com/pborman/uuid"
+	"github.com/suluvir/server/auth"
 	"github.com/suluvir/server/config"
 	"github.com/suluvir/server/logging"
 	"github.com/suluvir/server/tags"
@@ -59,7 +60,8 @@ func songUploadHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	logging.GetLogger().Info("file copy complete", zap.Int64("bytes written", bytesWritten))
 
-	song, _ := tags.ExtractTags(targetFileName, uploadedFileHeader.Filename)
+	user := auth.MustGetUserForSession(w, r)
+	song, _ := tags.ExtractTags(targetFileName, uploadedFileHeader.Filename, user)
 	song.Filename = uploadedFilename
 	song.Create()
 }

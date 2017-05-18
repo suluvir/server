@@ -56,6 +56,8 @@ func (s *Song) Create() {
 		a := s.Artists[0]
 		s.Album.Artist = a
 		s.Album.ArtistID = a.ID
+		s.Album.User = s.User
+		s.Album.UserId = s.UserId
 		db.Save(&s.Album)
 	}
 

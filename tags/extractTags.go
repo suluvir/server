@@ -19,6 +19,7 @@ import (
 	"github.com/mikkyang/id3-go"
 	"github.com/suluvir/server/logging"
 	"github.com/suluvir/server/schema"
+	"github.com/suluvir/server/schema/auth"
 	"github.com/suluvir/server/schema/media"
 	"github.com/uber-go/zap"
 	"os"
@@ -26,9 +27,9 @@ import (
 	"strings"
 )
 
-// Extract tags and return appropriate structs. Only the primitive types are initialized, all others
+// ExtractTags extracts tags and return appropriate structs. Only the primitive types are initialized, all others
 // have to be set separately. Returns the song, all artists, the primary artist and the album
-func ExtractTags(fileName string, originalFileName string) (media.Song, error) {
+func ExtractTags(fileName string, originalFileName string, user *auth.User) (media.Song, error) {
 	file, idErr := id3.Open(fileName)
 	f, fErr := os.OpenFile(fileName, os.O_RDONLY, 0666)
 	defer f.Close()
@@ -48,8 +49,8 @@ func ExtractTags(fileName string, originalFileName string) (media.Song, error) {
 		zap.String("genre", file.Genre()),
 		zap.String("album", file.Album()))
 
-	artists := getArtistsByNames(file.Artist())
-	album := getAlbumByName(file.Album())
+	artists := getArtistsByNames(file.Artist(), user)
+	album := getAlbumByName(file.Album(), user)
 
 	stat, statErr := f.Stat()
 	if statErr != nil {
@@ -59,31 +60,33 @@ func ExtractTags(fileName string, originalFileName string) (media.Song, error) {
 	originalFileNameSplit := strings.Split(originalFileName, ".")
 	extension := originalFileNameSplit[len(originalFileNameSplit)-1]
 
-	song := media.Song{
-		Title:   file.Title(),
-		Artists: artists,
-		Album:   album,
-		Type:    extension,
-		Size:    stat.Size(),
-	}
+	song := new(media.Song)
+	song.Title = file.Title()
+	song.Artists = artists
+	song.Album = album
+	song.Type = extension
+	song.Size = stat.Size()
+	song.User = *user
 
-	return song, nil
+	return *song, nil
 }
 
-func getAlbumByName(albumName string) media.Album {
+func getAlbumByName(albumName string, user *auth.User) media.Album {
 	var album media.Album
-	schema.GetDatabase().First(&album, "name = ?", albumName)
+	schema.GetDatabase().First(&album, "name = ? AND user_id = ?", albumName, user.ID)
 
 	if album.Name == albumName {
 		return album
 	} else {
-		return media.Album{
+		album := media.Album{
 			Name: albumName,
 		}
+		album.User = *user
+		return album
 	}
 }
 
-func getArtistsByNames(artistNames string) []media.Artist {
+func getArtistsByNames(artistNames string, user *auth.User) []media.Artist {
 	var artists []media.Artist
 	var databaseArtist media.Artist
 
@@ -91,7 +94,7 @@ func getArtistsByNames(artistNames string) []media.Artist {
 	for _, artistNameSplit := range artistNamesSplit {
 		artistNameSplit := strings.Trim(artistNameSplit, " ")
 
-		schema.GetDatabase().First(&databaseArtist, "name = ?", artistNameSplit)
+		schema.GetDatabase().First(&databaseArtist, "name = ? AND user_id = ?", artistNameSplit, user.ID)
 
 		if databaseArtist.Name == artistNameSplit {
 			artists = append(artists, databaseArtist)
@@ -100,7 +103,9 @@ func getArtistsByNames(artistNames string) []media.Artist {
 				zap.Uint64("id", databaseArtist.ID))
 		} else {
 			logging.GetLogger().Debug("create new artist", zap.String("name", artistNameSplit))
-			artists = append(artists, media.Artist{Name: artistNameSplit})
+			artist := media.Artist{Name: artistNameSplit}
+			artist.User = *user
+			artists = append(artists, artist)
 		}
 	}
 
