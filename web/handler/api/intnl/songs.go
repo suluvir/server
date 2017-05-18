@@ -16,6 +16,7 @@
 package intnl
 
 import (
+	"github.com/suluvir/server/auth"
 	"github.com/suluvir/server/schema"
 	"github.com/suluvir/server/schema/media"
 	"github.com/suluvir/server/web/handler/api"
@@ -35,7 +36,7 @@ func songsInPlaylistsHandler(w http.ResponseWriter, r *http.Request) {
 	var playlists []media.Playlist
 	api.GetObjectById(r, &song)
 
-	schema.GetDatabase().Model(&song).Related(&playlists, "Playlists")
+	auth.GetUserDatabase(w, r).Model(&song).Related(&playlists, "Playlists")
 
 	result := map[string]bool{}
 

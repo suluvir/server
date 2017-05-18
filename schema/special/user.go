@@ -16,10 +16,8 @@
 package special
 
 import (
-	a "github.com/suluvir/server/auth"
 	"github.com/suluvir/server/schema"
 	"github.com/suluvir/server/schema/auth"
-	"net/http"
 )
 
 // UserBelongingObject is the base class for all database objects belonging to a specific user
@@ -27,8 +25,4 @@ type UserBelongingObject struct {
 	schema.DatabaseObject
 	UserId uint64    `json:"user_id"`
 	User   auth.User `json:"-"`
-}
-
-func UserDatabaseHelper(w http.ResponseWriter, r *http.Request) *auth.User {
-	return a.MustGetUserForSession(w, r)
 }

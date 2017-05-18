@@ -18,6 +18,7 @@ package auth
 import (
 	"errors"
 	"github.com/gorilla/sessions"
+	"github.com/jinzhu/gorm"
 	"github.com/suluvir/server/logging"
 	"github.com/suluvir/server/schema"
 	"github.com/suluvir/server/schema/auth"
@@ -116,4 +117,9 @@ func LogoutUser(w http.ResponseWriter, r *http.Request) {
 	session.Values["name"] = ""
 
 	session.Save(r, w)
+}
+
+func GetUserDatabase(w http.ResponseWriter, r *http.Request) *gorm.DB {
+	user := MustGetUserForSession(w, r)
+	return schema.GetDatabase().Where("user_id = ?", user.ID)
 }
