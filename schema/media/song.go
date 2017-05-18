@@ -22,6 +22,7 @@ import (
 	"github.com/suluvir/server/config"
 	"github.com/suluvir/server/logging"
 	"github.com/suluvir/server/schema"
+	"github.com/suluvir/server/schema/special"
 	"github.com/suluvir/server/web"
 	"github.com/suluvir/server/web/routeNames"
 	"github.com/uber-go/zap"
@@ -29,7 +30,7 @@ import (
 )
 
 type Song struct {
-	schema.DatabaseObject
+	special.UserBelongingObject
 	Artists   []Artist   `gorm:"many2many:song_artists;" json:"-"`
 	Title     string     `json:"title"`
 	Size      int64      `json:"size"`

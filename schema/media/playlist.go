@@ -20,6 +20,7 @@ import (
 	"fmt"
 	"github.com/suluvir/server/logging"
 	"github.com/suluvir/server/schema"
+	"github.com/suluvir/server/schema/special"
 	"github.com/suluvir/server/web"
 	"github.com/suluvir/server/web/routeNames"
 	"github.com/uber-go/zap"
@@ -27,7 +28,7 @@ import (
 )
 
 type Playlist struct {
-	schema.DatabaseObject
+	special.UserBelongingObject
 	Name  string `json:"name"`
 	Songs []Song `gorm:"many2many:playlist_songs;" json:"-"`
 }

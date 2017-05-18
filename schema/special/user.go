@@ -13,16 +13,22 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-package schema
+package special
 
 import (
-	"time"
+	a "github.com/suluvir/server/auth"
+	"github.com/suluvir/server/schema"
+	"github.com/suluvir/server/schema/auth"
+	"net/http"
 )
 
-// DatabaseObject is the base object for all database objects. Copy from `gorm.Model` for json annotations
-type DatabaseObject struct {
-	ID        uint64     `gorm:"primary_key" json:"id"`
-	CreatedAt time.Time  `json:"created_at"`
-	UpdatedAt time.Time  `json:"updated_at"`
-	DeletedAt *time.Time `sql:"index" json:"-"`
+// UserBelongingObject is the base class for all database objects belonging to a specific user
+type UserBelongingObject struct {
+	schema.DatabaseObject
+	UserId uint64    `json:"user_id"`
+	User   auth.User `json:"-"`
+}
+
+func UserDatabaseHelper(w http.ResponseWriter, r *http.Request) *auth.User {
+	return a.MustGetUserForSession(w, r)
 }

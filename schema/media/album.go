@@ -19,6 +19,7 @@ import (
 	"encoding/json"
 	"github.com/suluvir/server/logging"
 	"github.com/suluvir/server/schema"
+	"github.com/suluvir/server/schema/special"
 	"github.com/suluvir/server/web"
 	"github.com/suluvir/server/web/routeNames"
 	"github.com/uber-go/zap"
@@ -26,7 +27,7 @@ import (
 )
 
 type Album struct {
-	schema.DatabaseObject
+	special.UserBelongingObject
 	Name     string `json:"name"`
 	ArtistID uint64 `json:"-"`
 	Artist   Artist `json:"-"`
