@@ -16,12 +16,17 @@
 package tags
 
 import (
+	"github.com/suluvir/server/schema/auth"
 	"testing"
 )
 
+var someUser = &auth.User{
+	Username: "test",
+}
+
 func TestGetAlbumByName(t *testing.T) {
 	albumName := "some random album name"
-	a := getAlbumByName(albumName)
+	a := getAlbumByName(albumName, someUser)
 
 	if a.Name != albumName {
 		t.Error("expected album name to be "+albumName+", but instead got", a.Name)
@@ -30,7 +35,7 @@ func TestGetAlbumByName(t *testing.T) {
 
 func TestGetArtistsByNamesSingleName(t *testing.T) {
 	artistNames := "test"
-	artists := getArtistsByNames(artistNames)
+	artists := getArtistsByNames(artistNames, someUser)
 
 	if len(artists) != 1 {
 		t.Error("extracted artists should have length 1, but have", len(artists))
@@ -42,7 +47,7 @@ func TestGetArtistsByNamesSingleName(t *testing.T) {
 
 func TestGetArtistByNamesCommaSeparatedWithWhiteSpace(t *testing.T) {
 	artistNames := "a,     b   , c"
-	artists := getArtistsByNames(artistNames)
+	artists := getArtistsByNames(artistNames, someUser)
 
 	if len(artists) != 3 {
 		t.Error("extracted artists should have length 3, but have", len(artists))
@@ -54,7 +59,7 @@ func TestGetArtistByNamesCommaSeparatedWithWhiteSpace(t *testing.T) {
 
 func TestGetArtistByNamesFeatSeparator(t *testing.T) {
 	artistNames := "a feat.b"
-	artists := getArtistsByNames(artistNames)
+	artists := getArtistsByNames(artistNames, someUser)
 
 	if len(artists) != 2 {
 		t.Error("extracted artists should have length 2, but have", len(artists))
@@ -67,7 +72,7 @@ func TestGetArtistByNamesFeatSeparator(t *testing.T) {
 
 func TestGetArtistByNamesFtSeparator(t *testing.T) {
 	artistNames := "a ft.b"
-	artists := getArtistsByNames(artistNames)
+	artists := getArtistsByNames(artistNames, someUser)
 
 	if len(artists) != 2 {
 		t.Error("extracted artists should have length 2, but have", len(artists))
