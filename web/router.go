@@ -54,6 +54,11 @@ func (s *SuluvirRouter) Subrouter(pathPrefix string) *SuluvirRouter {
 	return subrouter
 }
 
+// GetMuxRouterForTestingPurposes returns the underlying mus router to be used for testing purposes
+func (s *SuluvirRouter) GetMuxRouterForTestingPurposes() *mux.Router {
+	return s.mux
+}
+
 func initializeRouter() *mux.Router {
 	if suluvirRouter != nil {
 		return suluvirRouter.mux
