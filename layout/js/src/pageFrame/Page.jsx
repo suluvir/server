@@ -26,6 +26,8 @@ export default class Page extends React.Component {
                             <Link to="/songs"><Icon name="music_note"/> Songs</Link>
                             <Link to="/playlists"><Icon name="list"/> Playlists</Link>
                             <hr/>
+                            <Link to="/upload"><Icon name="cloud_upload"/> Upload</Link>
+                            <hr/>
                             <Link to="/profile"><Icon name="account_circle"/> Profile</Link>
                             <a href="/logout"><Icon name="power_settings_new"/> Logout</a>
                         </Navigation>
