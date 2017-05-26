@@ -49,3 +49,23 @@ export function postJson(url, data = undefined) {
         return response.json();
     });
 }
+
+/**
+ * Sends a file as multipart/form-data.
+ * 
+ * @param {string} url the url to send the post request to
+ * @param {File} file the file
+ * @param {string} fileKey name unter which the file gets set in the FormData object
+ */
+export function postFile(url, file, fileKey) {
+    const formData = new FormData();
+    formData.set(fileKey, file, file.name);
+
+    const init = {
+        body: formData
+    }
+
+    return internalFetch(url, 'POST', init).then(response => {
+        return response.json();
+    });
+}
