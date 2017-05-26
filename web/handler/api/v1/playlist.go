@@ -18,6 +18,7 @@ package v1
 import (
 	"encoding/json"
 	"github.com/gorilla/mux"
+	"github.com/suluvir/server/auth"
 	"github.com/suluvir/server/logging"
 	"github.com/suluvir/server/schema"
 	"github.com/suluvir/server/schema/media"
@@ -38,6 +39,7 @@ func playlistGet(w http.ResponseWriter, r *http.Request) {
 
 func playlistCreateHandler(w http.ResponseWriter, r *http.Request) {
 	decoder := json.NewDecoder(r.Body)
+	user := auth.MustGetUserForSession(w, r)
 	var playlist media.Playlist
 
 	err := decoder.Decode(&playlist)
@@ -45,6 +47,8 @@ func playlistCreateHandler(w http.ResponseWriter, r *http.Request) {
 		logging.GetLogger().Error("error during playlist decoding", zap.Error(err))
 		return
 	}
+
+	playlist.User = *user
 
 	logging.GetLogger().Debug("decoded playlist", zap.String("name", playlist.Name))
 	schema.GetDatabase().Create(&playlist)
