@@ -6,8 +6,6 @@ import {List, ListItem, ListItemContent} from 'react-mdl';
 
 import {fetchUser} from '../../actions/thunkActions';
 
-require('./Profile.scss');
-
 class Profile extends React.PureComponent {
     componentWillMount() {
         this.props.fetchUser();

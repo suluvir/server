@@ -1,3 +1,5 @@
+@import '../../animations';
+
 #suluvir-spa {
     position: absolute;
     top: 0;
@@ -7,5 +9,9 @@
 
     .suluvir-content {
         padding: 1rem;
+
+        & > div {
+            @include fadein();
+        }
     }
 }

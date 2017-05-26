@@ -1,8 +1,5 @@
-@import '../../animations';
-
 .suluvir-playlist-list {
   .mdl-data-table {
     width: 100%;
-    @include fadein();
   }
 }
