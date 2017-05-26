@@ -13,7 +13,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-package handler
+package intnl
 
 import (
 	"fmt"
@@ -22,16 +22,12 @@ import (
 	"github.com/suluvir/server/config"
 	"github.com/suluvir/server/logging"
 	"github.com/suluvir/server/tags"
-	"github.com/suluvir/server/web/printer"
+	"github.com/suluvir/server/web/httpHelpers"
 	"github.com/uber-go/zap"
 	"io"
 	"net/http"
 	"os"
 )
-
-func uploadPageHandler(w http.ResponseWriter, r *http.Request) {
-	printer.PrintHtmlPageFromFile(w, "templates/upload.html", nil)
-}
 
 func songUploadHandler(w http.ResponseWriter, r *http.Request) {
 	r.ParseMultipartForm(2 ^ 16)
@@ -64,6 +60,8 @@ func songUploadHandler(w http.ResponseWriter, r *http.Request) {
 	song, _ := tags.ExtractTags(targetFileName, uploadedFileHeader.Filename, user)
 	song.Filename = uploadedFilename
 	song.Create()
+
+	httpHelpers.ServeJsonWithoutCache(w, &song)
 }
 
 // FIXME: remove this duplication

@@ -22,6 +22,9 @@ import (
 
 func init() {
 	r := web.GetRouter().Subrouter("/api/internal")
+
+	r.HandleFunc("/upload", songUploadHandler).Methods(httpHelpers.POST)
+
 	r.HandleFunc("/my/songs", mySongsHandler).Methods(httpHelpers.GET)
 	r.HandleFunc("/my/artists", myArtistsHandler).Methods(httpHelpers.GET)
 	r.HandleFunc("/my/albums", myAlbumsHandler).Methods(httpHelpers.GET)

@@ -36,8 +36,7 @@ func init() {
 	router.HandleFunc("/logout", logoutHandler)
 	router.HandleFunc("/register", indexHandler).Methods(httpHelpers.GET).Name(routeNames.REGISTER)
 
-	router.HandleFunc("/upload", uploadPageHandler).Methods(httpHelpers.GET)
-	router.HandleFunc("/upload", songUploadHandler).Methods(httpHelpers.POST)
+	router.HandleFunc("/upload", indexHandler).Methods(httpHelpers.GET)
 
 	router.Handler("/static", http.StripPrefix("/static", http.FileServer(http.Dir("layout/static/"))))
 	router.Handler("/nodestatic", http.StripPrefix("/nodestatic", http.FileServer(http.Dir("layout/js/node_modules"))))
