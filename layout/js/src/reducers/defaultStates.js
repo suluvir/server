@@ -1,9 +1,9 @@
 import Immutable from 'immutable';
 
-export const MY_SONGS = null;
-export const MY_ARTISTS = null;
-export const MY_ALBUMS = null;
-export const MY_PLAYLISTS = null;
+export const MY_SONGS = new Immutable.List();
+export const MY_ARTISTS = new Immutable.List();
+export const MY_ALBUMS = new Immutable.List();
+export const MY_PLAYLISTS = new Immutable.List();
 export const PLAY = Immutable.fromJS({
     list: [],
     current: 0,
