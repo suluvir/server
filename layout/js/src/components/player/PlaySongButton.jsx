@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 
 import {playSongById} from '../../actions/thunkActions';
 
-class PlayButton extends React.PureComponent {
+class PlaySongButton extends React.PureComponent {
     constructor() {
         super();
         this.onClick = this.onClick.bind(this);
@@ -20,9 +20,9 @@ class PlayButton extends React.PureComponent {
     }
 }
 
-PlayButton.propTypes = {
+PlaySongButton.propTypes = {
     playSongById: React.PropTypes.func.isRequired,
     songId: React.PropTypes.string.isRequired
 };
 
-export default connect(undefined, {playSongById})(PlayButton);
+export default connect(undefined, {playSongById})(PlaySongButton);

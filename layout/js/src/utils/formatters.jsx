@@ -1,6 +1,6 @@
 import React from 'react';
 
-import PlayButton from '../components/player/PlayButton';
+import PlaySongButton from '../components/player/PlaySongButton';
 import PlayPlaylistButton from '../components/player/PlayPlaylistButton';
 import SongMenuButton from '../components/lists/menu/SongMenuButton';
 
@@ -11,7 +11,7 @@ export function artistNameJoin(artist_names) {
 }
 
 export function playButton(songIdLink) {
-    return <PlayButton songId={songIdLink} />;
+    return <PlaySongButton songId={songIdLink} />;
 }
 
 export function formatTime(duration) {
@@ -31,8 +31,4 @@ export function formatTime(duration) {
 
 export function songMenuButton(song) {
     return <SongMenuButton song={song} />;
-}
-
-export function playlistPlayButton(playlist) {
-    return <PlayPlaylistButton playlist={playlist} />;
 }

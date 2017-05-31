@@ -1,7 +1,7 @@
 import React from 'react';
 import Immutable from 'immutable';
 
-import {playlistPlayButton} from '../../utils/formatters';
+import PlayPlaylistButton from '../player/PlayPlaylistButton';
 
 require('./PlaylistList.scss');
 
@@ -11,7 +11,7 @@ export default class PlaylistList extends React.PureComponent {
         this.props.playlists.forEach(playlist => {
             rows.push(
                 <tr>
-                    <td className="mdl-data-table__cell--non-numeric">{playlistPlayButton(playlist)}</td>
+                    <td className="mdl-data-table__cell--non-numeric"><PlayPlaylistButton playlist={playlist} /></td>
                     <td className="mdl-data-table__cell--non-numeric">{playlist.get('name')}</td>
                 </tr>
             );
