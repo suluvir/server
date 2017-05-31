@@ -114,7 +114,7 @@ func LoginUser(w http.ResponseWriter, r *http.Request, user auth.User, password 
 
 func LogoutUser(w http.ResponseWriter, r *http.Request) {
 	session := MustGetUserSession(r)
-	session.Values["name"] = ""
+	delete(session.Values, "user")
 
 	session.Save(r, w)
 }
