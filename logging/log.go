@@ -46,7 +46,9 @@ func InitializeLogger() {
 	//	zap.DebugLevel,
 	//)
 
-	tmpLogger, err := zap.NewProduction()
+	tmpLogger, err := zap.NewDevelopment(
+		zap.AddCaller(),
+	)
 	if err != nil {
 		log.Fatal("error initilizing logger: ", err)
 	}
