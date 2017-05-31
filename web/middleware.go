@@ -21,7 +21,7 @@ import (
 	"github.com/suluvir/server/logging"
 	"github.com/suluvir/server/schema"
 	"github.com/suluvir/server/web/routeNames"
-	"github.com/uber-go/zap"
+	"go.uber.org/zap"
 	"net/http"
 	"time"
 )

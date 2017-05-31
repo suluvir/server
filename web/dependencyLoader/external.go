@@ -19,7 +19,7 @@ import (
 	"github.com/suluvir/server/logging"
 	"github.com/suluvir/server/web"
 	"github.com/suluvir/server/web/routeNames"
-	"github.com/uber-go/zap"
+	"go.uber.org/zap"
 )
 
 type External struct {

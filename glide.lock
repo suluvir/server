@@ -1,5 +1,5 @@
-hash: b31463653d09b0b98974d904342213c763890bcbb98eb0c600fb9dd1c36ceaa8
-updated: 2017-04-15T21:27:23.4461055+02:00
+hash: e7a8a2fb8fa14d371d55a941b0eac5db8bfae3926c3de987603a85a4b70b5b09
+updated: 2017-05-31T21:42:34.3498212+02:00
 imports:
 - name: github.com/BurntSushi/toml
   version: bbd5bb678321a0d6e58f1099321dfa73391c1b6f
@@ -8,7 +8,9 @@ imports:
 - name: github.com/gorilla/context
   version: 1ea25387ff6f684839d82767c1733ff4d4d15d0a
 - name: github.com/gorilla/mux
-  version: 392c28fe23e1c45ddba891b0320b3b5df220beea
+  version: bcd8bc72b08df0f70df986b97f95590779502d31
+- name: github.com/gorilla/securecookie
+  version: 667fe4e3466a040b780561fe9b51a83a3753eefc
 - name: github.com/gorilla/sessions
   version: ca9ada44574153444b00d3fd9c8559e4cc95f896
 - name: github.com/jinzhu/gorm
@@ -30,13 +32,13 @@ imports:
 - name: github.com/uber-go/atomic
   version: 4e336646b2ef9fc6e47be8e21594178f98e5ebcf
 - name: github.com/uber-go/zap
-  version: 1550bc05539134bbf8612a35f34a79ab8bf34ee3
+  version: b33459c467c82258245f3bcf0ef26d0fcf2b79f5
 - name: github.com/urfave/cli
   version: 0bdeddeeb0f650497d603c4ad7b20cfe685682f6
 - name: go.uber.org/atomic
   version: 4e336646b2ef9fc6e47be8e21594178f98e5ebcf
 - name: go.uber.org/zap
-  version: 1550bc05539134bbf8612a35f34a79ab8bf34ee3
+  version: b33459c467c82258245f3bcf0ef26d0fcf2b79f5
   subpackages:
   - buffer
   - internal/bufferpool
@@ -45,12 +47,12 @@ imports:
   - internal/multierror
   - zapcore
 - name: golang.org/x/crypto
-  version: cbc3d0884eac986df6e78a039b8792e869bff863
+  version: 080743b21912ae11ad9222778a048b795a5aae00
   subpackages:
   - bcrypt
   - blowfish
 - name: golang.org/x/net
-  version: 5602c733f70afc6dcec6766be0d5034d4c4f14de
+  version: 3da985ce5951d99de868be4385f21ea6c2b22f24
   subpackages:
   - context
 testImports: []

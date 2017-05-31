@@ -22,7 +22,7 @@ import (
 	"github.com/suluvir/server/schema"
 	"github.com/suluvir/server/schema/media"
 	"github.com/suluvir/server/web/httpHelpers"
-	"github.com/uber-go/zap"
+	"go.uber.org/zap"
 	"io/ioutil"
 	"net/http"
 )

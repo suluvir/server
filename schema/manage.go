@@ -20,7 +20,7 @@ import (
 	_ "github.com/jinzhu/gorm/dialects/sqlite"
 	"github.com/suluvir/server/config"
 	"github.com/suluvir/server/logging"
-	"github.com/uber-go/zap"
+	"go.uber.org/zap"
 )
 
 var database *gorm.DB

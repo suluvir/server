@@ -17,7 +17,7 @@ package auth
 
 import (
 	"github.com/suluvir/server/logging"
-	"github.com/uber-go/zap"
+	"go.uber.org/zap"
 	"regexp"
 )
 

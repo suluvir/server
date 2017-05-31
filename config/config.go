@@ -19,7 +19,7 @@ import (
 	"github.com/BurntSushi/toml"
 	"github.com/suluvir/server/environment"
 	"github.com/suluvir/server/logging"
-	"github.com/uber-go/zap"
+	"go.uber.org/zap"
 )
 
 var configuration Config
@@ -36,7 +36,6 @@ func LoadConfiguration() {
 
 func ReadConfiguration(filename string) Config {
 	var config Config
-
 	if _, err := toml.DecodeFile(filename, &config); err != nil {
 		logging.GetLogger().Error("Error loading configuration", zap.Error(err))
 	}

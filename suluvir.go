@@ -20,8 +20,8 @@ import (
 	"github.com/suluvir/server/logging"
 	"github.com/suluvir/server/schema"
 	"github.com/suluvir/server/web"
-	"github.com/uber-go/zap"
 	"github.com/urfave/cli"
+	"go.uber.org/zap"
 	"os"
 
 	_ "github.com/suluvir/server/web/handler"

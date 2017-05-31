@@ -18,7 +18,7 @@ package dependencyLoader
 import (
 	"encoding/json"
 	"github.com/suluvir/server/logging"
-	"github.com/uber-go/zap"
+	"go.uber.org/zap"
 	"io/ioutil"
 	"regexp"
 	"strings"
@@ -55,16 +55,16 @@ func (e *ExternalsExtractor) ExtractExternals() []External {
 	}
 
 	externalNames := e.extractExternalNames(webpackConfigContent)
-	logging.GetLogger().Info("extract external names",
-		zap.String("file", e.webpackConfigPath), zap.Object("names", externalNames))
+	//logging.GetLogger().Info("extract external names",
+	//	zap.String("file", e.webpackConfigPath), zap.Object("names", externalNames))
 
 	externals, err := e.extractExternalVersions(externalNames)
 	if err != nil {
 		logging.GetLogger().Error("error extracting external versions", zap.Error(err))
 	}
 
-	logging.GetLogger().Debug("extracted externals, continue extracting external files",
-		zap.Object("externals", externals))
+	//logging.GetLogger().Debug("extracted externals, continue extracting external files",
+	//	zap.Object("externals", externals))
 
 	fileExtractor := NewExternalFileExtractor(externals)
 	externals = fileExtractor.LookupExternalFiles()
@@ -153,7 +153,7 @@ func (e *ExternalsExtractor) readPackageJson() error {
 			zap.String("file", e.packageJsonPath))
 		return parseErr
 	}
-	logging.GetLogger().Info("read package.json", zap.Object("content", e.packageContent))
+	//logging.GetLogger().Info("read package.json", zap.Object("content", e.packageContent))
 	return nil
 }
 

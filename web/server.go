@@ -18,7 +18,7 @@ package web
 import (
 	"fmt"
 	"github.com/suluvir/server/logging"
-	"github.com/uber-go/zap"
+	"go.uber.org/zap"
 	"net/http"
 )
 

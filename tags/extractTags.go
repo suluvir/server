@@ -21,7 +21,7 @@ import (
 	"github.com/suluvir/server/schema"
 	"github.com/suluvir/server/schema/auth"
 	"github.com/suluvir/server/schema/media"
-	"github.com/uber-go/zap"
+	"go.uber.org/zap"
 	"os"
 	"regexp"
 	"strings"

@@ -21,7 +21,7 @@ import (
 	"github.com/suluvir/server/logging"
 	"github.com/suluvir/server/web/dependencyLoader"
 	"github.com/suluvir/server/web/httpHelpers"
-	"github.com/uber-go/zap"
+	"go.uber.org/zap"
 	"io/ioutil"
 	"net/http"
 	"strings"

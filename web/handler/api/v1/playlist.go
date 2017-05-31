@@ -24,7 +24,7 @@ import (
 	"github.com/suluvir/server/schema/media"
 	"github.com/suluvir/server/web/handler/api"
 	"github.com/suluvir/server/web/httpHelpers"
-	"github.com/uber-go/zap"
+	"go.uber.org/zap"
 	"net/http"
 )
 

@@ -18,7 +18,7 @@ package dependencyLoader
 import (
 	"fmt"
 	"github.com/suluvir/server/logging"
-	"github.com/uber-go/zap"
+	"go.uber.org/zap"
 	"os"
 )
 

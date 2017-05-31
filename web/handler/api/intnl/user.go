@@ -23,7 +23,7 @@ import (
 	a "github.com/suluvir/server/schema/auth"
 	"github.com/suluvir/server/web/handler/api"
 	"github.com/suluvir/server/web/httpHelpers"
-	"github.com/uber-go/zap"
+	"go.uber.org/zap"
 	"net/http"
 	"time"
 )

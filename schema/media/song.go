@@ -25,7 +25,7 @@ import (
 	"github.com/suluvir/server/schema/special"
 	"github.com/suluvir/server/web"
 	"github.com/suluvir/server/web/routeNames"
-	"github.com/uber-go/zap"
+	"go.uber.org/zap"
 	"strconv"
 )
 

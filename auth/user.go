@@ -22,7 +22,7 @@ import (
 	"github.com/suluvir/server/logging"
 	"github.com/suluvir/server/schema"
 	"github.com/suluvir/server/schema/auth"
-	"github.com/uber-go/zap"
+	"go.uber.org/zap"
 	"golang.org/x/crypto/bcrypt"
 	"net/http"
 )
