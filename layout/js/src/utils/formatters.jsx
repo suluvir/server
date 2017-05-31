@@ -1,7 +1,6 @@
 import React from 'react';
 
 import PlaySongButton from '../components/player/PlaySongButton';
-import PlayPlaylistButton from '../components/player/PlayPlaylistButton';
 import SongMenuButton from '../components/lists/menu/SongMenuButton';
 
 const SECONDS_PER_MINUTE = 60;
