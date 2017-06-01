@@ -56,7 +56,7 @@ class Player extends React.Component {
 
         const active = playList !== undefined && playList !== null &&
             playList.size > 0 && playList.size > current;
-        const className = classNames('suluvir-player', {'suluvir-player--active': active});
+        const className = classNames('suluvir-player', 'mdl-shadow--3dp', {'suluvir-player--active': active});
         if (!active) {
             return (<div id="suluvir-player" className={className}/>);
         }

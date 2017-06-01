@@ -90,9 +90,16 @@ export function createPlaylist(name) {
     }
 }
 
-export function playPlaylist(playlist) {
+/**
+ * Plays all songs of a given collection. The collection must be an
+ * Immutable.Map and must contain an `@songs` field containing the
+ * url for fetching all the collections songs.
+ * 
+ * @param {Immutable.Map} collection the collection to play 
+ */
+export function playCollection(collection) {
     return dispatch => {
-        return getJson(playlist.get('@songs')).then(songs => {
+        return getJson(collection.get('@songs')).then(songs => {
             dispatch(actions.setPlayQueue(Immutable.fromJS(songs)));
         });
     }
