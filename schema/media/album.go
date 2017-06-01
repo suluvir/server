@@ -17,6 +17,7 @@ package media
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/suluvir/server/logging"
 	"github.com/suluvir/server/schema"
 	"github.com/suluvir/server/schema/special"
@@ -52,24 +53,19 @@ func (a *Album) GetApiLink() string {
 
 func (a Album) MarshalJSON() ([]byte, error) {
 	var artist Artist
-	var songs []Song
 	schema.GetDatabase().Model(&a).Related(&artist)
-	schema.GetDatabase().Model(&a).Related(&songs)
 
-	var songLinks = []string{}
-	for _, song := range songs {
-		songLinks = append(songLinks, song.GetApiLink())
-	}
+	songsLink := fmt.Sprintf("%s/songs", a.GetApiLink())
 
 	return json.Marshal(struct {
 		JsonAlbum
-		ApiLink       string   `json:"@id"`
-		ApiArtistLink string   `json:"@artist"`
-		ApiSongLinks  []string `json:"@songs"`
+		ApiLink       string `json:"@id"`
+		ApiArtistLink string `json:"@artist"`
+		ApiSongsLink  string `json:"@songs"`
 	}{
 		JsonAlbum:     JsonAlbum(a),
 		ApiLink:       a.GetApiLink(),
 		ApiArtistLink: artist.GetApiLink(),
-		ApiSongLinks:  songLinks,
+		ApiSongsLink:  songsLink,
 	})
 }

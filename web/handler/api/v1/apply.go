@@ -24,8 +24,11 @@ import (
 func init() {
 	s := web.GetRouter().Subrouter("/api/v1")
 	s.HandleFunc("/song/{id:[0-9]+}", songApiHandler).Methods(httpHelpers.GET).Name(routeNames.API_SONG)
+
 	s.HandleFunc("/artist/{id:[0-9]+}", artistApiHandler).Methods(httpHelpers.GET).Name(routeNames.API_ARTIST)
+
 	s.HandleFunc("/album/{id:[0-9]+}", albumApiHandler).Methods(httpHelpers.GET).Name(routeNames.API_ALBUM)
+	s.HandleFunc("/album/{id:[0-9]+}/songs", albumGetAllSongs).Methods(httpHelpers.GET)
 
 	s.HandleFunc("/song/{id:[0-9]+}/stream", songApiStreamHandler).Methods(httpHelpers.GET).Name(routeNames.API_SONG_STREAM)
 

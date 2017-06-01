@@ -16,11 +16,24 @@
 package v1
 
 import (
+	"github.com/suluvir/server/schema"
 	"github.com/suluvir/server/schema/media"
+	"github.com/suluvir/server/web/handler/api"
+	"github.com/suluvir/server/web/httpHelpers"
 	"net/http"
 )
 
 func albumApiHandler(w http.ResponseWriter, r *http.Request) {
 	var album media.Album
 	ResponseSingleObject(w, r, &album)
+}
+
+func albumGetAllSongs(w http.ResponseWriter, r *http.Request) {
+	var album media.Album
+	var songs []media.Song
+	api.GetObjectById(r, &album)
+
+	schema.GetDatabase().Where("album_id = ?", album.ID).Find(&songs)
+
+	httpHelpers.ServeJsonWithoutCache(w, songs)
 }
