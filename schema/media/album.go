@@ -51,6 +51,13 @@ func (a *Album) GetApiLink() string {
 	return url.String()
 }
 
+func (a *Album) GetSongs() []Song {
+	var songs []Song
+	schema.GetDatabase().Where("album_id = ?", a.ID).Find(&songs)
+
+	return songs
+}
+
 func (a Album) MarshalJSON() ([]byte, error) {
 	var artist Artist
 	schema.GetDatabase().Model(&a).Related(&artist)

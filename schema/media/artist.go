@@ -17,6 +17,7 @@ package media
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/suluvir/server/logging"
 	"github.com/suluvir/server/schema"
 	"github.com/suluvir/server/schema/special"
@@ -58,13 +59,17 @@ func (a Artist) MarshalJSON() ([]byte, error) {
 		albumLinks = append(albumLinks, album.GetApiLink())
 	}
 
+	songsLink := fmt.Sprintf("%s/songs", a.GetApiLink())
+
 	return json.Marshal(struct {
 		JsonArtist
 		ApiLink       string   `json:"@id"`
 		ApiAlbumLinks []string `json:"@albums"`
+		SongsLink     string   `json:"@songs"`
 	}{
 		JsonArtist:    JsonArtist(a),
 		ApiLink:       a.GetApiLink(),
 		ApiAlbumLinks: albumLinks,
+		SongsLink:     songsLink,
 	})
 }
