@@ -18,4 +18,10 @@
 
 ## Tests
 
+### Go
+
+Just run `make`
+
+### JavaScript
+
 TBD
