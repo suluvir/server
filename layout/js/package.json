@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "test"
+    "test": "test",
+    "webpack": "webpack",
+    "watch": "webpack -w"
   },
   "author": "",
   "license": "Apache-2.0",
