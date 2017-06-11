@@ -18,17 +18,20 @@ package handler
 import (
 	"github.com/suluvir/server/web/dependencyLoader"
 	"github.com/suluvir/server/web/printer"
+	"github.com/suluvir/server/web/setup"
 	"net/http"
 )
 
 type indexTemplate struct {
 	Externals []dependencyLoader.External
+	Setup     string
 }
 
 func indexHandler(w http.ResponseWriter, r *http.Request) {
 	extractor := dependencyLoader.NewExtractor("layout/js/webpack.config.js", "layout/js/package.json")
 	variables := indexTemplate{
 		Externals: extractor.ExtractExternals(),
+		Setup:     setup.GetSetup(r),
 	}
 	printer.PrintHtmlPageFromFile(w, "layout/html/defaulttemplate.html", variables)
 }

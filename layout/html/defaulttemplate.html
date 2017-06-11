@@ -60,6 +60,10 @@
             </div>
         </noscript>
 
+        <script>
+            window.setup = JSON.parse({{.Setup}});
+        </script>
+
         <script src="/nodestatic/dialog-polyfill/dialog-polyfill.js"></script>
         {{range .Externals}}
             {{if .HasJs}}

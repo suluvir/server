@@ -19,9 +19,11 @@ import (
 	"errors"
 	"github.com/gorilla/sessions"
 	"github.com/jinzhu/gorm"
+	"github.com/suluvir/server/config"
 	"github.com/suluvir/server/logging"
 	"github.com/suluvir/server/schema"
 	"github.com/suluvir/server/schema/auth"
+	"github.com/suluvir/server/web/setup"
 	"go.uber.org/zap"
 	"golang.org/x/crypto/bcrypt"
 	"net/http"
@@ -29,6 +31,14 @@ import (
 
 // TODO improve secret
 var store = sessions.NewCookieStore([]byte("a"))
+
+func init() {
+	setup.AddCallBack(addRegistrationDisabledToSetup)
+}
+
+func addRegistrationDisabledToSetup(_ *http.Request) (string, interface{}) {
+	return "registration_disabled", config.GetConfiguration().Auth.RegistrationDisabled
+}
 
 func CreateUser(name string, email string, password string) auth.User {
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)

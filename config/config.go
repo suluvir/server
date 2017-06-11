@@ -19,13 +19,21 @@ import (
 	"github.com/BurntSushi/toml"
 	"github.com/suluvir/server/environment"
 	"github.com/suluvir/server/logging"
+	"github.com/suluvir/server/web/setup"
 	"go.uber.org/zap"
+	"net/http"
 )
 
 var configuration Config
 
 func init() {
 	LoadConfiguration()
+
+	setup.AddCallBack(addDevelopmentModeToSetup)
+}
+
+func addDevelopmentModeToSetup(_ *http.Request) (string, interface{}) {
+	return "development", GetConfiguration().Development.DevelopmentMode
 }
 
 func LoadConfiguration() {
