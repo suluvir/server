@@ -18,6 +18,7 @@ package web
 import (
 	"fmt"
 	"github.com/suluvir/server/auth"
+	"github.com/suluvir/server/config"
 	"github.com/suluvir/server/logging"
 	"github.com/suluvir/server/schema"
 	"github.com/suluvir/server/web/routeNames"
@@ -66,7 +67,7 @@ func getRedirectUrl() string {
 	var registeredUsers uint64
 	schema.GetDatabase().Table("users").Count(&registeredUsers)
 	routeName := routeNames.LOGIN
-	if registeredUsers == 0 {
+	if registeredUsers == 0 && !config.GetConfiguration().Auth.RegistrationDisabled {
 		routeName = routeNames.REGISTER
 	}
 	url, _ := GetRouter().GetRoute(routeName).URL()
