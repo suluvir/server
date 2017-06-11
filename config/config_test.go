@@ -45,4 +45,10 @@ func TestReadDefaultConfig(t *testing.T) {
 	if config.Web.Port != 8080 {
 		t.Error("expected port to be 8080, got", config.Web.Port)
 	}
+	if config.Development.DevelopmentMode != true {
+		t.Error("development mode set to false")
+	}
+	if config.Auth.RegistrationDisabled != false {
+		t.Error("expected registration to be enabled")
+	}
 }

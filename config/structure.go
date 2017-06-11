@@ -16,10 +16,12 @@
 package config
 
 type Config struct {
-	Version  string
-	Upload   upload
-	Web      web
-	Database database
+	Version     string
+	Upload      upload
+	Web         web
+	Database    database
+	Auth        auth
+	Development development
 }
 
 type auth struct {
