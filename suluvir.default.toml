@@ -1,5 +1,11 @@
 version = "0.0.1"
 
+[auth]
+registration_disabled = false
+
+[development]
+development_mode = true
+
 [upload]
 path = "uploads"
 relative = true

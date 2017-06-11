@@ -22,6 +22,14 @@ type Config struct {
 	Database database
 }
 
+type auth struct {
+	RegistrationDisabled bool `toml:"registration_disabled"`
+}
+
+type development struct {
+	DevelopmentMode bool `toml:"development_mode"`
+}
+
 type upload struct {
 	Path     string
 	Relative bool
