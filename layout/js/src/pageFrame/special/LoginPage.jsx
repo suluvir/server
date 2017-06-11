@@ -5,6 +5,7 @@ import {Link} from 'react-router';
 
 import {postJson} from '../../utils/fetch';
 import {addError} from '../../actions/errorActions';
+import {getSetup} from '../../utils/helpers';
 
 import SmallLogoContainer from '../../containers/SmallLogoContainer';
 import IconTextfield from '../../components/util/IconTextfield';
@@ -41,6 +42,9 @@ class LoginPage extends React.PureComponent {
     }
 
     render() {
+        const registationLink = getSetup().get('registration_disabled') ? undefined :
+            <Link to="/register" className="suluvir-login__registration-link">Not having an account? Register!</Link>;
+
         return (
             <div className="suluvir-login">
                 <SmallLogoContainer>
@@ -68,7 +72,7 @@ class LoginPage extends React.PureComponent {
 
                         <br className="clear"/>
 
-                        <Link to="/register" className="suluvir-login__registration-link">Not having an account? Register!</Link>
+                        {registationLink}
                     </form>
                 </SmallLogoContainer>
             </div>
