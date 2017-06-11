@@ -17,7 +17,6 @@ package intnl
 
 import (
 	"github.com/suluvir/server/auth"
-	"github.com/suluvir/server/schema"
 	"github.com/suluvir/server/schema/media"
 	"github.com/suluvir/server/web/handler/api"
 	"github.com/suluvir/server/web/httpHelpers"
@@ -27,7 +26,7 @@ import (
 func mySongsHandler(w http.ResponseWriter, r *http.Request) {
 	var mySongs []media.Song
 
-	schema.GetDatabase().Find(&mySongs)
+	auth.GetUserDatabase(w, r).Find(&mySongs)
 	httpHelpers.ServeJsonWithoutCache(w, mySongs)
 }
 
