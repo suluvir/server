@@ -40,7 +40,11 @@ func addRegistrationDisabledToSetup(_ *http.Request) (string, interface{}) {
 	return "registration_disabled", config.GetConfiguration().Auth.RegistrationDisabled
 }
 
-func CreateUser(name string, email string, password string) auth.User {
+func CreateUser(name string, email string, password string) (auth.User, error) {
+	if config.GetConfiguration().Auth.RegistrationDisabled {
+		return auth.User{}, errors.New("User could not be created since registration is disabled")
+	}
+
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
 
 	if err != nil {
@@ -51,7 +55,7 @@ func CreateUser(name string, email string, password string) auth.User {
 		Username: name,
 		Email:    email,
 		Password: string(hashedPassword),
-	}
+	}, nil
 }
 
 func GetUserSession(r *http.Request) (*sessions.Session, error) {

@@ -55,10 +55,15 @@ func createUserHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	user := auth.CreateUser(payload.Username, payload.Email, payload.Password)
-	schema.GetDatabase().Create(&user)
+	user, err := auth.CreateUser(payload.Username, payload.Email, payload.Password)
+	if err != nil {
+		logging.GetLogger().Error("error during user creation", zap.Error(err))
+		api.SendJsonError(w, http.StatusInternalServerError, err.Error())
+	} else {
+		schema.GetDatabase().Create(&user)
 
-	httpHelpers.ServeJsonWithoutCache(w, &user)
+		httpHelpers.ServeJsonWithoutCache(w, &user)
+	}
 }
 
 func loginUserHandler(w http.ResponseWriter, r *http.Request) {
