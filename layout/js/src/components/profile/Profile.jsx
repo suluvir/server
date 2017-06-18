@@ -20,6 +20,8 @@ class Profile extends React.PureComponent {
                 <List>
                     <ListItem twoLine>
                         <ListItemContent avatar="person_outline" subtitle="Username">{user.get('username')}</ListItemContent>
+                    </ListItem>
+                    <ListItem twoLine>
                         <ListItemContent avatar="mail_outline" subtitle="E-Mail">{user.get('email')}</ListItemContent>
                     </ListItem>
                 </List>
