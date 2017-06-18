@@ -17,9 +17,11 @@ package dependencyLoader
 
 import (
 	"fmt"
+	"github.com/suluvir/server/environment"
 	"github.com/suluvir/server/logging"
 	"go.uber.org/zap"
 	"os"
+	"path"
 )
 
 type ExternalFileExtractor struct {
@@ -48,9 +50,10 @@ func NewExternalFileExtractor(externals []External) *ExternalFileExtractor {
 // FIXME too much duplicated code...
 func (e *ExternalFileExtractor) LookupExternalFiles() []External {
 	var result []External
+	baseDir := getExternalBaseDir()
 	for _, external := range e.Externals {
 		for _, searchInDirectory := range searchInDirectories {
-			externalBaseDir := fmt.Sprintf("%s/%s/%s", externalBaseDir, external.Name, searchInDirectory)
+			externalBaseDir := fmt.Sprintf("%s/%s/%s", baseDir, external.Name, searchInDirectory)
 
 			if !external.HasJs {
 				if specialJsFiles, ok := SPECIAL_EXTERNAL_JS_FILES[external.Name]; ok {
@@ -114,4 +117,8 @@ func (e *ExternalFileExtractor) LookupExternalFiles() []External {
 	}
 
 	return result
+}
+
+func getExternalBaseDir() string {
+	return path.Join(environment.GetBaseDirectory(), externalBaseDir)
 }

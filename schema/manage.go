@@ -19,8 +19,14 @@ import (
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/sqlite"
 	"github.com/suluvir/server/config"
+	"github.com/suluvir/server/environment"
 	"github.com/suluvir/server/logging"
 	"go.uber.org/zap"
+	"path"
+)
+
+const (
+	SQLITE = "sqlite3"
 )
 
 var database *gorm.DB
@@ -36,8 +42,8 @@ func AddSchema(schema interface{}) {
 }
 
 func ConnectDatabase() error {
-	c := config.GetConfiguration()
-	db, err := gorm.Open(c.Database.Dialect, c.Database.ConnectionString)
+	dialect, connectionString := getDialectAndConnectionString()
+	db, err := gorm.Open(dialect, connectionString)
 	if err != nil {
 		logging.GetLogger().Fatal("error connecting to database", zap.Error(err))
 		return err
@@ -48,6 +54,18 @@ func ConnectDatabase() error {
 	GetDatabase().SetLogger(&DatabaseLogger{})
 
 	return nil
+}
+
+func getDialectAndConnectionString() (string, string) {
+	c := config.GetConfiguration()
+	dialect := c.Database.Dialect
+	connectionString := c.Database.ConnectionString
+
+	if dialect == SQLITE {
+		connectionString = path.Join(environment.GetBaseDirectory(), connectionString)
+	}
+
+	return dialect, connectionString
 }
 
 func CloseDatabaseConnection() {

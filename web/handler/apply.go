@@ -16,10 +16,12 @@
 package handler
 
 import (
+	"github.com/suluvir/server/environment"
 	"github.com/suluvir/server/web"
 	"github.com/suluvir/server/web/httpHelpers"
 	"github.com/suluvir/server/web/routeNames"
 	"net/http"
+	"path"
 )
 
 func init() {
@@ -38,6 +40,8 @@ func init() {
 
 	router.HandleFunc("/upload", indexHandler).Methods(httpHelpers.GET)
 
-	router.Handler("/static", http.StripPrefix("/static", http.FileServer(http.Dir("layout/static/"))))
-	router.Handler("/nodestatic", http.StripPrefix("/nodestatic", http.FileServer(http.Dir("layout/js/node_modules"))))
+	staticDir := path.Join(environment.GetBaseDirectory(), "layout", "static")
+	nodeStaticDir := path.Join(environment.GetBaseDirectory(), "layout", "js", "node_modules")
+	router.Handler("/static", http.StripPrefix("/static", http.FileServer(http.Dir(staticDir))))
+	router.Handler("/nodestatic", http.StripPrefix("/nodestatic", http.FileServer(http.Dir(nodeStaticDir))))
 }

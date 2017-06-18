@@ -17,9 +17,11 @@ package dependencyLoader
 
 import (
 	"encoding/json"
+	"github.com/suluvir/server/environment"
 	"github.com/suluvir/server/logging"
 	"go.uber.org/zap"
 	"io/ioutil"
+	"path"
 	"regexp"
 	"strings"
 )
@@ -41,10 +43,11 @@ type packageContent struct {
 	Version      string            `json:"version"`
 }
 
+// NewExtractor returns a new ExternalsExtractor. Given paths are treated relatively to suluvir base directory
 func NewExtractor(webpackPath string, packagePath string) *ExternalsExtractor {
 	return &ExternalsExtractor{
-		webpackConfigPath: webpackPath,
-		packageJsonPath:   packagePath,
+		webpackConfigPath: path.Join(environment.GetBaseDirectory(), webpackPath),
+		packageJsonPath:   path.Join(environment.GetBaseDirectory(), packagePath),
 	}
 }
 
