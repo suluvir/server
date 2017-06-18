@@ -17,3 +17,7 @@ hostname = "localhost"
 [database]
 dialect = "sqlite3"
 connection_string = "suluvir.db"
+
+[quota]
+songs = 500
+space = "500M"

@@ -22,6 +22,7 @@ type Config struct {
 	Database    database
 	Auth        auth
 	Development development
+	Quota       quota
 }
 
 type auth struct {
@@ -45,4 +46,9 @@ type web struct {
 type database struct {
 	Dialect          string
 	ConnectionString string `toml:"connection_string"`
+}
+
+type quota struct {
+	Songs int64
+	Space string
 }

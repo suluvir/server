@@ -23,6 +23,7 @@ import (
 	"github.com/suluvir/server/logging"
 	"github.com/suluvir/server/schema"
 	"github.com/suluvir/server/schema/auth"
+	"github.com/suluvir/server/util"
 	"github.com/suluvir/server/web/setup"
 	"go.uber.org/zap"
 	"golang.org/x/crypto/bcrypt"
@@ -41,7 +42,8 @@ func addRegistrationDisabledToSetup(_ *http.Request) (string, interface{}) {
 }
 
 func CreateUser(name string, email string, password string) (auth.User, error) {
-	if config.GetConfiguration().Auth.RegistrationDisabled {
+	c := config.GetConfiguration()
+	if c.Auth.RegistrationDisabled {
 		return auth.User{}, errors.New("User could not be created since registration is disabled")
 	}
 
@@ -51,10 +53,17 @@ func CreateUser(name string, email string, password string) (auth.User, error) {
 		logging.GetLogger().Error("error during password hashing", zap.Error(err))
 	}
 
+	bytes, parseErr := util.GetBytes(c.Quota.Space)
+	if parseErr != nil {
+		logging.GetLogger().Error("error during quota calculation", zap.Error(parseErr))
+	}
+
 	return auth.User{
-		Username: name,
-		Email:    email,
-		Password: string(hashedPassword),
+		Username:   name,
+		Email:      email,
+		QuotaSongs: c.Quota.Songs,
+		QuotaSpace: bytes,
+		Password:   string(hashedPassword),
 	}, nil
 }
 
