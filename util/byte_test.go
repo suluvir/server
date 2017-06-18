@@ -33,3 +33,10 @@ func TestGetBytesValid(t *testing.T) {
 		t.Error("expected 1024, got", 23068672)
 	}
 }
+
+func TestGetBytesInvalid(t *testing.T) {
+	_, err := GetBytes("random value")
+	if err != nil {
+		t.Error("expected error to be thrown, but wasn't")
+	}
+}
