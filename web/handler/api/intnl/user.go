@@ -93,6 +93,17 @@ func loginUserHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+func getQuotaHandler(w http.ResponseWriter, r *http.Request) {
+	user := auth.MustGetUserForSession(w, r)
+	var result = map[string]int64{}
+
+	quotaBytes, quotaSongs := user.GetAvailableQuota()
+	result["bytes"] = quotaBytes
+	result["songs"] = quotaSongs
+
+	httpHelpers.ServeJsonWithoutCache(w, &result)
+}
+
 func responseInvalidCredentials(w http.ResponseWriter) {
 	time.Sleep(1 * time.Second)
 	api.SendJsonError(w, http.StatusForbidden, "Username or password is incorrect")

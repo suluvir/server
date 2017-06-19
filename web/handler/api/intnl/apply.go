@@ -29,6 +29,7 @@ func init() {
 	r.HandleFunc("/my/artists", myArtistsHandler).Methods(httpHelpers.GET)
 	r.HandleFunc("/my/albums", myAlbumsHandler).Methods(httpHelpers.GET)
 	r.HandleFunc("/my/playlists", myPlaylistHandler).Methods(httpHelpers.GET)
+	r.HandleFunc("/my/quota", getQuotaHandler).Methods(httpHelpers.GET)
 
 	r.HandleFunc("/my/user", getMyUser).Methods(httpHelpers.GET)
 
