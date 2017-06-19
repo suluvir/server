@@ -17,6 +17,7 @@ package auth
 
 import (
 	"encoding/gob"
+	"encoding/json"
 	"github.com/suluvir/server/logging"
 	"github.com/suluvir/server/schema"
 	"go.uber.org/zap"
@@ -29,9 +30,11 @@ type User struct {
 	Username   string    `gorm:"size:128" json:"username"`
 	Email      string    `gorm:"size:128" json:"email"`
 	Password   string    `gorm:"size:64" json:"-"`
-	QuotaSongs int64
-	QuotaSpace int64
+	QuotaSongs int64     `json:"quota_songs"`
+	QuotaSpace int64     `json:"quota_space"`
 }
+
+type JsonUser User
 
 func init() {
 	schema.AddSchema(&User{})
@@ -65,4 +68,17 @@ func (u *User) GetAvailableQuota() (int64, int64) {
 
 	// if there are no rows, the user has uploaded no songs, so just returns his quota
 	return u.QuotaSpace, u.QuotaSongs
+}
+
+func (u User) MarshalJSON() ([]byte, error) {
+	availableSpace, availableSongs := u.GetAvailableQuota()
+	return json.Marshal(struct {
+		JsonUser
+		AvailableQuotaSpace int64 `json:"available_quota_space"`
+		AvailableQuotaSongs int64 `json:"available_quota_songs"`
+	}{
+		JsonUser:            JsonUser(u),
+		AvailableQuotaSongs: availableSongs,
+		AvailableQuotaSpace: availableSpace,
+	})
 }
