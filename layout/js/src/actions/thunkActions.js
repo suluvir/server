@@ -54,7 +54,14 @@ export function fetchPlaylistsOfSong(song) {
 export function playSongById(songId) {
     return (dispatch, getState) => {
         const song = getSongById(getState().mySongs, songId);
-        dispatch(actions.playSong(song));
+        if (song === undefined) {
+            getJson(songId).then(s => {
+                dispatch(actions.addToMySongs(s));
+                dispatch(actions.playSong(s));
+            })
+        } else {
+            dispatch(actions.playSong(song));
+        }
     }
 }
 

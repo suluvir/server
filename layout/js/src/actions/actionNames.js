@@ -1,4 +1,5 @@
 export const SET_MY_SONGS = 'SET_MY_SONGS';
+export const ADD_TO_MY_SONGS = 'ADD_TO_MY_SONGS';
 export const SET_MY_ARTISTS = 'SET_MY_ARTISTS';
 export const SET_MY_ALBUMS = 'SET_MY_ALBUMS';
 export const SET_MY_PLAYLISTS = 'SET_MY_PLAYLISTS';

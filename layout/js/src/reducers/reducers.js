@@ -10,6 +10,8 @@ export function mySongs(state = defaultStates.MY_SONGS, action) {
     switch (action.type) {
         case actionNames.SET_MY_SONGS:
             return action.payload;
+        case actionNames.ADD_TO_MY_SONGS:
+            return state.push(Immutable.fromJS(action.payload.song));
         default:
             return state;
     }
@@ -45,7 +47,7 @@ export function myPlaylists(state = defaultStates.MY_PLAYLISTS, action) {
 export function play(state = defaultStates.PLAY, action) {
     switch (action.type) {
         case actionNames.PLAY_SONG:
-            return state.set('list', Immutable.List.of(action.payload)).set('current', 0);
+            return state.set('list', Immutable.List.of(Immutable.fromJS(action.payload))).set('current', 0);
         case actionNames.ADD_TO_PLAY_QUERE:
             return state.set('list', state.get('list').push(action.payload));
         case actionNames.SET_PLAY_QUEUE:

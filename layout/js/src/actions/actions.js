@@ -11,6 +11,10 @@ export function setMySongs(mySongs) {
     return createAction(actionNames.SET_MY_SONGS, mySongs);
 }
 
+export function addToMySongs(song) {
+    return createAction(actionNames.ADD_TO_MY_SONGS, {song});
+}
+
 export function setMyArtists(myArtists) {
     return createAction(actionNames.SET_MY_ARTISTS, myArtists);
 }
