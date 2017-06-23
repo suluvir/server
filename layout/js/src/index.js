@@ -1,20 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {createStore, applyMiddleware, combineReducers} from 'redux';
-import thunk from 'redux-thunk';
 import {Provider} from 'react-redux';
 
-import RoutedPage from './pageFrame/RoutedPage';
-import * as reducers from './reducers/reducers';
-import {dispatchLogger} from './utils/helpers';
+import {getStore} from './utils/redux';
 
-const store = createStore(
-    combineReducers(reducers),
-    applyMiddleware(dispatchLogger, thunk)
-);
+import RoutedPage from './pageFrame/RoutedPage';
 
 ReactDOM.render(
-    <Provider store={store}>
+    <Provider store={getStore()}>
         <RoutedPage />
     </Provider>,
     document.getElementById('application-root')

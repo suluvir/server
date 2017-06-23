@@ -4,6 +4,7 @@ import * as defaultStates from './defaultStates';
 import * as actionNames from '../actions/actionNames';
 
 import * as errorActionNames from '../actions/names/error';
+import * as uploadErrorNames from '../actions/names/upload';
 
 export function mySongs(state = defaultStates.MY_SONGS, action) {
     switch (action.type) {
@@ -82,6 +83,23 @@ export function errors(state = defaultStates.ERRORS, action) {
     switch (action.type) {
         case errorActionNames.ADD_ERROR:
             return state.push(Immutable.fromJS(action.payload));
+        default:
+            return state;
+    }
+}
+
+export function upload(state = defaultStates.UPLOAD, action) {
+    switch (action.type) {
+        case uploadErrorNames.ADD_TO_UPLOAD_PENDING:
+            return state.set('pending', state.get('pending').push(Immutable.fromJS({
+                'name': action.payload.file.name,
+                'size': action.payload.file.size,
+                'type': action.payload.file.type
+            })));
+        case uploadErrorNames.UPLOAD_DONE:
+            return state.set('pending', state.get('pending').filter(p =>
+                p.get('size') !== action.payload.song.get('size'))
+            ).set('uploaded', state.get('uploaded').push(action.payload.song));
         default:
             return state;
     }

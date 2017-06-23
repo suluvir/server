@@ -4,7 +4,7 @@ import Dropzone from 'react-dropzone';
 
 import SongList from '../lists/SongList';
 
-import {postFile} from '../../utils/fetch';
+import {SONG_UPLOAD_QUEUE} from '../../classes/upload/FileUploadQueue';
 
 require('./Upload.scss');
 
@@ -19,17 +19,9 @@ export default class Upload extends React.PureComponent {
         this.handleDrop = this.handleDrop.bind(this);
     }
 
-    handleDrop(acceptedFiles, rejectedFiles) {
-        this.setState({
-            acceptedFiles,
-            rejectedFiles
-        });
-
+    handleDrop(acceptedFiles) {
         acceptedFiles.forEach(acceptedFile => {
-            postFile('/api/internal/upload', acceptedFile, 'media').then(song => {
-                const uploadedSongs = this.state.uploadedSongs.push(Immutable.fromJS(song));
-                this.setState({uploadedSongs});
-            });
+            SONG_UPLOAD_QUEUE.addSongToUpload(acceptedFile);
         })
     }
 
