@@ -24,6 +24,7 @@ import (
 	"github.com/suluvir/server/logging"
 	"github.com/suluvir/server/schema"
 	"github.com/suluvir/server/schema/auth"
+	"github.com/suluvir/server/service/mail"
 	"github.com/suluvir/server/util"
 	"github.com/suluvir/server/web/setup"
 	"go.uber.org/zap"
@@ -59,7 +60,7 @@ func CreateUser(name string, email string, password string) (auth.User, error) {
 		logging.GetLogger().Error("error during quota calculation", zap.Error(parseErr))
 	}
 
-	return auth.User{
+	result := auth.User{
 		Username:            name,
 		Email:               email,
 		QuotaSongs:          c.Quota.Songs,
@@ -67,7 +68,24 @@ func CreateUser(name string, email string, password string) (auth.User, error) {
 		Password:            string(hashedPassword),
 		AccountStatus:       auth.ACCOUNT_STATUS_CREATED,
 		EmailActivationCode: uuid.NewRandom().String(),
-	}, nil
+	}
+
+	queueUserActivationMail(result)
+
+	return result, nil
+}
+
+func queueUserActivationMail(user auth.User) {
+	c := config.GetConfiguration()
+	templateData := struct {
+		UserName string
+		Email    string
+	}{
+		UserName: user.Username,
+		Email:    user.Email,
+	}
+	m := mail.NewMail(c.Mail.Email, user.Email, "activationmail.html", templateData)
+	mail.QueueMail(m)
 }
 
 func GetUserSession(r *http.Request) (*sessions.Session, error) {

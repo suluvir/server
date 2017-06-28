@@ -23,6 +23,7 @@ type Config struct {
 	Auth        auth
 	Development development
 	Quota       quota
+	Mail        mail
 }
 
 type auth struct {
@@ -51,4 +52,12 @@ type database struct {
 type quota struct {
 	Songs int64
 	Space string
+}
+
+type mail struct {
+	ServerName string `toml:"server_name"`
+	Port       int64
+	UserName   string `toml:"user_name"`
+	Password   string
+	Email      string
 }

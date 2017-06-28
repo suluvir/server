@@ -21,3 +21,10 @@ connection_string = "suluvir.db"
 [quota]
 songs = 500
 space = "500M"
+
+[mail]
+server_name = ""
+port = 0
+user_name = ""
+password = ""
+email = "noreply@example.org"
