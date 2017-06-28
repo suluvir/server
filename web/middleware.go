@@ -16,65 +16,33 @@
 package web
 
 import (
-	"fmt"
-	"github.com/suluvir/server/auth"
-	"github.com/suluvir/server/config"
 	"github.com/suluvir/server/logging"
-	"github.com/suluvir/server/schema"
-	"github.com/suluvir/server/web/routeNames"
-	"go.uber.org/zap"
 	"net/http"
-	"time"
 )
 
-func logMiddleWare(next http.Handler) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		start := time.Now()
-		logging.GetLogger().Debug("incoming request start", zap.String("url", r.URL.String()))
-		next.ServeHTTP(w, r)
-		elapsed := time.Since(start)
-		logging.GetLogger().Debug("incoming request finished",
-			zap.String("url", r.URL.String()),
-			zap.String("elapsed", fmt.Sprintf("%s", elapsed)))
-	})
+var middlewares = []func(next http.Handler) http.Handler{}
+
+func init() {
+	// we cannot apply the log middleware in the log package, since this package uses the log package and
+	// this would lead to an import cycle
+	AddMiddleware(logging.LogMiddleWare)
 }
 
-func authenticationMiddleware(next http.Handler) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		user, err := auth.GetUserForSession(w, r)
-		if err != nil {
-			logging.GetLogger().Error("error retrieving user from session", zap.Error(err))
-		}
-
-		if user == nil || user.Username == "" {
-			logging.GetLogger().Debug("user is not logged in while fetching page",
-				zap.String("url", r.URL.String()))
-
-			checker := auth.NewUrlWhitelistCheck(r.URL.EscapedPath())
-			if !checker.Check() {
-				http.Redirect(w, r, getRedirectUrl(), http.StatusFound)
-				return
-			}
-
-		} else {
-			logging.GetLogger().Debug("got user for session", zap.String("user", user.Username))
-		}
-		next.ServeHTTP(w, r)
-	})
+// AddMiddleware needs to be called in init() to make sure all middleware has been registered when the routes are constructed
+func AddMiddleware(middleware func(next http.Handler) http.Handler) {
+	middlewares = append(middlewares, middleware)
 }
 
-func getRedirectUrl() string {
-	var registeredUsers uint64
-	schema.GetDatabase().Table("users").Count(&registeredUsers)
-	routeName := routeNames.LOGIN
-	if registeredUsers == 0 && !config.GetConfiguration().Auth.RegistrationDisabled {
-		routeName = routeNames.REGISTER
+func applyMiddleware(handler http.Handler) http.Handler {
+	if len(middlewares) == 0 {
+		// there are no registered middlewares (this cannot happen, but just in case...)
+		return handler
 	}
-	url, _ := GetRouter().GetRoute(routeName).URL()
 
-	result := url.String()
-	if registeredUsers == 0 {
-		result += "?admin=1"
+	result := middlewares[0](handler)
+
+	for i := 1; i < len(middlewares); i++ {
+		result = middlewares[i](result)
 	}
 
 	return result
