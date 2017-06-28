@@ -22,6 +22,8 @@ import (
 	"github.com/suluvir/server/logging"
 	"github.com/suluvir/server/schema"
 	"github.com/suluvir/server/service/mail"
+	"github.com/suluvir/server/web"
+	"github.com/suluvir/server/web/routeNames"
 	"go.uber.org/zap"
 	"time"
 )
@@ -87,10 +89,8 @@ func (u *User) GetAvailableQuota() (int64, int64) {
 
 func (u User) QueueSendActivationMail() {
 	c := config.GetConfiguration()
-	//url, _ := web.GetRouter().GetRoute(routeNames.ACTIVATE_USER).URL("uuid", u.EmailActivationCode)
-	//activationLink := url.String()
-	// TODO use correct activation link
-	activationLink := "https://www.suluvir.com"
+	url, _ := web.GetRouter().GetRoute(routeNames.ACTIVATE_USER).URL("uuid", u.EmailActivationCode)
+	activationLink := url.String()
 	templateData := struct {
 		UserName       string
 		ActivationLink string
