@@ -84,7 +84,7 @@ func queueUserActivationMail(user auth.User) {
 		UserName: user.Username,
 		Email:    user.Email,
 	}
-	m := mail.NewMail(c.Mail.Email, user.Email, "activationmail.html", templateData)
+	m := mail.NewMail(c.Mail.Email, user.Email, "Confirm your email adress", "activationmail.html", templateData)
 	mail.QueueMail(m)
 }
 

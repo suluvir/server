@@ -38,6 +38,12 @@ func QueueMail(mail Mail) {
 func mailLoop() {
 	logging.GetLogger().Info("starting mail loop")
 	for mail := range queue {
-		logging.GetLogger().Debug("got mail to send", zap.String("sender", mail.sender))
+		logging.GetLogger().Debug("got mail to send", zap.String("subject", mail.subject))
+		err := mail.Send()
+		if err != nil {
+			logging.GetLogger().Error("error during mail sending, attempt retry")
+			// put mail back into queue to retry; TODO this might be unwise
+			queue <- mail
+		}
 	}
 }
