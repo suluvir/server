@@ -19,6 +19,7 @@ import (
 	"errors"
 	"github.com/gorilla/sessions"
 	"github.com/jinzhu/gorm"
+	"github.com/pborman/uuid"
 	"github.com/suluvir/server/config"
 	"github.com/suluvir/server/logging"
 	"github.com/suluvir/server/schema"
@@ -59,11 +60,13 @@ func CreateUser(name string, email string, password string) (auth.User, error) {
 	}
 
 	return auth.User{
-		Username:   name,
-		Email:      email,
-		QuotaSongs: c.Quota.Songs,
-		QuotaSpace: bytes,
-		Password:   string(hashedPassword),
+		Username:            name,
+		Email:               email,
+		QuotaSongs:          c.Quota.Songs,
+		QuotaSpace:          bytes,
+		Password:            string(hashedPassword),
+		AccountStatus:       auth.ACCOUNT_STATUS_CREATED,
+		EmailActivationCode: uuid.NewRandom().String(),
 	}, nil
 }
 

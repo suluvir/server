@@ -24,14 +24,27 @@ import (
 	"time"
 )
 
+const (
+	// ACCOUNT_STATUS_CREATED is the default value for any created account
+	ACCOUNT_STATUS_CREATED = "CREATED"
+
+	// ACCOUNT_STATUS_MAIL_SEND is the value for any account the activation mail is sent for
+	ACCOUNT_STATUS_MAIL_SEND = "MAIL_SEND"
+
+	// ACCOUNT_STATUS_VERIFIED is for every account that has a verified email
+	ACCOUNT_STATUS_EMAIL_VERIFIED = "EMAIL_VERIFIED"
+)
+
 type User struct {
 	schema.DatabaseObject
-	ActiveAt   time.Time `json:"-"`
-	Username   string    `gorm:"size:128" json:"username"`
-	Email      string    `gorm:"size:128" json:"email"`
-	Password   string    `gorm:"size:64" json:"-"`
-	QuotaSongs int64     `json:"quota_songs"`
-	QuotaSpace int64     `json:"quota_space"`
+	ActiveAt            time.Time `json:"-"`
+	Username            string    `gorm:"size:128" json:"username"`
+	Email               string    `gorm:"size:128" json:"email"`
+	Password            string    `gorm:"size:64" json:"-"`
+	QuotaSongs          int64     `json:"quota_songs"`
+	QuotaSpace          int64     `json:"quota_space"`
+	EmailActivationCode string    `gorm:"size:40"`
+	AccountStatus       string    `gorm:"size:256"`
 }
 
 type JsonUser User
