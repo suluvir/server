@@ -16,6 +16,7 @@
 package mail
 
 import (
+	"github.com/suluvir/server/config"
 	"github.com/suluvir/server/logging"
 	"go.uber.org/zap"
 )
@@ -36,6 +37,10 @@ func QueueMail(mail Mail) {
 }
 
 func mailLoop() {
+	if config.GetConfiguration().Mail.ServerName == "" {
+		logging.GetLogger().Info("mail loop is disabled. Configure mail in the config file")
+		return
+	}
 	logging.GetLogger().Info("starting mail loop")
 	for mail := range queue {
 		logging.GetLogger().Debug("got mail to send", zap.String("subject", mail.subject))
