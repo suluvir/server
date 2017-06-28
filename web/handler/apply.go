@@ -37,6 +37,7 @@ func init() {
 	router.HandleFunc("/login", indexHandler).Methods(httpHelpers.GET).Name(routeNames.LOGIN)
 	router.HandleFunc("/logout", logoutHandler)
 	router.HandleFunc("/register", indexHandler).Methods(httpHelpers.GET).Name(routeNames.REGISTER)
+	router.HandleFunc("/activate/{uuid}", activateHandler).Methods(httpHelpers.GET).Name(routeNames.ACTIVATE_USER)
 
 	router.HandleFunc("/upload", indexHandler).Methods(httpHelpers.GET)
 

@@ -5,9 +5,23 @@
 </head>
 <body>
 
-Hello {{.UserName}},
+<p>
+    Hello {{.UserName}},
+</p>
 
-please confirm your email adress.
+<p>
+    thank you for registering at suluvir. You just need to finish your registration by
+    <a href="{{.ActivationLink}}">clicking on this link</a>. If you can't click on the link,
+    just visit {{.ActivationLink}} in you webbrowser.
+</p>
+
+<p>
+    Thank you!
+</p>
+
+<p>
+    PS: If you haven't registered for suluvir, you can safely ignore this message.
+</p>
 
 </body>
 </html>

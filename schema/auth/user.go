@@ -18,8 +18,10 @@ package auth
 import (
 	"encoding/gob"
 	"encoding/json"
+	"github.com/suluvir/server/config"
 	"github.com/suluvir/server/logging"
 	"github.com/suluvir/server/schema"
+	"github.com/suluvir/server/service/mail"
 	"go.uber.org/zap"
 	"time"
 )
@@ -81,6 +83,23 @@ func (u *User) GetAvailableQuota() (int64, int64) {
 
 	// if there are no rows, the user has uploaded no songs, so just returns his quota
 	return u.QuotaSpace, u.QuotaSongs
+}
+
+func (u User) QueueSendActivationMail() {
+	c := config.GetConfiguration()
+	//url, _ := web.GetRouter().GetRoute(routeNames.ACTIVATE_USER).URL("uuid", u.EmailActivationCode)
+	//activationLink := url.String()
+	// TODO use correct activation link
+	activationLink := "https://www.suluvir.com"
+	templateData := struct {
+		UserName       string
+		ActivationLink string
+	}{
+		UserName:       u.Username,
+		ActivationLink: activationLink,
+	}
+	m := mail.NewMail(c.Mail.Email, u.Email, "Confirm your email adress", "activationmail.html", templateData)
+	mail.QueueMail(m)
 }
 
 func (u User) MarshalJSON() ([]byte, error) {

@@ -13,20 +13,10 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-package routeNames
+package handler
 
-const (
-	API_ALBUM       = "api_album"
-	API_SONG        = "api_song"
-	API_SONG_STREAM = "api_song_stream"
-	API_ARTIST      = "api_artist"
-	API_PLAYLIST    = "api_playlist"
+import "net/http"
 
-	ACTIVATE_USER = "activate_user"
+func activateHandler(w http.ResponseWriter, r *http.Request) {
 
-	LOGIN    = "login"
-	REGISTER = "register"
-	INDEX    = "index"
-
-	EXTERNAL_RESOURCE = "external_resource"
-)
+}
