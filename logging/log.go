@@ -16,8 +16,10 @@
 package logging
 
 import (
+	"github.com/suluvir/server/environment"
 	"go.uber.org/zap"
 	"log"
+	"path"
 )
 
 // don't use configuration here because of import cycle
@@ -34,24 +36,17 @@ func GetLogger() *zap.Logger {
 }
 
 func InitializeLogger() {
-	//logFile := path.Join(environment.GetLogDir(), LOG_FILE_NAME)
-	//file, err := os.OpenFile(logFile, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
-	//if err != nil {
-	//	log.Fatal("error opening log file: ", err)
-	//}
+	config := zap.NewDevelopmentConfig()
+	config.OutputPaths = []string{
+		path.Join(environment.GetLogDir(), LOG_FILE_NAME),
+	}
 
-	//tmpLogger := zap.New(
-	//	zap.NewTextEncoder(zap.TextNoTime()),
-	//	zap.Output(file),
-	//	zap.DebugLevel,
-	//)
-
-	tmpLogger, err := zap.NewDevelopment(
+	l, err := config.Build(
 		zap.AddCaller(),
 	)
 	if err != nil {
 		log.Fatal("error initilizing logger: ", err)
 	}
 
-	logger = tmpLogger
+	logger = l
 }
