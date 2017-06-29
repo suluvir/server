@@ -39,7 +39,7 @@ func songUploadHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	defer uploadedFile.Close()
 
-	uploadedFilename := uuid.NewUUID().String()
+	uploadedFilename := uuid.NewRandom().String()
 	targetFileName := getUploadFilePath(uploadedFilename)
 	targetFile, err := os.OpenFile(targetFileName, os.O_WRONLY|os.O_CREATE, 0666)
 	logging.GetLogger().Info("uploading new media", zap.String("target file name", targetFileName))
