@@ -15,8 +15,31 @@
 
 package handler
 
-import "net/http"
+import (
+	"fmt"
+	"github.com/gorilla/mux"
+	"github.com/suluvir/server/auth"
+	"github.com/suluvir/server/web"
+	"github.com/suluvir/server/web/routeNames"
+	"net/http"
+)
 
 func activateHandler(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	err := auth.ActivateUser(vars["uuid"])
 
+	url, _ := web.GetRouter().GetRoute(routeNames.LOGIN).URL()
+	urlString := url.String()
+	status := ""
+
+	if err != nil {
+		// no user could be activated
+		status = "invalid_code"
+	} else {
+		// user was activated
+		status = "user_activated"
+	}
+
+	urlString = fmt.Sprintf("%s?status=%s", urlString, status)
+	http.Redirect(w, r, urlString, http.StatusFound)
 }

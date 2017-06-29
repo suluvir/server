@@ -154,3 +154,17 @@ func GetUserDatabase(w http.ResponseWriter, r *http.Request) *gorm.DB {
 	user := MustGetUserForSession(w, r)
 	return schema.GetDatabase().Where("user_id = ?", user.ID)
 }
+
+// ActivateUser activates the user for the given uuid. It returns an error if there is no user for the given activation code
+func ActivateUser(uuid string) error {
+	var user auth.User
+	schema.GetDatabase().Where("email_activation_code = ?", uuid).First(&user)
+
+	if user.EmailActivationCode == uuid {
+		user.AccountStatus = auth.ACCOUNT_STATUS_EMAIL_VERIFIED
+		schema.GetDatabase().Save(&user)
+		return nil
+	} else {
+		return errors.New("no user exists for the given activation code")
+	}
+}
