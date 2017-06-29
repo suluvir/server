@@ -98,8 +98,14 @@ func (u User) QueueSendActivationMail() {
 		UserName:       u.Username,
 		ActivationLink: activationLink,
 	}
-	m := mail.NewMail(c.Mail.Email, u.Email, "Confirm your email adress", "activationmail.html", templateData)
+	m := mail.NewMail(c.Mail.Email, u.Email, "Confirm your email adress", "activationmail.html", templateData,
+		u.setMailSend)
 	mail.QueueMail(m)
+}
+
+func (u User) setMailSend() {
+	u.AccountStatus = ACCOUNT_STATUS_MAIL_SEND
+	schema.GetDatabase().Save(&u)
 }
 
 func (u User) MarshalJSON() ([]byte, error) {

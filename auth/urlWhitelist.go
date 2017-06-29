@@ -23,6 +23,7 @@ import (
 
 // whitelistedUrls contains all urls excluded from access check. Interpreted as regexp
 var whitelistedUrls = []string{
+	"^/activate/",
 	"^/login",
 	"^/register*",
 	"^/appstatic/*",

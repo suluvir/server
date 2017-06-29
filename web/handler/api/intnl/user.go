@@ -60,8 +60,6 @@ func createUserHandler(w http.ResponseWriter, r *http.Request) {
 		logging.GetLogger().Error("error during user creation", zap.Error(err))
 		api.SendJsonError(w, http.StatusInternalServerError, err.Error())
 	} else {
-		schema.GetDatabase().Create(&user)
-
 		httpHelpers.ServeJsonWithoutCache(w, &user)
 	}
 }

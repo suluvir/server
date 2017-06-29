@@ -28,23 +28,25 @@ import (
 )
 
 type Mail struct {
-	sender       string
-	subject      string
-	receiver     []string
-	templateName string
-	templateData interface{}
+	sender           string
+	subject          string
+	receiver         []string
+	templateName     string
+	templateData     interface{}
+	mailSendCallback func()
 }
 
 // NewMail creates a new Mail. It currently only supports a single receiver. templateName has to be a valid
 // file within the layout/html directory
-func NewMail(sender, receiver, subject, templateName string, templateData interface{}) Mail {
+func NewMail(sender, receiver, subject, templateName string, templateData interface{}, mailSendCallback func()) Mail {
 	templateName = path.Join(environment.GetBaseDirectory(), "layout", "html", templateName)
 	return Mail{
-		sender:       sender,
-		receiver:     []string{receiver},
-		subject:      subject,
-		templateName: templateName,
-		templateData: templateData,
+		sender:           sender,
+		receiver:         []string{receiver},
+		subject:          subject,
+		templateName:     templateName,
+		templateData:     templateData,
+		mailSendCallback: mailSendCallback,
 	}
 }
 
@@ -71,13 +73,15 @@ func (m Mail) Send() error {
 	body := m.ExecuteTemplate()
 	auth := smtp.PlainAuth("Suluvir", c.Mail.UserName, c.Mail.Password, c.Mail.ServerName)
 	mime := "MIME-version: 1.0;\nContent-Type: text/html; charset=\"UTF-8\";\n\n"
-	subject := "Subject: " + m.subject + "!\n"
+	subject := "Subject: " + m.subject + "\n"
 	msg := []byte(subject + mime + "\n" + body)
 	addr := fmt.Sprintf("%s:%d", c.Mail.ServerName, c.Mail.Port)
 
 	if err := smtp.SendMail(addr, auth, c.Mail.Email, m.receiver, msg); err != nil {
 		logging.GetLogger().Error("error sending email", zap.Error(err))
 		return err
+	} else {
+		m.mailSendCallback()
 	}
 
 	return nil

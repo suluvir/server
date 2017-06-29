@@ -59,7 +59,7 @@ func CreateUser(name string, email string, password string) (auth.User, error) {
 		logging.GetLogger().Error("error during quota calculation", zap.Error(parseErr))
 	}
 
-	result := auth.User{
+	user := auth.User{
 		Username:            name,
 		Email:               email,
 		QuotaSongs:          c.Quota.Songs,
@@ -69,9 +69,10 @@ func CreateUser(name string, email string, password string) (auth.User, error) {
 		EmailActivationCode: uuid.NewRandom().String(),
 	}
 
-	result.QueueSendActivationMail()
+	schema.GetDatabase().Create(&user)
+	user.QueueSendActivationMail()
 
-	return result, nil
+	return user, nil
 }
 
 func GetUserSession(r *http.Request) (*sessions.Session, error) {
