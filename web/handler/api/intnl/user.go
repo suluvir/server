@@ -82,6 +82,10 @@ func loginUserHandler(w http.ResponseWriter, r *http.Request) {
 			responseInvalidCredentials(w)
 			return
 		} else {
+			if user.AccountStatus != a.ACCOUNT_STATUS_EMAIL_VERIFIED {
+				api.SendJsonError(w, http.StatusForbidden, "Email must be verified first")
+				return
+			}
 			api.SendJsonError(w, http.StatusOK, "")
 			return
 		}
