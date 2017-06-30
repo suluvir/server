@@ -1,6 +1,8 @@
 import React from 'react';
 import {Route, Router, browserHistory} from 'react-router';
 
+import Greeter from '../classes/Greeter';
+
 import Player from '../components/player/Player';
 
 import RegistrationPage from './special/RegistrationPage';
@@ -19,6 +21,12 @@ import MyPlaylistsContainer from '../containers/MyPlaylistsContainer';
 require('./RoutedPage.scss');
 
 export default class RoutedPage extends React.PureComponent {
+    constructor() {
+        super();
+
+        this.greeter = new Greeter();
+    }
+
     render() {
         return (
             <div className="suluvir-routed-page">
