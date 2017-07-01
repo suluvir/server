@@ -2,7 +2,11 @@
 
 $CONSTANTS: (
   'BACKGROUND_COLOR': #337180,
-  'BACKGROUND_COLOR_DARKER': #2a5e6b
+  'BACKGROUND_COLOR_DARKER': #2a5e6b,
+
+  'INFO_COLOR': #00eaff,
+  'WARNING_COLOR': #ffba00,
+  'ERROR_COLOR': #c30000
 );
 
 /// Constant getter

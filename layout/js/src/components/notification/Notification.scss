@@ -1,0 +1,39 @@
+@import '../../constants';
+
+.suluvir-notification {
+    padding: 0.5rem;
+
+    border: 1px solid;
+    border-radius: 0.2rem;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    &:not(:last-child) {
+        margin-bottom: 1rem;
+    }
+
+    &--color-error {
+        $color: const('ERROR_COLOR');
+        background-color: $color;
+        border-color: darken($color, 20%);
+        color: darken(#fff, 20%);
+    }
+
+    &--color-info {
+        $color: const('INFO_COLOR');
+        background-color: $color;
+        border-color: darken($color, 20%);
+    }
+
+    &--color-warning {
+        $color: const('WARNING_COLOR');
+        background-color: $color;
+        border-color: darken($color, 20%);
+    }
+
+    & > .suluvir-notification__close {
+        padding-left: 0.5rem;
+    }
+}

@@ -4,6 +4,8 @@ import {connect} from 'react-redux';
 
 import Notification from './Notification';
 
+require('./NotificationList.scss');
+
 class NotificationList extends React.PureComponent {
     render() {
         const {notifications} = this.props;
@@ -19,7 +21,7 @@ class NotificationList extends React.PureComponent {
         ));
 
         return (
-            <div>
+            <div className="suluvir-notification-list">
                 {display}
             </div>
         );
