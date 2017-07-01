@@ -1,3 +1,6 @@
+import {getStore} from './redux';
+import {addNotification} from '../actions/notificationActions';
+
 function internalFetch(url, method='GET', init={}) {
     const commonInit = {
         method,
@@ -11,8 +14,18 @@ function internalFetch(url, method='GET', init={}) {
                 resolve(response);
             } else {
                 reject(response);
+                response.json().then(result => {
+                    result['type'] = 'error';
+                    getStore().dispatch(addNotification(result));
+                });
             }
-        }).catch(reject);
+        }).catch(response => {
+            reject(response);
+            response.json().then(result => {
+                result['type'] = 'error';
+                getStore().dispatch(addNotification(result));
+            });
+        });
     })
 }
 
