@@ -3,7 +3,7 @@ import Immutable from 'immutable';
 import * as defaultStates from './defaultStates';
 import * as actionNames from '../actions/actionNames';
 
-import * as errorActionNames from '../actions/names/error';
+import * as notificationActionNames from '../actions/names/notifications';
 import * as uploadErrorNames from '../actions/names/upload';
 
 export function mySongs(state = defaultStates.MY_SONGS, action) {
@@ -81,10 +81,13 @@ export function user(state = defaultStates.USER, action) {
     }
 }
 
-export function errors(state = defaultStates.ERRORS, action) {
+let notificationIdCounter = 0;
+
+export function notifications(state = defaultStates.NOTIFICATIONS, action) {
     switch (action.type) {
-        case errorActionNames.ADD_ERROR:
-            return state.push(Immutable.fromJS(action.payload));
+        case notificationActionNames.ADD_NOTIFICATION:
+            notificationIdCounter++;
+            return state.push(Immutable.fromJS(action.payload).set('id', notificationIdCounter));
         default:
             return state;
     }

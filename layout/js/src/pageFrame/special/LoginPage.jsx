@@ -1,10 +1,8 @@
 import React from 'react';
-import {connect} from 'react-redux';
 import {Button} from 'react-mdl';
 import {Link} from 'react-router';
 
 import {postJson} from '../../utils/fetch';
-import {addError} from '../../actions/errorActions';
 import {getSetup} from '../../utils/helpers';
 
 import SmallLogoContainer from '../../containers/SmallLogoContainer';
@@ -12,7 +10,7 @@ import IconTextfield from '../../components/util/IconTextfield';
 
 require('./LoginPage.scss');
 
-class LoginPage extends React.PureComponent {
+export default class LoginPage extends React.PureComponent {
     constructor() {
         super();
 
@@ -27,17 +25,12 @@ class LoginPage extends React.PureComponent {
     }
 
     login(event) {
-        const {addError} = this.props;
         const {login, password} = this.state;
 
         event.preventDefault();
         
         postJson('/api/internal/user/login', {login, password}).then(() => {
             window.location.href = '/';
-        }).catch(error => {
-            error.json().then(err => {
-                addError(err);
-            })
         });
     }
 
@@ -79,9 +72,3 @@ class LoginPage extends React.PureComponent {
         );
     }
 }
-
-LoginPage.propTypes = {
-    addError: React.PropTypes.func.isRequired
-}
-
-export default connect(undefined, {addError})(LoginPage);

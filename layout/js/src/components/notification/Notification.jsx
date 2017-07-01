@@ -1,18 +1,19 @@
 import React from 'react';
 
-export default class Error extends React.PureComponent {
+export default class Notification extends React.PureComponent {
     render() {
         const {details} = this.props;
         return (
-            <div className="suluvir-error">
+            <div className="suluvir-notification">
                 {details}
             </div>
         );
     }
 }
 
-Error.propTypes = {
+Notification.propTypes = {
     details: React.PropTypes.string.isRequired,
     message: React.PropTypes.string.isRequired,
-    status: React.PropTypes.number.isRequired
+    status: React.PropTypes.number.isRequired,
+    type: React.PropTypes.string.isRequired
 }
