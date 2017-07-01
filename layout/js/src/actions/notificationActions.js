@@ -10,3 +10,7 @@ import {createAction} from './actions';
 export function addNotification(notification) {
     return createAction(actions.ADD_NOTIFICATION, notification);
 }
+
+export function closeNotification(id) {
+    return createAction(actions.CLOSE_NOTIFICATION, id);
+}

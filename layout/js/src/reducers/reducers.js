@@ -88,6 +88,8 @@ export function notifications(state = defaultStates.NOTIFICATIONS, action) {
         case notificationActionNames.ADD_NOTIFICATION:
             notificationIdCounter++;
             return state.push(Immutable.fromJS(action.payload).set('id', notificationIdCounter));
+        case notificationActionNames.CLOSE_NOTIFICATION:
+            return state.filter(notification => notification.get('id') !== action.payload);
         default:
             return state;
     }

@@ -17,6 +17,7 @@ class NotificationList extends React.PureComponent {
                 message={notification.get('message')}
                 status={notification.get('status')}
                 type={notification.get('type')}
+                id={notification.get('id')}
             />
         ));
 
