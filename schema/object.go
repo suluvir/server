@@ -37,5 +37,19 @@ func (d *DatabaseObject) BeforeCreate(scope *gorm.Scope) error {
 	}
 	id, err := random.GenerateRandomString(ID_LENGTH)
 	scope.SetColumn("ID", id)
-	return err
+
+	if err != nil {
+		return err
+	}
+	d.saveObjectMapping(scope, id)
+	return nil
+}
+
+func (d *DatabaseObject) saveObjectMapping(scope *gorm.Scope, id string) {
+	o := ObjectMapping{
+		Relation: scope.TableName(),
+		ID:       id,
+	}
+
+	GetDatabase().Create(&o)
 }
