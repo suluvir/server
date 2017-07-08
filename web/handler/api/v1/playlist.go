@@ -29,7 +29,7 @@ import (
 )
 
 type playlistAddSongPayload struct {
-	SongId int `json:"song_id"`
+	SongId string `json:"song_id"`
 }
 
 func playlistGet(w http.ResponseWriter, r *http.Request) {
