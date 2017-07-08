@@ -24,7 +24,6 @@ import (
 	"github.com/suluvir/server/web"
 	"github.com/suluvir/server/web/routeNames"
 	"go.uber.org/zap"
-	"strconv"
 )
 
 type Playlist struct {
@@ -46,11 +45,11 @@ func (p *Playlist) AddSong(song Song) bool {
 		p.Songs = append(p.Songs, song)
 		schema.GetDatabase().Save(&p)
 		logging.GetLogger().Debug("add song to playlist",
-			zap.Uint64("playlist", p.ID), zap.Uint64("song", song.ID))
+			zap.String("playlist", p.ID), zap.String("song", song.ID))
 		return true
 	} else {
 		logging.GetLogger().Info("not adding song to playlist because it is already in it",
-			zap.Uint64("playlist", p.ID), zap.Uint64("song", song.ID))
+			zap.String("playlist", p.ID), zap.String("song", song.ID))
 		return false
 	}
 }
@@ -68,10 +67,10 @@ func (p *Playlist) ContainsSong(song Song) bool {
 }
 
 func (p *Playlist) GetApiLink() string {
-	url, err := web.GetRouter().GetRoute(routeNames.API_PLAYLIST).URL("id", strconv.FormatUint(p.ID, 10))
+	url, err := web.GetRouter().GetRoute(routeNames.API_PLAYLIST).URL("id", p.ID)
 
 	if err != nil {
-		logging.GetLogger().Error("error generating api url for playlist", zap.Uint64("id", p.ID), zap.Error(err))
+		logging.GetLogger().Error("error generating api url for playlist", zap.String("id", p.ID), zap.Error(err))
 		return ""
 	}
 

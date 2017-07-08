@@ -24,13 +24,12 @@ import (
 	"github.com/suluvir/server/web"
 	"github.com/suluvir/server/web/routeNames"
 	"go.uber.org/zap"
-	"strconv"
 )
 
 type Album struct {
 	special.UserBelongingObject
 	Name     string `json:"name"`
-	ArtistID uint64 `json:"-"`
+	ArtistID string `gorm:"size:64" json:"-"`
 	Artist   Artist `json:"-"`
 }
 
@@ -41,10 +40,10 @@ func init() {
 type JsonAlbum Album
 
 func (a *Album) GetApiLink() string {
-	url, err := web.GetRouter().GetRoute(routeNames.API_ALBUM).URL("id", strconv.FormatUint(a.ID, 10))
+	url, err := web.GetRouter().GetRoute(routeNames.API_ALBUM).URL("id", a.ID)
 
 	if err != nil {
-		logging.GetLogger().Error("error generating api url for album", zap.Uint64("id", a.ID), zap.Error(err))
+		logging.GetLogger().Error("error generating api url for album", zap.String("id", a.ID), zap.Error(err))
 		return ""
 	}
 

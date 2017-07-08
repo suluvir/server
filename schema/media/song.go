@@ -26,7 +26,6 @@ import (
 	"github.com/suluvir/server/web"
 	"github.com/suluvir/server/web/routeNames"
 	"go.uber.org/zap"
-	"strconv"
 )
 
 type Song struct {
@@ -36,7 +35,7 @@ type Song struct {
 	Size      int64      `json:"size"`
 	Duration  float64    `json:"duration"`
 	Filename  string     `gorm:"size:40" json:"-"`
-	AlbumID   uint       `json:"-"`
+	AlbumID   string     `gorm:"size:64" json:"-"`
 	Album     Album      `json:"-"`
 	Type      string     `json:"type"`
 	Playlists []Playlist `gorm:"many2many:playlist_songs;" json:"-"`
@@ -61,14 +60,14 @@ func (s *Song) Create() {
 		db.Save(&s.Album)
 	}
 
-	logging.GetLogger().Info("created new song", zap.Uint64("id", s.ID))
+	logging.GetLogger().Info("created new song", zap.String("id", s.ID))
 }
 
 func (s *Song) GetApiLink() string {
-	url, err := web.GetRouter().GetRoute(routeNames.API_SONG).URL("id", strconv.FormatUint(s.ID, 10))
+	url, err := web.GetRouter().GetRoute(routeNames.API_SONG).URL("id", s.ID)
 
 	if err != nil {
-		logging.GetLogger().Error("error generating api url for song", zap.Uint64("id", s.ID), zap.Error(err))
+		logging.GetLogger().Error("error generating api url for song", zap.String("id", s.ID), zap.Error(err))
 		return ""
 	}
 

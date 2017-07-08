@@ -100,7 +100,7 @@ func getArtistsByNames(artistNames string, user *auth.User) []media.Artist {
 			artists = append(artists, databaseArtist)
 			logging.GetLogger().Info("use already existing artist",
 				zap.String("name", databaseArtist.Name),
-				zap.Uint64("id", databaseArtist.ID))
+				zap.String("id", databaseArtist.ID))
 		} else {
 			logging.GetLogger().Debug("create new artist", zap.String("name", artistNameSplit))
 			artist := media.Artist{Name: artistNameSplit}

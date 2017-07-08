@@ -16,13 +16,26 @@
 package schema
 
 import (
+	"github.com/jinzhu/gorm"
+	"github.com/suluvir/server/random"
 	"time"
 )
 
+const ID_LENGTH = 8
+
 // DatabaseObject is the base object for all database objects. Copy from `gorm.Model` for json annotations
 type DatabaseObject struct {
-	ID        uint64     `gorm:"primary_key" json:"id"`
+	ID        string     `gorm:"primary_key;size:64" json:"id"`
 	CreatedAt time.Time  `json:"created_at"`
 	UpdatedAt time.Time  `json:"updated_at"`
 	DeletedAt *time.Time `sql:"index" json:"-"`
+}
+
+func (d *DatabaseObject) BeforeCreate(scope *gorm.Scope) error {
+	if d.ID != "" {
+		return nil
+	}
+	id, err := random.GenerateRandomString(ID_LENGTH)
+	scope.SetColumn("ID", id)
+	return err
 }

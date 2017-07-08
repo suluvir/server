@@ -23,18 +23,18 @@ import (
 
 func init() {
 	s := web.GetRouter().Subrouter("/api/v1")
-	s.HandleFunc("/song/{id:[0-9]+}", songApiHandler).Methods(httpHelpers.GET).Name(routeNames.API_SONG)
+	s.HandleFunc("/song/{id}", songApiHandler).Methods(httpHelpers.GET).Name(routeNames.API_SONG)
 
-	s.HandleFunc("/artist/{id:[0-9]+}", artistApiHandler).Methods(httpHelpers.GET).Name(routeNames.API_ARTIST)
-	s.HandleFunc("/artist/{id:[0-9]+}/songs", artistGetAllSongs).Methods(httpHelpers.GET)
+	s.HandleFunc("/artist/{id}", artistApiHandler).Methods(httpHelpers.GET).Name(routeNames.API_ARTIST)
+	s.HandleFunc("/artist/{id}/songs", artistGetAllSongs).Methods(httpHelpers.GET)
 
-	s.HandleFunc("/album/{id:[0-9]+}", albumApiHandler).Methods(httpHelpers.GET).Name(routeNames.API_ALBUM)
-	s.HandleFunc("/album/{id:[0-9]+}/songs", albumGetAllSongs).Methods(httpHelpers.GET)
+	s.HandleFunc("/album/{id}", albumApiHandler).Methods(httpHelpers.GET).Name(routeNames.API_ALBUM)
+	s.HandleFunc("/album/{id}/songs", albumGetAllSongs).Methods(httpHelpers.GET)
 
-	s.HandleFunc("/song/{id:[0-9]+}/stream", songApiStreamHandler).Methods(httpHelpers.GET).Name(routeNames.API_SONG_STREAM)
+	s.HandleFunc("/song/{id}/stream", songApiStreamHandler).Methods(httpHelpers.GET).Name(routeNames.API_SONG_STREAM)
 
 	s.HandleFunc("/playlist", playlistCreateHandler).Methods(httpHelpers.POST)
-	s.HandleFunc("/playlist/{id:[0-9]+}/song", playlistAddSong).Methods(httpHelpers.POST)
-	s.HandleFunc("/playlist/{id:[0-9]+}", playlistGet).Methods(httpHelpers.GET).Name(routeNames.API_PLAYLIST)
-	s.HandleFunc("/playlist/{id:[0-9]+}/songs", playlistGetAllSongs).Methods(httpHelpers.GET)
+	s.HandleFunc("/playlist/{id}/song", playlistAddSong).Methods(httpHelpers.POST)
+	s.HandleFunc("/playlist/{id}", playlistGet).Methods(httpHelpers.GET).Name(routeNames.API_PLAYLIST)
+	s.HandleFunc("/playlist/{id}/songs", playlistGetAllSongs).Methods(httpHelpers.GET)
 }

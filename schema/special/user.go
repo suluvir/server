@@ -23,6 +23,6 @@ import (
 // UserBelongingObject is the base class for all database objects belonging to a specific user
 type UserBelongingObject struct {
 	schema.DatabaseObject
-	UserId uint64    `json:"user_id"`
+	UserId string    `gorm:"size:64" json:"user_id"`
 	User   auth.User `json:"-"`
 }
