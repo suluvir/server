@@ -1,10 +1,12 @@
-hash: e7a8a2fb8fa14d371d55a941b0eac5db8bfae3926c3de987603a85a4b70b5b09
-updated: 2017-05-31T21:42:34.3498212+02:00
+hash: d3d889aecafeb390d5684c67ae60a26329e83736adf00195620d317c637de1a7
+updated: 2017-07-21T12:38:04.3839983+02:00
 imports:
 - name: github.com/BurntSushi/toml
-  version: bbd5bb678321a0d6e58f1099321dfa73391c1b6f
+  version: b26d9c308763d68093482582cea63d69be07a0f0
 - name: github.com/djimenez/iconv-go
   version: 8960e66bd3dacbc8773962b40eb82fc18c63c127
+- name: github.com/go-sql-driver/mysql
+  version: a0583e0143b1624142adab07e0e97fe106d99561
 - name: github.com/gorilla/context
   version: 1ea25387ff6f684839d82767c1733ff4d4d15d0a
 - name: github.com/gorilla/mux
@@ -16,6 +18,7 @@ imports:
 - name: github.com/jinzhu/gorm
   version: 5174cc5c242a728b435ea2be8a2f7f998e15429b
   subpackages:
+  - dialects/mysql
   - dialects/sqlite
 - name: github.com/jinzhu/inflection
   version: 1c35d901db3da928c72a72d8458480cc9ade058f
@@ -28,17 +31,13 @@ imports:
   - v1
   - v2
 - name: github.com/pborman/uuid
-  version: a97ce2ca70fa5a848076093f05e639a89ca34d06
-- name: github.com/uber-go/atomic
-  version: 4e336646b2ef9fc6e47be8e21594178f98e5ebcf
-- name: github.com/uber-go/zap
-  version: b33459c467c82258245f3bcf0ef26d0fcf2b79f5
+  version: e790cca94e6cc75c7064b1332e63811d4aae1a53
 - name: github.com/urfave/cli
   version: 0bdeddeeb0f650497d603c4ad7b20cfe685682f6
 - name: go.uber.org/atomic
   version: 4e336646b2ef9fc6e47be8e21594178f98e5ebcf
 - name: go.uber.org/zap
-  version: b33459c467c82258245f3bcf0ef26d0fcf2b79f5
+  version: 9cabc84638b70e564c3dab2766efcb1ded2aac9f
   subpackages:
   - buffer
   - internal/bufferpool
