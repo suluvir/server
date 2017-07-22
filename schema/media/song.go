@@ -22,14 +22,13 @@ import (
 	"github.com/suluvir/server/config"
 	"github.com/suluvir/server/logging"
 	"github.com/suluvir/server/schema"
-	"github.com/suluvir/server/schema/special"
 	"github.com/suluvir/server/web"
 	"github.com/suluvir/server/web/routeNames"
 	"go.uber.org/zap"
 )
 
 type Song struct {
-	special.UserBelongingObject
+	MediaObject
 	Artists   []Artist   `gorm:"many2many:song_artists;" json:"-"`
 	Title     string     `json:"title"`
 	Size      int64      `json:"size"`
@@ -95,6 +94,7 @@ func (s Song) MarshalJSON() ([]byte, error) {
 		StreamLink     string   `json:"@stream"`
 		ApiArtistLinks []string `json:"@artists"`
 		ArtistNames    []string `json:"artist_names"`
+		ApiCoverLink   string   `json:"@cover"`
 	}{
 		JsonSong:       JsonSong(s),
 		ApiLink:        s.GetApiLink(),
@@ -102,6 +102,7 @@ func (s Song) MarshalJSON() ([]byte, error) {
 		StreamLink:     streamLink,
 		ApiArtistLinks: artistLinks,
 		ArtistNames:    artistNames,
+		ApiCoverLink:   s.GetCoverLink(),
 	})
 }
 

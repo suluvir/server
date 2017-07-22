@@ -20,14 +20,13 @@ import (
 	"fmt"
 	"github.com/suluvir/server/logging"
 	"github.com/suluvir/server/schema"
-	"github.com/suluvir/server/schema/special"
 	"github.com/suluvir/server/web"
 	"github.com/suluvir/server/web/routeNames"
 	"go.uber.org/zap"
 )
 
 type Playlist struct {
-	special.UserBelongingObject
+	MediaObject
 	Name  string `json:"name"`
 	Songs []Song `gorm:"many2many:playlist_songs;" json:"-"`
 }
@@ -82,11 +81,13 @@ func (p Playlist) MarshalJSON() ([]byte, error) {
 	songsLink := fmt.Sprintf("%s/songs", apiLink)
 	return json.Marshal(struct {
 		JsonPlaylist
-		ApiLink   string `json:"@id"`
-		SongsLink string `json:"@songs"`
+		ApiLink      string `json:"@id"`
+		SongsLink    string `json:"@songs"`
+		ApiCoverLink string `json:"@cover"`
 	}{
 		JsonPlaylist: JsonPlaylist(p),
 		ApiLink:      apiLink,
 		SongsLink:    songsLink,
+		ApiCoverLink: p.GetCoverLink(),
 	})
 }

@@ -20,14 +20,13 @@ import (
 	"fmt"
 	"github.com/suluvir/server/logging"
 	"github.com/suluvir/server/schema"
-	"github.com/suluvir/server/schema/special"
 	"github.com/suluvir/server/web"
 	"github.com/suluvir/server/web/routeNames"
 	"go.uber.org/zap"
 )
 
 type Artist struct {
-	special.UserBelongingObject
+	MediaObject
 	Name   string  `json:"name"`
 	Albums []Album `json:"-"`
 }
@@ -65,10 +64,12 @@ func (a Artist) MarshalJSON() ([]byte, error) {
 		ApiLink       string   `json:"@id"`
 		ApiAlbumLinks []string `json:"@albums"`
 		SongsLink     string   `json:"@songs"`
+		ApiCoverLink  string   `json:"@cover"`
 	}{
 		JsonArtist:    JsonArtist(a),
 		ApiLink:       a.GetApiLink(),
 		ApiAlbumLinks: albumLinks,
 		SongsLink:     songsLink,
+		ApiCoverLink:  a.GetCoverLink(),
 	})
 }
