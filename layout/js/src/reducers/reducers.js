@@ -112,10 +112,10 @@ export function upload(state = defaultStates.UPLOAD, action) {
     }
 }
 
-export function objectsById(state = defaultStates.OBJECTS_BY_ID, action) {
+export function urlCache(state = defaultStates.URL_CACHE, action) {
     switch (action.type) {
-        case actionNames.ADD_OBJECT_BY_ID:
-            return state.set(action.payload.id, action.payload.object);
+        case actionNames.ADD_TO_URL_CACHE:
+            return state.set(action.payload.url, action.payload.response);
         default:
             return state;
     }
