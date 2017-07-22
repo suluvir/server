@@ -18,6 +18,8 @@ import MyArtistsContainer from '../containers/MyArtistsContainer';
 import MyAlbumsContainer from '../containers/MyAlbumsContainer';
 import MyPlaylistsContainer from '../containers/MyPlaylistsContainer';
 
+import AlbumDetailContainer from '../containers/AlbumDetailContainer';
+
 import NotificationList from '../components/notification/NotificationList';
 
 require('./RoutedPage.scss');
@@ -48,6 +50,8 @@ export default class RoutedPage extends React.PureComponent {
                         <Route component={MyAlbumsContainer} path="albums"/>
                         <Route component={MyArtistsContainer} path="artists"/>
                         <Route component={MyPlaylistsContainer} path="playlists"/>
+
+                        <Route component={AlbumDetailContainer} path="album/:albumId"/>
 
                         <Route component={UploadPage} path="upload"/>
                     </Router>
