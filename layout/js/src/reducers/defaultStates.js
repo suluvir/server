@@ -12,6 +12,8 @@ export const PLAY = Immutable.fromJS({
 export const PLAYLIST_OF_SONG = new Immutable.Map();
 export const USER = new Immutable.Map();
 
+export const OBJECTS_BY_ID = new Immutable.Map();
+
 export const NOTIFICATIONS = new Immutable.List();
 
 export const UPLOAD = new Immutable.fromJS({

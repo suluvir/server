@@ -9,7 +9,7 @@ export default class SinglePageApplication extends React.PureComponent {
         return (
             <div id="suluvir-spa">
                 <div className="suluvir-content">
-                    {React.createElement(component)}
+                    {React.createElement(component, this.props)}
                 </div>
             </div>
         );

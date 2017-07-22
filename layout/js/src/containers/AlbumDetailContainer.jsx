@@ -5,6 +5,6 @@ import AlbumDetail from '../components/detail/AlbumDetail';
 
 export default class MyAlbumsContainer extends React.PureComponent {
     render() {
-        return <Page component={AlbumDetail} />
+        return <Page component={AlbumDetail} {...this.props} />
     }
 }

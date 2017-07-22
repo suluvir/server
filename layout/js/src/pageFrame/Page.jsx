@@ -33,7 +33,7 @@ export default class Page extends React.Component {
                         </Navigation>
                     </Drawer>
                     <Content>
-                        <SinglePageApplication component={this.props.component} />
+                        <SinglePageApplication component={this.props.component} {...this.props}/>
                     </Content>
                 </Layout>
             </div>

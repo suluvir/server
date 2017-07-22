@@ -111,3 +111,12 @@ export function upload(state = defaultStates.UPLOAD, action) {
             return state;
     }
 }
+
+export function objectsById(state = defaultStates.OBJECTS_BY_ID, action) {
+    switch (action.type) {
+        case actionNames.ADD_OBJECT_BY_ID:
+            return state.set(action.payload.id, action.payload.object);
+        default:
+            return state;
+    }
+}
