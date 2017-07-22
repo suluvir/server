@@ -49,6 +49,10 @@ func (a *Album) GetApiLink() string {
 	return url.String()
 }
 
+func (a *Album) GetUiLink() string {
+	return a.getUiLink(routeNames.UI_ALBUM)
+}
+
 func (a *Album) GetSongs() []Song {
 	var songs []Song
 	schema.GetDatabase().Where("album_id = ?", a.ID).Find(&songs)
@@ -67,12 +71,14 @@ func (a Album) MarshalJSON() ([]byte, error) {
 		ApiLink       string `json:"@id"`
 		ApiArtistLink string `json:"@artist"`
 		ApiSongsLink  string `json:"@songs"`
-		ApiCoverLink string  `json:"@cover"`
+		ApiCoverLink  string `json:"@cover"`
+		UiLink        string `json:"@ui"`
 	}{
 		JsonAlbum:     JsonAlbum(a),
 		ApiLink:       a.GetApiLink(),
 		ApiArtistLink: artist.GetApiLink(),
 		ApiSongsLink:  songsLink,
 		ApiCoverLink:  a.GetCoverLink(),
+		UiLink:        a.GetUiLink(),
 	})
 }

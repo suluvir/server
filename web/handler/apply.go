@@ -32,6 +32,8 @@ func init() {
 	router.HandleFunc("/albums", indexHandler).Methods(httpHelpers.GET)
 	router.HandleFunc("/playlists", indexHandler).Methods(httpHelpers.GET)
 
+	router.HandleFunc("/album/{id}", indexHandler).Methods(httpHelpers.GET).Name(routeNames.UI_ALBUM)
+
 	router.HandleFunc("/profile", indexHandler).Methods(httpHelpers.GET)
 
 	router.HandleFunc("/login", indexHandler).Methods(httpHelpers.GET).Name(routeNames.LOGIN)

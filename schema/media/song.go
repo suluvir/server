@@ -95,6 +95,7 @@ func (s Song) MarshalJSON() ([]byte, error) {
 		ApiArtistLinks []string `json:"@artists"`
 		ArtistNames    []string `json:"artist_names"`
 		ApiCoverLink   string   `json:"@cover"`
+		UiLink         string   `json:"@ui"`
 	}{
 		JsonSong:       JsonSong(s),
 		ApiLink:        s.GetApiLink(),
@@ -103,6 +104,7 @@ func (s Song) MarshalJSON() ([]byte, error) {
 		ApiArtistLinks: artistLinks,
 		ArtistNames:    artistNames,
 		ApiCoverLink:   s.GetCoverLink(),
+		UiLink:         s.GetUiLink(),
 	})
 }
 

@@ -16,7 +16,10 @@
 package media
 
 import (
+	"github.com/suluvir/server/logging"
 	"github.com/suluvir/server/schema/special"
+	"github.com/suluvir/server/web"
+	"go.uber.org/zap"
 )
 
 type MediaObject struct {
@@ -24,6 +27,23 @@ type MediaObject struct {
 	Covername string `gorm:"size:128" json:"-"`
 }
 
+// GetUiLink returns the link for the specific media objects ui
+func (m *MediaObject) GetUiLink() string {
+	return "/"
+}
+
+func (m *MediaObject) getUiLink(routeName string) string {
+	url, err := web.GetRouter().GetRoute(routeName).URL("id", m.ID)
+
+	if err != nil {
+		logging.GetLogger().Error("error generating ui url for media object", zap.String("id", m.ID), zap.Error(err))
+		return ""
+	}
+
+	return url.String()
+}
+
+// GetCoverLink returns the link for the cover art
 func (m *MediaObject) GetCoverLink() string {
 	return "/static/img/cover/default.png"
 }

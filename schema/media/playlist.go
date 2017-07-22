@@ -84,10 +84,12 @@ func (p Playlist) MarshalJSON() ([]byte, error) {
 		ApiLink      string `json:"@id"`
 		SongsLink    string `json:"@songs"`
 		ApiCoverLink string `json:"@cover"`
+		UiLink       string `json:"@ui"`
 	}{
 		JsonPlaylist: JsonPlaylist(p),
 		ApiLink:      apiLink,
 		SongsLink:    songsLink,
 		ApiCoverLink: p.GetCoverLink(),
+		UiLink:       p.GetUiLink(),
 	})
 }
