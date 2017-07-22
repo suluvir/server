@@ -1,0 +1,25 @@
+.suluvir-album-detail {
+    .suluvir-album-detail__head {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        padding: 1rem;
+        margin-bottom: 1rem;
+
+        .suluvir-album-detail__cover {
+            & > img {
+                width: 100%;
+            }
+            width: 100%;
+            max-width: 15rem;
+            margin-right: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .suluvir-album-detail__header {
+            & > h3 {
+                margin: 0;
+            }
+        }
+    }
+}
