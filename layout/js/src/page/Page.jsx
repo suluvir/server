@@ -1,6 +1,6 @@
 import React from "react";
 import {Layout, Header, Textfield, Content, Drawer, Navigation, Icon} from "react-mdl";
-import SinglePageApplication from "./pageContents/SinglePageApplication";
+import SinglePageApplication from "./SinglePageApplication";
 import {Link} from 'react-router';
 
 require('./Page.scss');

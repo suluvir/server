@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Page from '../pageFrame/Page';
+import Page from '../page/Page';
 import Overview from '../components/overview/Overview';
 
 export default class StartpageContainer extends React.PureComponent {

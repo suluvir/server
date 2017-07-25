@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Page from '../pageFrame/Page';
+import Page from '../page/Page';
 import Upload from '../components/upload/Upload';
 
 export default class UploadPage extends React.PureComponent {

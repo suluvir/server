@@ -6,7 +6,8 @@
   "scripts": {
     "test": "test",
     "webpack": "webpack",
-    "watch": "webpack -w"
+    "watch": "webpack -w",
+    "prod": "webpack -p"
   },
   "author": "",
   "license": "Apache-2.0",

@@ -4,7 +4,7 @@ import {Provider} from 'react-redux';
 
 import {getStore} from './utils/redux';
 
-import RoutedPage from './pageFrame/RoutedPage';
+import RoutedPage from './page/RoutedPage';
 
 ReactDOM.render(
     <Provider store={getStore()}>
