@@ -18,4 +18,4 @@ export default class SmallLogoContainer extends React.PureComponent {
 
 SmallLogoContainer.propTypes = {
     children: React.PropTypes.any.isRequired
-}
+};

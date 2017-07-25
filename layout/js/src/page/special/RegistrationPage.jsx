@@ -3,7 +3,7 @@ import {Button} from 'react-mdl';
 import {Link} from 'react-router';
 
 import IconTextfield from '../../components/util/IconTextfield';
-import SmallLogoContainer from '../../containers/SmallLogoContainer';
+import SmallLogoContainer from '../../components/util/SmallLogoContainer';
 
 import {postJson} from '../../utils/fetch';
 
