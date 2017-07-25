@@ -1,11 +1,19 @@
 import {getStore} from './redux';
 import {addNotification} from '../actions/notificationActions';
 
+function _rejectAndAddNotification(response, reject) {
+    response.json().then(result => {
+        reject(result);
+        result['type'] = 'error';
+        getStore().dispatch(addNotification(result));
+    })
+}
+
 function internalFetch(url, method='GET', init={}) {
     const commonInit = {
         method,
         credentials: 'include'
-    }
+    };
     const mergedInit = Object.assign({}, commonInit, init);
 
     return new Promise((resolve, reject) => {
@@ -13,18 +21,10 @@ function internalFetch(url, method='GET', init={}) {
             if (response.ok) {
                 resolve(response);
             } else {
-                reject(response);
-                response.json().then(result => {
-                    result['type'] = 'error';
-                    getStore().dispatch(addNotification(result));
-                });
+                _rejectAndAddNotification(response, reject);
             }
         }).catch(response => {
-            reject(response);
-            response.json().then(result => {
-                result['type'] = 'error';
-                getStore().dispatch(addNotification(result));
-            });
+            _rejectAndAddNotification(response, reject);
         });
     })
 }
@@ -76,7 +76,7 @@ export function postFile(url, file, fileKey) {
 
     const init = {
         body: formData
-    }
+    };
 
     return internalFetch(url, 'POST', init).then(response => {
         return response.json();
