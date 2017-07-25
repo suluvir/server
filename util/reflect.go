@@ -13,43 +13,14 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-package logging
+package util
 
 import (
-	"github.com/suluvir/server/environment"
-	"go.uber.org/zap"
-	"log"
-	"path"
+	"reflect"
+	"runtime"
 )
 
-// don't use configuration here because of import cycle
-const LOG_FILE_NAME = "log.log"
-
-var logger *zap.Logger
-
-func init() {
-	InitializeLogger()
-}
-
-func GetLogger() *zap.Logger {
-	if logger == nil {
-		InitializeLogger()
-	}
-	return logger
-}
-
-func InitializeLogger() {
-	config := zap.NewDevelopmentConfig()
-	config.OutputPaths = []string{
-		path.Join(environment.GetLogDir(), LOG_FILE_NAME),
-	}
-
-	l, err := config.Build(
-		zap.AddCaller(),
-	)
-	if err != nil {
-		log.Fatal("error initilizing logger: ", err)
-	}
-
-	logger = l
+// GetReflectionName returns the name of the parameter given
+func GetReflectionName(i interface{}) string {
+	return runtime.FuncForPC(reflect.ValueOf(i).Pointer()).Name()
 }

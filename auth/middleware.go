@@ -26,7 +26,7 @@ import (
 )
 
 func init() {
-	web.AddMiddleware(authenticationMiddleware)
+	web.AddPrioritizedMiddleware(authenticationMiddleware, web.AUTHENTICATION_MIDDLEWARE_PRIORITY)
 }
 
 func authenticationMiddleware(next http.Handler) http.Handler {

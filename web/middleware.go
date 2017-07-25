@@ -17,32 +17,72 @@ package web
 
 import (
 	"github.com/suluvir/server/logging"
+	"github.com/suluvir/server/util"
+	"go.uber.org/zap"
 	"net/http"
+	"sort"
 )
 
-var middlewares = []func(next http.Handler) http.Handler{}
+var prioritizedMiddlewares = map[int]*func(http.Handler) http.Handler{}
+
+// some well known middlewares with given priorities
+const (
+	// LOG_MIDDLEWARE_PRIORITY sets the priority for the log middleware
+	LOG_MIDDLEWARE_PRIORITY = 0
+	// AUTHENTICATION_MIDDLEWARE_PRIORITY sets the priority for the authentication middleware
+	AUTHENTICATION_MIDDLEWARE_PRIORITY = 1
+)
 
 func init() {
 	// we cannot apply the log middleware in the log package, since this package uses the log package and
 	// this would lead to an import cycle
-	AddMiddleware(logging.LogMiddleWare)
+	AddPrioritizedMiddleware(logging.LogMiddleWare, LOG_MIDDLEWARE_PRIORITY)
 }
 
-// AddMiddleware needs to be called in init() to make sure all middleware has been registered when the routes are constructed
-func AddMiddleware(middleware func(next http.Handler) http.Handler) {
-	middlewares = append(middlewares, middleware)
+// AddPrioritizedMiddleware adds a middleware with a priority to the stack of middlewares for each request. The higher
+// the priority, the earlier this middleware will be executed. All other middlewares will be executed after the
+// prioritized ones. This function will log an error and not adds the middleware if two middlewares with the same
+// priority are given.
+// This function returns a boolean indicating the success of adding the middleware to the stack.
+func AddPrioritizedMiddleware(middleware func(http.Handler) http.Handler, priority int) bool {
+	m := prioritizedMiddlewares[priority]
+	if m != nil {
+		logging.GetLogger().Error("two middlewares with the same priority given, not adding middleware",
+			zap.Int("priority", priority))
+		return false
+	}
+
+	name := util.GetReflectionName(middleware)
+	logging.GetLogger().Info("add middleware", zap.Int("priority", priority), zap.String("name", name))
+
+	prioritizedMiddlewares[priority] = &middleware
+	return true
 }
 
 func applyMiddleware(handler http.Handler) http.Handler {
-	if len(middlewares) == 0 {
+	if len(prioritizedMiddlewares) == 0 {
 		// there are no registered middlewares (this cannot happen, but just in case...)
 		return handler
 	}
 
-	result := middlewares[0](handler)
+	keys := make([]int, len(prioritizedMiddlewares))
+	i := 0
+	for k := range prioritizedMiddlewares {
+		keys[i] = k
+		i += 1
+	}
 
-	for i := 1; i < len(middlewares); i++ {
-		result = middlewares[i](result)
+	sort.Sort(sort.Reverse(sort.IntSlice(keys)))
+
+	result := handler
+
+	handlerName := util.GetReflectionName(handler)
+	for j := 0; j < len(keys); j++ {
+		middlewareName := util.GetReflectionName(*prioritizedMiddlewares[keys[j]])
+		logging.GetLogger().Debug("apply middleware for handler", zap.String("handler", handlerName),
+			zap.Int("priority", keys[j]),
+			zap.String("name", middlewareName))
+		result = (*prioritizedMiddlewares[keys[j]])(result)
 	}
 
 	return result
