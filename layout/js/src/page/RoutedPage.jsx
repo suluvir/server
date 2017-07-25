@@ -3,26 +3,30 @@ import {Route, Router, browserHistory} from 'react-router';
 
 import Greeter from '../classes/Greeter';
 
-import Player from '../components/player/Player';
-
+import Page from './Page';
 import RegistrationPage from './special/RegistrationPage';
 import LoginPage from './special/LoginPage';
 
-import UploadPage from '../containers/UploadPage';
-
-import ProfileContainer from '../containers/ProfileContainer';
-
-import StartpageContainer from '../containers/StartpageContainer';
-import MySongsContainer from '../containers/MySongsContainer';
-import MyArtistsContainer from '../containers/MyArtistsContainer';
-import MyAlbumsContainer from '../containers/MyAlbumsContainer';
-import MyPlaylistsContainer from '../containers/MyPlaylistsContainer';
-
-import AlbumDetailContainer from '../containers/AlbumDetailContainer';
-
+import Player from '../components/player/Player';
 import NotificationList from '../components/notification/NotificationList';
 
+import Overview from '../components/overview/Overview';
+import Profile from '../components/profile/Profile';
+
+import MySongList from '../components/lists/MySongList';
+import MyAlbumList from '../components/lists/MyAlbumList';
+import MyArtistList from '../components/lists/MyArtistList';
+import MyPlaylistList from '../components/lists/MyPlaylistList';
+
+import AlbumDetail from '../components/detail/AlbumDetail';
+
+import Upload from '../components/upload/Upload';
+
 require('./RoutedPage.scss');
+
+function ComponentContainer(component) {
+    return props => <Page component={component} {...props}/>;
+}
 
 export default class RoutedPage extends React.PureComponent {
     constructor() {
@@ -39,21 +43,21 @@ export default class RoutedPage extends React.PureComponent {
                 </div>
                 <div className="suluvir-routed-page">
                     <Router history={browserHistory}>
-                        <Route component={StartpageContainer} path="/"/>
+                        <Route component={ComponentContainer(Overview)} path="/"/>
 
                         <Route component={RegistrationPage} path="register"/>
                         <Route component={LoginPage} path="login"/>
 
-                        <Route component={ProfileContainer} path="profile"/>
+                        <Route component={ComponentContainer(Profile)} path="profile"/>
 
-                        <Route component={MySongsContainer} path="songs"/>
-                        <Route component={MyAlbumsContainer} path="albums"/>
-                        <Route component={MyArtistsContainer} path="artists"/>
-                        <Route component={MyPlaylistsContainer} path="playlists"/>
+                        <Route component={ComponentContainer(MySongList)} path="songs"/>
+                        <Route component={ComponentContainer(MyAlbumList)} path="albums"/>
+                        <Route component={ComponentContainer(MyArtistList)} path="artists"/>
+                        <Route component={ComponentContainer(MyPlaylistList)} path="playlists"/>
 
-                        <Route component={AlbumDetailContainer} path="album/:albumId"/>
+                        <Route component={ComponentContainer(AlbumDetail)} path="album/:albumId"/>
 
-                        <Route component={UploadPage} path="upload"/>
+                        <Route component={ComponentContainer(Upload)} path="upload"/>
                     </Router>
                     <Player />
                 </div>
