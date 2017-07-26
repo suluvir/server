@@ -31,6 +31,8 @@ const (
 	LOG_MIDDLEWARE_PRIORITY = 0
 	// AUTHENTICATION_MIDDLEWARE_PRIORITY sets the priority for the authentication middleware
 	AUTHENTICATION_MIDDLEWARE_PRIORITY = 1
+	// PERMISSION_MIDDLEWARE_PRIORITY sets the priority for the permission middleware
+	PERMISSION_MIDDLEWARE_PRIORITY = 2
 )
 
 func init() {
