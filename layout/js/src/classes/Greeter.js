@@ -1,3 +1,5 @@
+import {isDebugMode} from '../utils/helpers';
+
 const MINIMUM_DEVTOOLS_SPACE = 100;
 
 export default class Greeter {
@@ -11,7 +13,7 @@ export default class Greeter {
     }
 
     greetAFellowDeveloperWhenDevtoolsAreOpen() {
-        if (this.areDevtoolsOpen() && !this.alreadyGreeted) {
+        if (!isDebugMode() && this.areDevtoolsOpen() && !this.alreadyGreeted) {
             this.alreadyGreeted = true;
             fetch('/static/greetingmessage.txt').then(response => {
                 response.text().then(text => {
