@@ -6,21 +6,12 @@ import {fetchObject} from '../../actions/fetchActions';
 import {setWindowTitle} from '../../utils/helpers';
 
 import SongList from '../lists/SongList';
-
-require('./AlbumDetail.scss');
+import DetailHeader from './DetailHeader';
 
 class AlbumDetail extends React.PureComponent {
     getApiLink() {
         const {params} = this.props;
         return `/api/v1/album/${params.albumId}`;
-    }
-
-    getSongCount() {
-        const {songs} = this.props;
-        if (songs.size === 1) {
-            return 'One song';
-        }
-        return `${songs.size} songs`;
     }
 
     render() {
@@ -40,15 +31,12 @@ class AlbumDetail extends React.PureComponent {
 
         return (
             <div className="suluvir-detail suluvir-album-detail">
-                <div className="suluvir-album-detail__head mdl-shadow--3dp">
-                    <div className="suluvir-album-detail__cover">
-                        <img src={album.get('@cover')}/>
-                    </div>
-                    <div className="suluvir-album-detail__header">
-                        <h3>{album.get('name')}</h3>
-                        <div>{album.get('artist_name')} - {this.getSongCount()}</div>
-                    </div>
-                </div>
+                <DetailHeader 
+                    artists={[album.get('artist_name')]}
+                    imgSrc={album.get('@cover')}
+                    numberOfSongs={songs.size}
+                    title={album.get('name')}
+                />
                 <SongList songs={songs}/>
             </div>
         );
