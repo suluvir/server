@@ -25,7 +25,7 @@ import Upload from '../components/upload/Upload';
 require('./RoutedPage.scss');
 
 function ComponentContainer(component) {
-    return props => <Page component={component} {...props}/>;
+    return props => <Page component={component} {...props}/>;  // eslint-disable-line
 }
 
 export default class RoutedPage extends React.PureComponent {

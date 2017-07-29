@@ -5,11 +5,13 @@ import {connect} from "react-redux";
 import SongList from './SongList';
 import Loading from '../util/Loading';
 import {fetchMySongs} from "../../actions/thunkActions";
+import {setWindowTitle} from '../../utils/helpers';
 
 class MySongList extends React.PureComponent {
     componentWillMount() {
         const {fetchMySongs} = this.props;
         fetchMySongs();
+        setWindowTitle('My songs');
     }
 
     render() {

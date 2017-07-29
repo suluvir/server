@@ -55,16 +55,10 @@ export class Console {
  * @param {string} title the new title. Set it to undefined to set the default title.
  */
 export function setWindowTitle(title=undefined) {
-    const node = document.getElementsByTagName('title');
-    if (node.length != 1) {
-        Console.error('multiple title tags present on page');
-        return;
-    }
-
     if (title !== undefined) {
         const newTitle = `${title} - Suluvir`
-        node[0].innerText = newTitle;
+        document.title = newTitle;
     } else {
-        node[0].innerText = 'Suluvir';
+        document.title = 'Suluvir';
     }
 }
