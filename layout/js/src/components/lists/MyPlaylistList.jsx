@@ -6,11 +6,13 @@ import PlaylistList from './PlaylistList';
 import Loading from '../util/Loading';
 
 import {fetchMyPlaylists} from '../../actions/thunkActions';
+import {setWindowTitle} from '../../utils/helpers';
 
 class MyPlaylistList extends React.PureComponent {
     componentWillMount() {
         const {fetchMyPlaylists} = this.props;
         fetchMyPlaylists();
+        setWindowTitle('My playlists');
     }
 
     render() {

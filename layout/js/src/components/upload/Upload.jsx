@@ -6,6 +6,8 @@ import {connect} from 'react-redux';
 import SongList from '../lists/SongList';
 import PendingSongList from './PendingSongList';
 
+import {setWindowTitle} from '../../utils/helpers';
+
 import {SONG_UPLOAD_QUEUE} from '../../classes/upload/FileUploadQueue';
 
 require('./Upload.scss');
@@ -21,6 +23,10 @@ class Upload extends React.PureComponent {
         acceptedFiles.forEach(acceptedFile => {
             SONG_UPLOAD_QUEUE.addSongToUpload(acceptedFile);
         })
+    }
+
+    componentWillMount() {
+        setWindowTitle('Upload');
     }
 
     render() {

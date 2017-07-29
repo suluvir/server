@@ -3,6 +3,7 @@ import {connect} from 'react-redux';
 import Immutable from 'immutable';
 
 import {fetchObject} from '../../actions/fetchActions';
+import {setWindowTitle} from '../../utils/helpers';
 
 import SongList from '../lists/SongList';
 
@@ -29,6 +30,8 @@ class AlbumDetail extends React.PureComponent {
             fetchObject(this.getApiLink());
             return <div/>
         }
+
+        setWindowTitle(album.get('name'));
 
         if (songs === undefined) {
             fetchObject(album.get('@songs'));

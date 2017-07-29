@@ -3,6 +3,7 @@ import {connect} from 'react-redux';
 import Immutable from 'immutable';
 
 import {fetchMyAlbums} from '../../actions/thunkActions';
+import {setWindowTitle} from '../../utils/helpers';
 
 import AlbumList from './AlbumList';
 import Loading from '../util/Loading';
@@ -11,6 +12,7 @@ class MyAlbumList extends React.Component {
     componentWillMount() {
         const {fetchMyAlbums} = this.props;
         fetchMyAlbums();
+        setWindowTitle('My albums');
     }
 
     render() {

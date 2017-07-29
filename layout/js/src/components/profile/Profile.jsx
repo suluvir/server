@@ -7,6 +7,7 @@ import {List, ListItem, ListItemContent, ProgressBar} from 'react-mdl';
 import {fetchUser} from '../../actions/thunkActions';
 
 import {formatBytes} from '../../utils/formatters';
+import {setWindowTitle} from '../../utils/helpers';
 
 class Profile extends React.PureComponent {
     getQuotaSpacePercentage() {
@@ -33,6 +34,7 @@ class Profile extends React.PureComponent {
 
     componentWillMount() {
         this.props.fetchUser();
+        setWindowTitle('My profile');
     }
 
     render() {
