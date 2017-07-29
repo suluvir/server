@@ -1,5 +1,5 @@
 hash: d3d889aecafeb390d5684c67ae60a26329e83736adf00195620d317c637de1a7
-updated: 2017-07-21T12:38:04.3839983+02:00
+updated: 2017-07-29T18:29:02.3874466+02:00
 imports:
 - name: github.com/BurntSushi/toml
   version: b26d9c308763d68093482582cea63d69be07a0f0
@@ -36,14 +36,15 @@ imports:
   version: 0bdeddeeb0f650497d603c4ad7b20cfe685682f6
 - name: go.uber.org/atomic
   version: 4e336646b2ef9fc6e47be8e21594178f98e5ebcf
+- name: go.uber.org/multierr
+  version: 3c4937480c32f4c13a875a1829af76c98ca3d40a
 - name: go.uber.org/zap
-  version: 9cabc84638b70e564c3dab2766efcb1ded2aac9f
+  version: 9d9d6135afe89b6fc4a05e9a8552526caba38048
   subpackages:
   - buffer
   - internal/bufferpool
   - internal/color
   - internal/exit
-  - internal/multierror
   - zapcore
 - name: golang.org/x/crypto
   version: 080743b21912ae11ad9222778a048b795a5aae00
