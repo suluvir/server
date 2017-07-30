@@ -3,6 +3,10 @@ version = "0.0.1"
 [auth]
 registration_disabled = false
 
+[oauth]
+    [oauth.google]
+    enabled = false
+
 [development]
 development_mode = true
 

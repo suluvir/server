@@ -24,7 +24,7 @@ import (
 	"net/http"
 )
 
-var configuration Config
+var configuration *Config
 
 func init() {
 	LoadConfiguration()
@@ -39,7 +39,8 @@ func addDevelopmentModeToSetup(_ *http.Request) (string, interface{}) {
 func LoadConfiguration() {
 	// TODO ensure that it is not called multiple times?
 	configurationFile := environment.GetConfigurationFile()
-	configuration = ReadConfiguration(configurationFile)
+	c := ReadConfiguration(configurationFile)
+	configuration = &c
 }
 
 func ReadConfiguration(filename string) Config {
@@ -53,5 +54,8 @@ func ReadConfiguration(filename string) Config {
 }
 
 func GetConfiguration() Config {
-	return configuration
+	if configuration == nil {
+		LoadConfiguration()
+	}
+	return *configuration
 }

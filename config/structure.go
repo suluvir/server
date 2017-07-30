@@ -21,6 +21,7 @@ type Config struct {
 	Web         web
 	Database    database
 	Auth        auth
+	Oauth       oauth
 	Development development
 	Quota       quota
 	Mail        mail
@@ -61,4 +62,10 @@ type mail struct {
 	UserName   string `toml:"user_name"`
 	Password   string
 	Email      string
+}
+
+type oauth map[string]oauthProvider
+
+type oauthProvider struct {
+	Enabled bool
 }

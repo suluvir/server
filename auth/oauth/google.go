@@ -15,13 +15,20 @@
 
 package oauth
 
-import "net/http"
+import (
+	"github.com/suluvir/server/config"
+	"net/http"
+)
+
+const google = "google"
 
 type GoogleProvider struct {
 }
 
 func init() {
-	AddProvider("google", GoogleProvider{})
+	if config.GetConfiguration().Oauth[google].Enabled {
+		AddProvider(google, GoogleProvider{})
+	}
 }
 
 func (g GoogleProvider) HandlerFunc(w http.ResponseWriter, r *http.Request) {
