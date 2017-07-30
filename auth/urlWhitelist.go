@@ -32,6 +32,7 @@ var whitelistedUrls = []string{
 	"^/api/internal/register",
 	"^/api/internal/user/register",
 	"^/api/internal/user/login",
+	"^/api/oauth/",
 }
 
 var whitelistedUrlsRegexp = []*regexp.Regexp{}
