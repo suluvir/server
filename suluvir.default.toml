@@ -11,7 +11,11 @@ path = "uploads"
 relative = true
 
 [web]
+# this is the port the application listens on
 port = 8080
+# this is the port the application is visible to the outside world. When using a reverse proxy, set it's value
+# to the bind port of the proxy
+outside_port = 8080
 hostname = "localhost"
 
 [database]

@@ -40,8 +40,9 @@ type upload struct {
 }
 
 type web struct {
-	Port     int
-	Hostname string
+	Port        int
+	OutsidePort int `toml:"outside_port"`
+	Hostname    string
 }
 
 type database struct {
