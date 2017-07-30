@@ -54,7 +54,7 @@ func main() {
 			Aliases: []string{"s"},
 			Usage:   "Runs the server",
 			Action: func(c *cli.Context) error {
-				return web.InitializeServer(config.GetConfiguration().Web.Port)
+				return web.InitializeServer(config.GetConfiguration().Web.OutsidePort)
 			},
 		},
 		{
