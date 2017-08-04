@@ -2,14 +2,19 @@
 <html>
 
     <head>
-        <meta charset="UTF-8" />
         <title>Suluvir</title>
 
 
 {{.GreetingMessage}}
 
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="theme-color" content="#337180" />
+        {{range .Metadata}}
+            <meta
+                    {{if .Name}}name="{{.Name}}"{{end}}
+                    {{if .Content}}content="{{.Content}}"{{end}}
+                    {{if .HttpEquiv}}http-equiv="{{.HttpEquiv}}"{{end}}
+                    {{if .Charset}}charset="{{.Charset}}"{{end}}
+            >
+        {{end}}
 
         <link rel="icon" type="image/svg+xml" href="/static/img/logo/png/suluvir.png">
         <link rel="apple-touch-icon" href="/static/img/logo/png/suluvir.png">

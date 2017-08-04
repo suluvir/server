@@ -13,31 +13,34 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-package oauth
+package meta
 
-import (
-	"github.com/suluvir/server/config"
-	"github.com/suluvir/server/web/dependencyLoader"
-	"github.com/suluvir/server/web/meta"
-	"net/http"
-)
-
-const google = "google"
-
-type GoogleProvider struct {
+type Metadata struct {
+	Name      string
+	Content   string
+	Charset   string
+	HttpEquiv string
 }
+
+var metadata = []Metadata{}
 
 func init() {
-	if config.GetConfiguration().Oauth[google].Enabled {
-		AddProvider(google, GoogleProvider{})
-		dependencyLoader.AddExternalJavascript("https://apis.google.com/js/platform.js")
-		meta.AddPageMetadata(meta.Metadata{
-			Name:    "google-signin-client_id",
-			Content: "YOUR_CLIENT_ID.apps.googleusercontent.com",
-		})
-	}
+	// add some defaut metadata tags
+	AddPageMetadata(Metadata{Charset: "UTF-8"})
+	AddPageMetadata(Metadata{
+		Name:    "viewport",
+		Content: "width=device-width, initial-scale=1",
+	})
+	AddPageMetadata(Metadata{
+		Name:    "theme-color",
+		Content: "#337180",
+	})
 }
 
-func (g GoogleProvider) HandlerFunc(w http.ResponseWriter, r *http.Request) {
+func AddPageMetadata(data Metadata) {
+	metadata = append(metadata, data)
+}
 
+func GetPageMetadata() []Metadata {
+	return metadata
 }

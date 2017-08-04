@@ -20,6 +20,7 @@ import (
 	"github.com/suluvir/server/environment"
 	"github.com/suluvir/server/logging"
 	"github.com/suluvir/server/web/dependencyLoader"
+	"github.com/suluvir/server/web/meta"
 	"github.com/suluvir/server/web/printer"
 	"github.com/suluvir/server/web/setup"
 	"go.uber.org/zap"
@@ -34,6 +35,7 @@ type indexTemplate struct {
 	ExternalJavascript []string
 	Setup              string
 	GreetingMessage    template.HTML
+	Metadata           []meta.Metadata
 }
 
 func indexHandler(w http.ResponseWriter, r *http.Request) {
@@ -43,6 +45,7 @@ func indexHandler(w http.ResponseWriter, r *http.Request) {
 		Setup:              setup.GetSetup(r),
 		GreetingMessage:    greetingMessage(),
 		ExternalJavascript: dependencyLoader.GetExternalJavascripts(),
+		Metadata:           meta.GetPageMetadata(),
 	}
 	printer.PrintHtmlPageFromFile(w, "layout/html/defaulttemplate.html", variables)
 }
