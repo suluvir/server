@@ -68,6 +68,10 @@
             window.setup = JSON.parse({{.Setup}});
         </script>
 
+        {{range .ExternalJavascript}}
+            <script src="{{.}}" async defer></script>
+        {{end}}
+
         <script src="/nodestatic/dialog-polyfill/dialog-polyfill.js"></script>
         {{range .Externals}}
             {{if .HasJs}}

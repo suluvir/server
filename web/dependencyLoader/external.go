@@ -36,6 +36,8 @@ type External struct {
 	FileDirectoryMapping map[string]string
 }
 
+var externalJavascipt = []string{}
+
 func (e *External) SetUrl() {
 
 	e.HasJs = len(e.JsFiles) > 0
@@ -90,4 +92,12 @@ func NewExternal(name string, version string) External {
 		CssUrls:              []string{},
 		FileDirectoryMapping: map[string]string{},
 	}
+}
+
+func AddExternalJavascript(url string) {
+	externalJavascipt = append(externalJavascipt, url)
+}
+
+func GetExternalJavascripts() []string {
+	return externalJavascipt
 }

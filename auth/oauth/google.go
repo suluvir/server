@@ -17,6 +17,7 @@ package oauth
 
 import (
 	"github.com/suluvir/server/config"
+	"github.com/suluvir/server/web/dependencyLoader"
 	"net/http"
 )
 
@@ -28,6 +29,7 @@ type GoogleProvider struct {
 func init() {
 	if config.GetConfiguration().Oauth[google].Enabled {
 		AddProvider(google, GoogleProvider{})
+		dependencyLoader.AddExternalJavascript("https://apis.google.com/js/platform.js")
 	}
 }
 

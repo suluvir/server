@@ -30,17 +30,19 @@ import (
 )
 
 type indexTemplate struct {
-	Externals       []dependencyLoader.External
-	Setup           string
-	GreetingMessage template.HTML
+	Externals          []dependencyLoader.External
+	ExternalJavascript []string
+	Setup              string
+	GreetingMessage    template.HTML
 }
 
 func indexHandler(w http.ResponseWriter, r *http.Request) {
 	extractor := dependencyLoader.NewExtractor("layout/js/webpack.config.js", "layout/js/package.json")
 	variables := indexTemplate{
-		Externals:       extractor.ExtractExternals(),
-		Setup:           setup.GetSetup(r),
-		GreetingMessage: greetingMessage(),
+		Externals:          extractor.ExtractExternals(),
+		Setup:              setup.GetSetup(r),
+		GreetingMessage:    greetingMessage(),
+		ExternalJavascript: dependencyLoader.GetExternalJavascripts(),
 	}
 	printer.PrintHtmlPageFromFile(w, "layout/html/defaulttemplate.html", variables)
 }
