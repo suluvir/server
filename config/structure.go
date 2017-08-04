@@ -67,5 +67,6 @@ type mail struct {
 type oauth map[string]oauthProvider
 
 type oauthProvider struct {
-	Enabled bool
+	Enabled  bool
+	ClientID string `toml:"client_id"`
 }

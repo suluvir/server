@@ -6,6 +6,7 @@ registration_disabled = false
 [oauth]
     [oauth.google]
     enabled = false
+    client_id = ""
 
 [development]
 development_mode = true
