@@ -6,6 +6,31 @@ import {Link} from 'react-router';
 require('./Page.scss');
 
 export default class Page extends React.Component {
+    constructor() {
+        super();
+        this.logout = this.logout.bind(this);
+    }
+
+    logout(e) {
+        e.preventDefault();
+        if (window.gapi !== undefined) {
+            window.gapi.load('auth2', () => {
+                window.gapi.auth2.init().then(() => {
+                    const instance = window.gapi.auth2.getAuthInstance();
+                    if (!instance.currentUser.get().isSignedIn()) {
+                        // do not sign out the user if he isn't signed in
+                        window.location.href = "/logout";
+                        return;
+                    }
+                    instance.signOut().then(() => {
+                        window.location.href = "/logout";
+                        return;
+                    });
+                });
+            });
+        }
+    }
+
     render() {
         return (
             <div id="suluvir-root">
@@ -29,7 +54,7 @@ export default class Page extends React.Component {
                             <Link to="/upload"><Icon name="cloud_upload"/> Upload</Link>
                             <hr/>
                             <Link to="/profile"><Icon name="account_circle"/> Profile</Link>
-                            <a href="/logout"><Icon name="power_settings_new"/> Logout</a>
+                            <a onClick={this.logout} href="/logout"><Icon name="power_settings_new"/> Logout</a>
                         </Navigation>
                     </Drawer>
                     <Content>

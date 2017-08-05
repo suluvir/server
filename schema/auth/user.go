@@ -49,6 +49,8 @@ type User struct {
 	QuotaSpace          int64     `json:"quota_space"`
 	EmailActivationCode string    `gorm:"size:40" json:"-"`
 	AccountStatus       string    `gorm:"size:256" json:"-"`
+	AuthProvider        string    `json:"-"`
+	DisplayName         string    `gorm:"size:1024" json:"display_name"`
 }
 
 type JsonUser User

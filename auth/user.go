@@ -34,6 +34,8 @@ import (
 // TODO improve secret
 var store = sessions.NewCookieStore([]byte("a"))
 
+const password_auth_provider = "suluvir"
+
 func init() {
 	setup.AddCallBack(addRegistrationDisabledToSetup)
 }
@@ -54,42 +56,19 @@ func CreateUser(name string, email string, password string) (auth.User, error) {
 		logging.GetLogger().Error("error during password hashing", zap.Error(err))
 	}
 
-	bytes, parseErr := util.GetBytes(c.Quota.Space)
-	if parseErr != nil {
-		logging.GetLogger().Error("error during quota calculation", zap.Error(parseErr))
-	}
-
-	user := auth.User{
-		Username:            name,
-		Email:               email,
-		QuotaSongs:          c.Quota.Songs,
-		QuotaSpace:          bytes,
-		Password:            string(hashedPassword),
-		AccountStatus:       auth.ACCOUNT_STATUS_CREATED,
-		EmailActivationCode: uuid.NewRandom().String(),
-	}
+	user := GetUserWithMinimalInformation()
+	user.Username = name
+	user.DisplayName = name
+	user.Email = email
+	user.Password = string(hashedPassword)
+	user.AccountStatus = auth.ACCOUNT_STATUS_CREATED
+	user.EmailActivationCode = uuid.NewRandom().String()
+	user.AuthProvider = password_auth_provider
 
 	schema.GetDatabase().Create(&user)
 	user.QueueSendActivationMail()
 
 	return user, nil
-}
-
-func GetUserSession(r *http.Request) (*sessions.Session, error) {
-	session, err := store.Get(r, "suluvir")
-	session.Options = &sessions.Options{
-		Path:     "/",
-		HttpOnly: true,
-	}
-	return session, err
-}
-
-func MustGetUserSession(r *http.Request) *sessions.Session {
-	session, err := GetUserSession(r)
-	if err != nil {
-		logging.GetLogger().Error("error while retrieving user session", zap.Error(err))
-	}
-	return session
 }
 
 func GetUserForSession(w http.ResponseWriter, r *http.Request) (*auth.User, error) {
@@ -122,25 +101,30 @@ func MustGetUserForSession(w http.ResponseWriter, r *http.Request) *auth.User {
 	return user
 }
 
-func LoginUser(w http.ResponseWriter, r *http.Request, user auth.User, password string) error {
+// CheckLoginUser checks the given password and logs in the user after that
+func CheckLoginUser(w http.ResponseWriter, r *http.Request, user auth.User, password string) error {
 	err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(password))
-
 	if err == nil {
-		session, getErr := GetUserSession(r)
-		if getErr != nil {
-			logging.GetLogger().Error("error while getting the user session", zap.Error(getErr))
-			return getErr
-		}
+		return LoginUser(w, r, user)
+	}
+	return errors.New("username or password is incorrect")
+}
 
-		session.Values["user"] = user.Username
-		saveErr := session.Save(r, w)
-		if saveErr != nil {
-			logging.GetLogger().Error("error while saving the users session", zap.Error(saveErr))
-			return saveErr
-		}
+func LoginUser(w http.ResponseWriter, r *http.Request, user auth.User) error {
+	session, getErr := GetUserSession(r)
+	if getErr != nil {
+		logging.GetLogger().Error("error while getting the user session", zap.Error(getErr))
+		return getErr
 	}
 
-	return err
+	session.Values["user"] = user.Username
+	saveErr := session.Save(r, w)
+	if saveErr != nil {
+		logging.GetLogger().Error("error while saving the users session", zap.Error(saveErr))
+		return saveErr
+	}
+
+	return nil
 }
 
 func LogoutUser(w http.ResponseWriter, r *http.Request) {
@@ -167,4 +151,47 @@ func ActivateUser(uuid string) error {
 	} else {
 		return errors.New("no user exists for the given activation code")
 	}
+}
+
+// GetUserWithMinimalInformation returns the minimal information needed for every user
+func GetUserWithMinimalInformation() auth.User {
+	c := config.GetConfiguration()
+	bytes, parseErr := util.GetBytes(c.Quota.Space)
+	if parseErr != nil {
+		logging.GetLogger().Error("error during quota calculation, setting quota bytes to zero",
+			zap.Error(parseErr))
+		bytes = 0
+	}
+
+	user := auth.User{
+		QuotaSongs: c.Quota.Songs,
+		QuotaSpace: bytes,
+	}
+	return user
+}
+
+// GetUserByNameOrMail returns the user who has the matching name or mail
+func GetUserByNameOrMail(login string) *auth.User {
+	var user auth.User
+	schema.GetDatabase().Where("username = ? or email = ?", login, login).First(&user)
+
+	return &user
+}
+
+// GetUserForAuthProvider returns the user for the given auth provider. The user is nil, if there is no user for the
+// given login. When there is a user for the given login, but for the wrong auth provider, the error field is set
+// accordingly
+func GetUserForAuthProvider(login, provider string) (*auth.User, error) {
+	user := GetUserByNameOrMail(login)
+	if user.Username != login && user.Email != login {
+		return nil, nil
+	}
+
+	logging.GetLogger().Info("user for auth provider", zap.String("username", user.Username),
+		zap.String("provider", user.AuthProvider))
+
+	if user.AuthProvider != provider {
+		return user, errors.New("there is already a user for a different auth provider")
+	}
+	return user, nil
 }

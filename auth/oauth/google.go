@@ -16,16 +16,30 @@
 package oauth
 
 import (
+	"encoding/json"
 	"fmt"
+	"github.com/suluvir/server/auth"
 	"github.com/suluvir/server/config"
+	"github.com/suluvir/server/logging"
+	"github.com/suluvir/server/schema"
+	auth2 "github.com/suluvir/server/schema/auth"
 	"github.com/suluvir/server/web/dependencyLoader"
+	"github.com/suluvir/server/web/handler/api"
 	"github.com/suluvir/server/web/meta"
+	"go.uber.org/zap"
 	"net/http"
 )
 
 const google = "google"
 
 type GoogleProvider struct {
+}
+
+type googleSigninApiData struct {
+	Email   string `json:"email"`
+	IdToken string `json:"id_token"`
+	Image   string `json:"image"`
+	Login   string `json:"login"`
 }
 
 func init() {
@@ -41,5 +55,54 @@ func init() {
 }
 
 func (g GoogleProvider) HandlerFunc(w http.ResponseWriter, r *http.Request) {
+	var payload googleSigninApiData
 
+	decoder := json.NewDecoder(r.Body)
+	defer r.Body.Close()
+
+	if decoder.Decode(&payload) != nil {
+		api.SendJsonError(w, http.StatusBadRequest, "")
+		return
+	}
+
+	user, err := auth.GetUserForAuthProvider(payload.Email, google)
+	if err != nil {
+		logging.GetLogger().Error("user for different auth provider already exists", zap.Error(err))
+		api.SendJsonError(w, http.StatusBadRequest, "A user for this email already exists")
+		return
+	}
+
+	if user == nil {
+		if g.CheckGoogleUser(payload) != nil {
+			api.SendJsonError(w, http.StatusBadRequest, "Given user is invalid")
+			return
+		}
+		user = g.CreateUser(payload)
+	}
+
+	if g.CheckGoogleUser(payload) != nil {
+		api.SendJsonError(w, http.StatusBadRequest, "Given user is invalid")
+		return
+	}
+	auth.LoginUser(w, r, *user)
+	api.SendJsonError(w, http.StatusOK, "")
+}
+
+// CheckGoogleUser checks, if the given user is a valid google user
+func (g GoogleProvider) CheckGoogleUser(data googleSigninApiData) error {
+	return nil
+}
+
+// CreateUser creates the suluvir user from google signin api data
+func (g GoogleProvider) CreateUser(data googleSigninApiData) *auth2.User {
+	user := auth.GetUserWithMinimalInformation()
+	user.DisplayName = data.Login
+	user.Email = data.Email
+	user.AccountStatus = auth2.ACCOUNT_STATUS_EMAIL_VERIFIED
+	user.Username = data.Email
+	user.AuthProvider = google
+
+	schema.GetDatabase().Create(&user)
+
+	return &user
 }

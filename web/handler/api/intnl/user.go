@@ -19,7 +19,6 @@ import (
 	"encoding/json"
 	"github.com/suluvir/server/auth"
 	"github.com/suluvir/server/logging"
-	"github.com/suluvir/server/schema"
 	a "github.com/suluvir/server/schema/auth"
 	"github.com/suluvir/server/web/handler/api"
 	"github.com/suluvir/server/web/httpHelpers"
@@ -74,10 +73,9 @@ func loginUserHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	var user a.User
-	schema.GetDatabase().Where("username = ? or email = ?", payload.Login, payload.Login).First(&user)
-	if user.Username == payload.Login || user.Email == payload.Login {
-		err := auth.LoginUser(w, r, user, payload.Password)
+	user := auth.GetUserByNameOrMail(payload.Login)
+	if user != nil {
+		err := auth.CheckLoginUser(w, r, *user, payload.Password)
 		if err != nil {
 			responseInvalidCredentials(w)
 			return
