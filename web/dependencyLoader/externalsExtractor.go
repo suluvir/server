@@ -158,14 +158,17 @@ func (e *ExternalsExtractor) GetSuluvirExternal() External {
 	e.readPackageJson()
 
 	return External{
-		HasJs:   true,
-		JsFiles: []string{"bundle.js"},
-		HasCss:  false,
-		Version: e.packageContent.Version,
-		Name:    e.packageContent.Name,
+		HasJs:    true,
+		JsFiles:  []string{"suluvir.js"},
+		CssFiles: []string{"suluvir.css"},
+		HasCss:   false,
+		Version:  e.packageContent.Version,
+		Name:     e.packageContent.Name,
 		FileDirectoryMapping: map[string]string{
-			"bundle.js":     "layout/js/dist",
-			"bundle.js.map": "layout/js/dist",
+			"suluvir.js":      "layout/js/dist",
+			"suluvir.js.map":  "layout/js/dist",
+			"suluvir.css":     "layout/js/dist",
+			"suluvir.css.map": "layout/js/dist",
 		},
 	}
 }

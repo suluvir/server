@@ -1,4 +1,5 @@
 var webpack = require('webpack');
+var ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 module.exports = {
     entry: [
@@ -6,7 +7,7 @@ module.exports = {
         "./src/index.js"
     ],
     output: {
-        filename: "bundle.js",
+        filename: "suluvir.js",
         path: __dirname + "/dist",
         devtoolModuleFilenameTemplate: "webpack:///[absolute-resource-path]"
     },
@@ -27,7 +28,10 @@ module.exports = {
             },
             {
                 test: /\.scss$/,
-                use: ["style-loader", "css-loader", "sass-loader"]
+                loader: ExtractTextPlugin.extract({
+                    fallback: "style-loader",
+                    loader: "css-loader!sass-loader",
+                })
             },
             {
                 test: /\.jsx?$/,
@@ -41,7 +45,8 @@ module.exports = {
     plugins: [
         new webpack.ProvidePlugin({
             'Promise': 'es6-promise', // Thanks Aaron (https://gist.github.com/Couto/b29676dd1ab8714a818f#gistcomment-1584602)
-        })
+        }),
+        new ExtractTextPlugin("suluvir.css"),
     ],
 
     // When importing a module whose path matches one of the following, just
@@ -52,6 +57,7 @@ module.exports = {
         "react": "React",
         "react-dom": "ReactDOM",
         "react-mdl": "ReactMDL",
-        "immutable": "Immutable"
+        "immutable": "Immutable",
+        "material-components-web": "material-components-web"
     }
 };
