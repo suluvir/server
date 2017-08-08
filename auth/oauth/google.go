@@ -17,6 +17,7 @@ package oauth
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"github.com/suluvir/server/auth"
 	"github.com/suluvir/server/config"
@@ -31,6 +32,8 @@ import (
 )
 
 const google = "google"
+
+const checkUrl = "https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=%s"
 
 type GoogleProvider struct {
 }
@@ -72,15 +75,20 @@ func (g GoogleProvider) HandlerFunc(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	check := g.CheckGoogleUser(payload)
+	if check != nil {
+		logging.GetLogger().Error("error checking the google user", zap.Error(check))
+	}
+
 	if user == nil {
-		if g.CheckGoogleUser(payload) != nil {
+		if check != nil {
 			api.SendJsonError(w, http.StatusBadRequest, "Given user is invalid")
 			return
 		}
 		user = g.CreateUser(payload)
 	}
 
-	if g.CheckGoogleUser(payload) != nil {
+	if check != nil {
 		api.SendJsonError(w, http.StatusBadRequest, "Given user is invalid")
 		return
 	}
@@ -90,6 +98,16 @@ func (g GoogleProvider) HandlerFunc(w http.ResponseWriter, r *http.Request) {
 
 // CheckGoogleUser checks, if the given user is a valid google user
 func (g GoogleProvider) CheckGoogleUser(data googleSigninApiData) error {
+	logging.GetLogger().Debug("check google user", zap.String("login", data.Login))
+	url := fmt.Sprintf(checkUrl, data.IdToken)
+	response, err := http.Get(url)
+	if err != nil {
+		return err
+	}
+	if response.StatusCode != http.StatusOK {
+		return errors.New(fmt.Sprintf("Got response != 200: %d", response.StatusCode))
+	}
+	logging.GetLogger().Debug("check google user successful")
 	return nil
 }
 
