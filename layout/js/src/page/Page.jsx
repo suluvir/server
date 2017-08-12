@@ -1,6 +1,6 @@
 import React from "react";
-import {Layout, Header, Textfield, Content, Drawer, Navigation, Icon} from "react-mdl";
 import SinglePageApplication from "./SinglePageApplication";
+import {drawer} from 'material-components-web';
 import {Link} from 'react-router';
 
 require('./Page.scss');
@@ -8,7 +8,12 @@ require('./Page.scss');
 export default class Page extends React.Component {
     constructor() {
         super();
+        this.drawer = undefined;
         this.logout = this.logout.bind(this);
+    }
+
+    componentDidMount() {
+        this.drawer = new drawer.MDCTemporaryDrawer(document.querySelector('.mdc-temporary-drawer'));
     }
 
     logout(e) {
@@ -34,33 +39,70 @@ export default class Page extends React.Component {
     render() {
         return (
             <div id="suluvir-root">
-                <Layout fixedHeader fixedDrawer>
-                    <Header title="Suluvir">
-                        <Textfield
-                            label="Search"
-                            onChange={console.log}  // eslint-disable-line
-                            expandable
-                            expandableIcon="search"
-                        />
-                    </Header>
-                    <Drawer title="Menu">
-                        <Navigation>
-                            <Link to="/"><Icon name="home"/> Home</Link>
-                            <Link to="/artists"><Icon name="person"/> Artists</Link>
-                            <Link to="/albums"><Icon name="album"/> Albums</Link>
-                            <Link to="/songs"><Icon name="music_note"/> Songs</Link>
-                            <Link to="/playlists"><Icon name="list"/> Playlists</Link>
-                            <hr/>
-                            <Link to="/upload"><Icon name="cloud_upload"/> Upload</Link>
-                            <hr/>
-                            <Link to="/profile"><Icon name="account_circle"/> Profile</Link>
-                            <a onClick={this.logout} href="/logout"><Icon name="power_settings_new"/> Logout</a>
-                        </Navigation>
-                    </Drawer>
-                    <Content>
-                        <SinglePageApplication component={this.props.component} {...this.props}/>
-                    </Content>
-                </Layout>
+                <div className="mdc-toolbar mdc-toolbar--fixed">
+                    <div className="mdc-toolbar__row">
+                        <section className="mdc-toolbar__section mdc-toolbar__section--align-start">
+                        <button className="material-icons mdc-toolbar__icon--menu" onClick={() => this.drawer.open = true}>menu</button>
+                        <span className="mdc-toolbar__title catalog-title">Suluvir</span>
+                        </section>
+                    </div>
+                </div>
+
+                <aside className="mdc-temporary-drawer">
+                    <nav className="mdc-temporary-drawer__drawer">
+                        <header className="mdc-temporary-drawer__header">
+                        <div className="mdc-temporary-drawer__header-content mdc-theme--primary-bg mdc-theme--text-primary-on-primary">
+                            Suluvir
+                        </div>
+                        </header>
+                        <nav className="mdc-temporary-drawer__content mdc-list-group">
+                            <div id="icon-with-text-demo" className="mdc-list">
+                                <Link className="mdc-list-item" to="/">
+                                    <i className="material-icons mdc-list-item__start-detail" aria-hidden="true">home</i> 
+                                    Home
+                                </Link>
+                                <Link className="mdc-list-item" to="/artists">
+                                    <i className="material-icons mdc-list-item__start-detail" aria-hidden="true">person</i> 
+                                    Artists
+                                </Link>
+                                <Link className="mdc-list-item" to="/albums">
+                                    <i className="material-icons mdc-list-item__start-detail" aria-hidden="true">album</i>
+                                    Albums
+                                </Link>
+                                <Link className="mdc-list-item" to="/songs">
+                                    <i className="material-icons mdc-list-item__start-detail" aria-hidden="true">music_note</i> 
+                                    Songs
+                                </Link>
+                                <Link className="mdc-list-item" to="/playlists">
+                                    <i className="material-icons mdc-list-item__start-detail" aria-hidden="true">list</i> 
+                                    Playlists
+                                </Link>
+                            </div>
+
+                            <hr className="mdc-list-divider"/>
+
+                            <div className="mdc-list">
+                                <Link className="mdc-list-item" to="/upload">
+                                    <i className="material-icons mdc-list-item__start-detail" aria-hidden="true">cloud_upload</i> 
+                                    Upload
+                                </Link>
+                            </div>
+
+                            <hr className="mdc-list-divider"/>
+
+                            <div className="mdc-list">
+                                <a className="mdc-list-item" onClick={this.logout} href="/logout">
+                                    <i className="material-icons mdc-list-item__start-detail" aria-hidden="true">cloud_upload</i> 
+                                    Logout
+                                </a>
+                            </div>
+                        </nav>
+                    </nav>
+                </aside>
+
+                <main className="mdc-toolbar-fixed-adjust">
+                    <SinglePageApplication component={this.props.component} {...this.props}/>
+                </main>
             </div>
         )
     }

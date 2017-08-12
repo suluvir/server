@@ -58,6 +58,6 @@ module.exports = {
         "react-dom": "ReactDOM",
         "react-mdl": "ReactMDL",
         "immutable": "Immutable",
-        "material-components-web": "material-components-web"
+        "material-components-web": "mdc"
     }
 };
