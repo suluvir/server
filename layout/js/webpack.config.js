@@ -1,6 +1,10 @@
 var webpack = require('webpack');
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
 
+var extractSass = new ExtractTextPlugin({
+    filename: "suluvir.css",
+});
+
 module.exports = {
     entry: [
         "whatwg-fetch",
@@ -28,9 +32,15 @@ module.exports = {
             },
             {
                 test: /\.scss$/,
-                loader: ExtractTextPlugin.extract({
-                    fallback: "style-loader",
-                    loader: "css-loader!sass-loader",
+                use: extractSass.extract({
+                    use: [{
+                        loader: "css-loader"
+                    }, {
+                        loader: "sass-loader",
+                        options: {
+                            includePaths: [__dirname + "/node_modules"]
+                        }
+                    }]
                 })
             },
             {
@@ -46,7 +56,7 @@ module.exports = {
         new webpack.ProvidePlugin({
             'Promise': 'es6-promise', // Thanks Aaron (https://gist.github.com/Couto/b29676dd1ab8714a818f#gistcomment-1584602)
         }),
-        new ExtractTextPlugin("suluvir.css"),
+        extractSass,
     ],
 
     // When importing a module whose path matches one of the following, just
