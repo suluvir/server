@@ -1,12 +1,6 @@
 import React from 'react';
 import Immutable from 'immutable';
 import {
-    Button, 
-    Dialog, 
-    DialogTitle, 
-    DialogActions, 
-    DialogContent,
-
     List,
     ListItemAction,
     ListItemContent,
@@ -15,6 +9,8 @@ import {
     IconButton
 } from 'react-mdl';
 import {connect} from 'react-redux';
+
+import Dialog from '../material/Dialog';
 
 import Loading from '../util/Loading';
 import PlaylistCreateForm from './PlaylistCreateForm';
@@ -90,15 +86,9 @@ class PlaylistModal extends React.PureComponent {
 
         return (
             <div>
-                <Dialog open={show} onCancel={onCancel}>
-                    <DialogTitle>Playlists</DialogTitle>
-                    <DialogContent>
-                        <PlaylistCreateForm />
-                        {playlistDisplay}
-                    </DialogContent>
-                    <DialogActions>
-                        <Button type="button" onClick={onCancel}>Cancel</Button>
-                    </DialogActions>
+                <Dialog show={show} onCancel={onCancel} title="Playlists">
+                    <PlaylistCreateForm />
+                    {playlistDisplay}
                 </Dialog>
             </div>
         );

@@ -1,5 +1,5 @@
 import React from 'react';
-import {Textfield, IconButton} from 'react-mdl';
+import {IconButton, Textfield} from 'react-mdl';
 import {connect} from 'react-redux';
 
 import {createPlaylist} from '../../actions/thunkActions';
