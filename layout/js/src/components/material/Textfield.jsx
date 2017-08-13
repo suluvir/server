@@ -1,6 +1,8 @@
 import React from 'react';
 import {textfield} from 'material-components-web';
 
+import classNames from 'classNames';
+
 let idCounter = 1;
 
 require('./Textfield.scss');
@@ -20,18 +22,23 @@ export default class Textfield extends React.PureComponent {
     }
 
     render() {
-        const {required, label, ...other} = this.props;
+        const {required, label, autoFocus, ...other} = this.props;
 
+        const labelClasses = classNames('mdc-textfield__label', {'mdc-textfield__label--float-above': this.props.autoFocus});
         const labelNode = label !== '' ? 
-            <label htmlFor={this.id} className="mdc-textfield__label">{label}</label> : 
+            <label htmlFor={this.id} className={labelClasses}>{label}</label> : 
             undefined;
+        
+        const rootClasses = classNames('suluvir-textfield', 'mdc-textfield', 'mdc-textfield--upgraded',
+            {'mdc-textfield--focused': autoFocus});
 
         return (
             <div 
-                className="suluvir-textfield mdc-textfield mdc-textfield--upgraded"
+                className={rootClasses}
                 ref={tfRoot => this.tfRoot = tfRoot}
             >
-                <input 
+                <input
+                    autoFocus={autoFocus}
                     id={this.id}
                     className={'mdc-textfield__input'} 
                     required={required}
@@ -45,6 +52,7 @@ export default class Textfield extends React.PureComponent {
 }
 
 Textfield.propTypes = {
+    autoFocus: React.PropTypes.any,
     required: React.PropTypes.bool.isRequired,
     label: React.PropTypes.string
 };
