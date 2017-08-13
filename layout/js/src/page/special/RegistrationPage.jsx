@@ -1,9 +1,10 @@
 import React from 'react';
-import {Button} from 'react-mdl';
 import {Link} from 'react-router';
 
 import IconTextfield from '../../components/util/IconTextfield';
 import SmallLogoContainer from '../../components/util/SmallLogoContainer';
+
+import Button from '../../components/material/Button';
 
 import {postJson} from '../../utils/fetch';
 
@@ -75,7 +76,7 @@ export default class RegistrationPage extends React.PureComponent {
                             />
                         </div>
 
-                        <Button onClick={this.registerUser}>
+                        <Button onClick={this.registerUser} raised>
                             Register
                         </Button>
 
