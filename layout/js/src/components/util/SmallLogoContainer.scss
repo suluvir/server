@@ -1,7 +1,11 @@
 .suluvir-small-logo-container {
     padding: 1rem;
-
+    background-color: white;
     overflow-y: auto;
+
+    width: 75%;
+    max-width: 50rem;
+    min-width: 15rem;
 }
 
 .suluvir-small-logo-container__logo {
