@@ -1,5 +1,7 @@
 import React from 'react';
-import {Icon, Textfield} from 'react-mdl';
+
+import Textfield from '../material/Textfield';
+import Icon from '../material/Icon';
 
 require('./IconTextfield.scss');
 
@@ -12,7 +14,6 @@ export default class IconTextfield extends React.PureComponent {
                 <Textfield
                     autoFocus={autoFocus}
                     error={error}
-                    floatingLabel
                     label={label}
                     onChange={onChange}
                     pattern={pattern}

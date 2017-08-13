@@ -1,5 +1,4 @@
 import React from 'react';
-import {Button} from 'react-mdl';
 import {Link} from 'react-router';
 
 import {postJson} from '../../utils/fetch';
@@ -7,6 +6,8 @@ import {getSetup} from '../../utils/helpers';
 
 import SmallLogoContainer from '../../components/util/SmallLogoContainer';
 import IconTextfield from '../../components/util/IconTextfield';
+
+import Button from '../../components/material/Button';
 
 require('./LoginPage.scss');
 
@@ -78,7 +79,7 @@ export default class LoginPage extends React.PureComponent {
                     />
                 </div>
 
-                <Button onClick={this.login}>
+                <Button onClick={this.login} raised>
                     Login
                 </Button>
 
