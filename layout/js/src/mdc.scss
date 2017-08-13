@@ -1,5 +1,7 @@
+@import './constants';
+
 .suluvir-web-app {
-    --mdc-theme-primary: #337180;
-    --mdc-theme-accent: #2a5e6b;
+    --mdc-theme-primary: const('BACKGROUND_COLOR');
+    --mdc-theme-accent: const('BACKGROUND_COLOR_DARKER');
     --mdc-theme-background: #fff;
 }
