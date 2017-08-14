@@ -11,11 +11,16 @@ export default class SongInfo extends React.PureComponent {
 
         return (
             <div className="suluvir-songinfo">
-                <div className="suluvir-songinfo__title">
-                    {song.get('title')}
+                <div className="suluvir-songinfo__cover">
+                    <img src={song.get('@cover')} alt="Cover"/>
                 </div>
-                <div className="suluvir-songinfo__artist">
-                    {[artistNameJoin(song.get('artist_names'))]}
+                <div className="suluvir-songinfo__meta">
+                    <div className="suluvir-songinfo__title">
+                        {song.get('title')}
+                    </div>
+                    <div className="suluvir-songinfo__artist">
+                        {[artistNameJoin(song.get('artist_names'))]}
+                    </div>
                 </div>
             </div>
         );
