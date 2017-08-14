@@ -1,6 +1,8 @@
-hash: d3d889aecafeb390d5684c67ae60a26329e83736adf00195620d317c637de1a7
-updated: 2017-07-29T18:29:02.3874466+02:00
+hash: b03b556c0709f1c78e4b049ee7c7db5a4174c8e923998dbe1c75263b35677dc6
+updated: 2017-08-14T22:09:48.351746+02:00
 imports:
+- name: github.com/ascherkus/go-id3
+  version: b139b6a612de94bf345f1f520530402314dc12f8
 - name: github.com/BurntSushi/toml
   version: b26d9c308763d68093482582cea63d69be07a0f0
 - name: github.com/djimenez/iconv-go
@@ -33,7 +35,7 @@ imports:
 - name: github.com/pborman/uuid
   version: e790cca94e6cc75c7064b1332e63811d4aae1a53
 - name: github.com/urfave/cli
-  version: 0bdeddeeb0f650497d603c4ad7b20cfe685682f6
+  version: cfb38830724cc34fedffe9a2a29fb54fa9169cd1
 - name: go.uber.org/atomic
   version: 4e336646b2ef9fc6e47be8e21594178f98e5ebcf
 - name: go.uber.org/multierr

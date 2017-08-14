@@ -31,6 +31,7 @@ type Song struct {
 	MediaObject
 	Artists   []Artist   `gorm:"many2many:song_artists;" json:"-"`
 	Title     string     `json:"title"`
+	Track     int        `json:"track"`
 	Size      int64      `json:"size"`
 	Duration  float64    `json:"duration"`
 	Filename  string     `gorm:"size:40" json:"-"`

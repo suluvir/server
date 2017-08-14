@@ -16,7 +16,7 @@
 package tags
 
 import (
-	"github.com/mikkyang/id3-go"
+	"github.com/ascherkus/go-id3/src/id3"
 	"github.com/suluvir/server/logging"
 	"github.com/suluvir/server/schema"
 	"github.com/suluvir/server/schema/auth"
@@ -24,49 +24,58 @@ import (
 	"go.uber.org/zap"
 	"os"
 	"regexp"
+	"strconv"
 	"strings"
 )
 
 // ExtractTags extracts tags and return appropriate structs. Only the primitive types are initialized, all others
 // have to be set separately. Returns the song, all artists, the primary artist and the album
 func ExtractTags(fileName string, originalFileName string, user *auth.User) (media.Song, error) {
-	file, idErr := id3.Open(fileName)
 	f, fErr := os.OpenFile(fileName, os.O_RDONLY, 0666)
 	defer f.Close()
-	defer file.Close()
+	id3File := id3.Read(f)
 	if fErr != nil {
-		logging.GetLogger().Error("error loading mp3 file", zap.Error(fErr))
+		logging.GetLogger().Error("error loading mp3 id3File", zap.Error(fErr))
 		return media.Song{}, fErr
 	}
-	if idErr != nil {
-		logging.GetLogger().Error("error loading mp3 file for id extraction", zap.Error(idErr))
-		return media.Song{}, idErr
-	}
 	logging.GetLogger().Info("extracted information",
-		zap.String("artist", file.Artist()),
-		zap.String("title", file.Title()),
-		zap.String("year", file.Year()),
-		zap.String("genre", file.Genre()),
-		zap.String("album", file.Album()))
+		zap.String("artist", id3File.Artist),
+		zap.String("title", id3File.Name),
+		zap.String("year", id3File.Year),
+		zap.String("genre", id3File.Genre),
+		zap.String("album", id3File.Album),
+		zap.String("lengthMilliseconds", id3File.Length))
 
-	artists := getArtistsByNames(file.Artist(), user)
-	album := getAlbumByName(file.Album(), user)
+	artists := getArtistsByNames(id3File.Artist, user)
+	album := getAlbumByName(id3File.Album, user)
 
 	stat, statErr := f.Stat()
 	if statErr != nil {
-		logging.GetLogger().Error("error during file stat generation", zap.Error(statErr))
+		logging.GetLogger().Error("error during id3File stat generation", zap.Error(statErr))
 	}
 
 	originalFileNameSplit := strings.Split(originalFileName, ".")
 	extension := originalFileNameSplit[len(originalFileNameSplit)-1]
 
+	track, trackErr := strconv.Atoi(id3File.Track)
+	if trackErr != nil {
+		track = 0
+	}
+
+	lengthMilliseconds, lengthErr := strconv.ParseFloat(id3File.Length, 64)
+	if lengthErr != nil {
+		lengthMilliseconds = 0
+	}
+
 	song := new(media.Song)
-	song.Title = file.Title()
+	song.Title = id3File.Name
 	song.Artists = artists
 	song.Album = album
+	song.Track = track
 	song.Type = extension
 	song.Size = stat.Size()
 	song.User = *user
+	song.Duration = lengthMilliseconds / 1000
 
 	return *song, nil
 }
