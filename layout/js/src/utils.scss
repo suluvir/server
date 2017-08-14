@@ -1,0 +1,13 @@
+@import './constants';
+
+@media screen and (max-width:const('SMALL_SCREEN_BREAKING_POINT')) {
+    .suluvir-hide-small {
+        display: none;
+    }
+}
+
+@media screen and (max-width:const('EXTRA_SMALL_SCREEN_BREAKING_POINT')) {
+    .suluvir-hide-extra-small {
+        display: none;
+    }
+}

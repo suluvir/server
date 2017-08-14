@@ -54,7 +54,7 @@ class Volume extends React.PureComponent {
             iconName = 'volume_up';
         }
         return (
-            <div className="suluvir-player__volume">
+            <div className="suluvir-player__volume suluvir-hide-extra-small">
                 <IconButton name={iconName} onClick={this.toggleMute} />
                 <Slider min={0} max={100} onChange={this.volumeChange} value={this.props.volume * 100} />
             </div>

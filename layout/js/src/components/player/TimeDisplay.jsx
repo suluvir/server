@@ -66,8 +66,14 @@ export default class TimeDisplay extends React.PureComponent {
                 <div className="suluvir-timedisplay__current-time">
                     {formatTime(currentTime)}
                 </div>
-                <Slider min={0} max={parseInt(audio.duration)} value={parseInt(currentTime)} />
-                <div>
+                <div className="suluvir-hide-small suluvir-timedisplay__timeslider">
+                    <Slider 
+                        min={0} 
+                        max={parseInt(audio.duration)} 
+                        value={parseInt(currentTime)} 
+                    />
+                </div>
+                <div className="suluvir-hide-small">
                     {formatTime(audio.duration - currentTime)}
                 </div>
             </div>
