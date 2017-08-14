@@ -65,7 +65,7 @@ func (e *ExternalFileExtractor) LookupExternalFiles() []External {
 							logging.GetLogger().Info("found special externals file",
 								zap.String("path", specialJsFileDir))
 						} else {
-							logging.GetLogger().Warn("specal external file given does not exist",
+							logging.GetLogger().Debug("specal external file given does not exist",
 								zap.String("filename", specialJsFile),
 								zap.String("expected path", specialJsFileDir))
 						}
@@ -79,7 +79,7 @@ func (e *ExternalFileExtractor) LookupExternalFiles() []External {
 						logging.GetLogger().Info("found externals file",
 							zap.String("path", externalDir))
 					} else {
-						logging.GetLogger().Warn("unable to find externals file",
+						logging.GetLogger().Debug("unable to find externals file",
 							zap.String("expected path", externalDir))
 					}
 				}
@@ -94,7 +94,7 @@ func (e *ExternalFileExtractor) LookupExternalFiles() []External {
 						logging.GetLogger().Info("found special externals file",
 							zap.String("path", specialCssFileDir))
 					} else {
-						logging.GetLogger().Warn("specal external file given does not exist",
+						logging.GetLogger().Debug("specal external file given does not exist",
 							zap.String("filename", specialCssFile),
 							zap.String("expected path", specialCssFileDir))
 					}
@@ -107,7 +107,7 @@ func (e *ExternalFileExtractor) LookupExternalFiles() []External {
 						logging.GetLogger().Info("found externals file",
 							zap.String("path", externalDir))
 					} else {
-						logging.GetLogger().Warn("unable to find externals file",
+						logging.GetLogger().Debug("unable to find externals file",
 							zap.String("extected path", externalDir))
 					}
 				}

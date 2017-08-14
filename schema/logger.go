@@ -19,6 +19,13 @@ import (
 	"fmt"
 	"github.com/jinzhu/gorm"
 	"github.com/suluvir/server/logging"
+	"go.uber.org/zap"
+)
+
+const (
+	statementPosition = 3
+	valuesPosition    = 4
+	timePosition      = 2
 )
 
 type DatabaseLogger struct {
@@ -27,7 +34,10 @@ type DatabaseLogger struct {
 
 func (logger *DatabaseLogger) Print(v ...interface{}) {
 	l := logging.GetLogger()
-	for _, f := range v {
-		l.Debug(fmt.Sprintf("%s", f))
-	}
+	statement := fmt.Sprintf("%s", v[statementPosition])
+	values := fmt.Sprintf("%s", v[valuesPosition])
+	time := fmt.Sprintf("%s", v[timePosition])
+
+	l.Debug("sql", zap.String("statement", statement), zap.String("values", values),
+		zap.String("time", time))
 }
