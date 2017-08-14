@@ -1,6 +1,8 @@
 import React from 'react';
-import {IconButton, Textfield} from 'react-mdl';
+import {IconButton} from 'react-mdl';
 import {connect} from 'react-redux';
+
+import Textfield from '../material/Textfield';
 
 import {createPlaylist} from '../../actions/thunkActions';
 
@@ -47,7 +49,6 @@ class PlaylistCreateForm extends React.PureComponent {
                 <form onSubmit={this.createPlaylist}>
                     <Textfield 
                         className="suluvir-playlist-create__text-input"
-                        floatingLabel
                         label="Create new playlist..."
                         onChange={event => this.setState({name: event.target.value})}
                         value={name}

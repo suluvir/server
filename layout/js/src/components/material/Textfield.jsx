@@ -22,14 +22,14 @@ export default class Textfield extends React.PureComponent {
     }
 
     render() {
-        const {required, label, autoFocus, ...other} = this.props;
+        const {required, label, autoFocus, className, ...other} = this.props;
 
         const labelClasses = classNames('mdc-textfield__label', {'mdc-textfield__label--float-above': this.props.autoFocus});
         const labelNode = label !== '' ? 
             <label htmlFor={this.id} className={labelClasses}>{label}</label> : 
             undefined;
         
-        const rootClasses = classNames('suluvir-textfield', 'mdc-textfield', 'mdc-textfield--upgraded',
+        const rootClasses = classNames('suluvir-textfield', 'mdc-textfield', 'mdc-textfield--upgraded', className,
             {'mdc-textfield--focused': autoFocus});
 
         return (
@@ -40,7 +40,7 @@ export default class Textfield extends React.PureComponent {
                 <input
                     autoFocus={autoFocus}
                     id={this.id}
-                    className={'mdc-textfield__input'} 
+                    className="mdc-textfield__input"
                     required={required}
                     ref={input => this.input = input}
                     {...other} 
@@ -53,6 +53,7 @@ export default class Textfield extends React.PureComponent {
 
 Textfield.propTypes = {
     autoFocus: React.PropTypes.any,
+    className: React.PropTypes.string,
     required: React.PropTypes.bool.isRequired,
     label: React.PropTypes.string
 };
