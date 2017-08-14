@@ -55,7 +55,7 @@ func (a *Album) GetUiLink() string {
 
 func (a *Album) GetSongs() []Song {
 	var songs []Song
-	schema.GetDatabase().Where("album_id = ?", a.ID).Find(&songs)
+	schema.GetDatabase().Where("album_id = ?", a.ID).Order("track").Find(&songs)
 
 	return songs
 }

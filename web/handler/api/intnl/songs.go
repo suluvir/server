@@ -26,7 +26,7 @@ import (
 func mySongsHandler(w http.ResponseWriter, r *http.Request) {
 	var mySongs []media.Song
 
-	auth.GetUserDatabase(w, r).Find(&mySongs)
+	auth.GetUserDatabase(w, r).Order("album_id, track").Find(&mySongs)
 	httpHelpers.ServeJsonWithoutCache(w, mySongs)
 }
 
