@@ -11,9 +11,16 @@
             border-radius: 0.5rem;
         }
         width: 100%;
-        max-width: 15rem;
         margin-right: 1rem;
         margin-bottom: 1rem;
+
+        &--default {
+            max-width: 15rem;
+        }
+
+        &--condensed {
+            max-width: 5rem;
+        }
     }
 
     .suluvir-detail-header__header {

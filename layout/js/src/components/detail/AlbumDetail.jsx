@@ -31,7 +31,7 @@ class AlbumDetail extends React.PureComponent {
 
         return (
             <div className="suluvir-detail suluvir-album-detail">
-                <DetailHeader 
+                <DetailHeader
                     artists={[album.get('artist_name')]}
                     imgSrc={album.get('@cover')}
                     numberOfSongs={songs.size}
