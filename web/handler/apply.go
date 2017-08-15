@@ -33,6 +33,7 @@ func init() {
 	router.HandleFunc("/playlists", indexHandler).Methods(httpHelpers.GET)
 
 	router.HandleFunc("/album/{id}", indexHandler).Methods(httpHelpers.GET).Name(routeNames.UI_ALBUM)
+	router.HandleFunc("/artist/{id}", indexHandler).Methods(httpHelpers.GET).Name(routeNames.UI_ARTIST)
 
 	router.HandleFunc("/profile", indexHandler).Methods(httpHelpers.GET)
 

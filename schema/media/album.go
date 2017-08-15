@@ -18,11 +18,8 @@ package media
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/suluvir/server/logging"
 	"github.com/suluvir/server/schema"
-	"github.com/suluvir/server/web"
 	"github.com/suluvir/server/web/routeNames"
-	"go.uber.org/zap"
 )
 
 type Album struct {
@@ -39,18 +36,11 @@ func init() {
 type JsonAlbum Album
 
 func (a *Album) GetApiLink() string {
-	url, err := web.GetRouter().GetRoute(routeNames.API_ALBUM).URL("id", a.ID)
-
-	if err != nil {
-		logging.GetLogger().Error("error generating api url for album", zap.String("id", a.ID), zap.Error(err))
-		return ""
-	}
-
-	return url.String()
+	return a.getLink(routeNames.API_ALBUM)
 }
 
 func (a *Album) GetUiLink() string {
-	return a.getUiLink(routeNames.UI_ALBUM)
+	return a.getLink(routeNames.UI_ALBUM)
 }
 
 func (a *Album) GetSongs() []Song {

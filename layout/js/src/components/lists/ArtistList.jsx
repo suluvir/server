@@ -1,5 +1,6 @@
 import React from 'react';
 import Immutable from 'immutable';
+import {Link} from 'react-router';
 
 import PlayCollectionButton from '../player/PlayCollectionButton';
 
@@ -12,7 +13,7 @@ export default class ArtistList extends React.Component {
             rows.push(
                 <tr>
                     <td className="mdl-data-table__cell--non-numeric"><PlayCollectionButton collection={artist} /></td>
-                    <td className="mdl-data-table__cell--non-numeric">{artist.get('name')}</td>
+                    <td className="mdl-data-table__cell--non-numeric"><Link to={artist.get('@ui')}>{artist.get('name')}</Link></td>
                 </tr>
             );
         });

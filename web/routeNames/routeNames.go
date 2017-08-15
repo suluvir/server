@@ -22,7 +22,8 @@ const (
 	API_ARTIST      = "api_artist"
 	API_PLAYLIST    = "api_playlist"
 
-	UI_ALBUM = "ui_album"
+	UI_ALBUM  = "ui_album"
+	UI_ARTIST = "ui_artist"
 
 	ACTIVATE_USER = "activate_user"
 

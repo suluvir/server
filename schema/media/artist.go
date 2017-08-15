@@ -18,11 +18,8 @@ package media
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/suluvir/server/logging"
 	"github.com/suluvir/server/schema"
-	"github.com/suluvir/server/web"
 	"github.com/suluvir/server/web/routeNames"
-	"go.uber.org/zap"
 )
 
 type Artist struct {
@@ -38,14 +35,11 @@ func init() {
 type JsonArtist Artist
 
 func (a *Artist) GetApiLink() string {
-	url, err := web.GetRouter().GetRoute(routeNames.API_ARTIST).URL("id", a.ID)
+	return a.getLink(routeNames.API_ARTIST)
+}
 
-	if err != nil {
-		logging.GetLogger().Error("error generating api url for artist", zap.String("id", a.ID), zap.Error(err))
-		return ""
-	}
-
-	return url.String()
+func (a *Artist) GetUiLink() string {
+	return a.getLink(routeNames.UI_ARTIST)
 }
 
 func (a Artist) MarshalJSON() ([]byte, error) {

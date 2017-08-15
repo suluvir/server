@@ -10,12 +10,12 @@ import DetailHeader from './DetailHeader';
 
 class AlbumDetail extends React.PureComponent {
     getApiLink() {
-        const {params} = this.props;
-        return `/api/v1/album/${params.albumId}`;
+        const {albumLink, params} = this.props;
+        return albumLink ? albumLink : `/api/v1/album/${params.albumId}`;
     }
 
     render() {
-        const {album, fetchObject, songs} = this.props;
+        const {album, fetchObject, songs, ...others} = this.props;
 
         if (album === undefined) {
             fetchObject(this.getApiLink());
@@ -36,6 +36,7 @@ class AlbumDetail extends React.PureComponent {
                     imgSrc={album.get('@cover')}
                     numberOfSongs={songs.size}
                     title={album.get('name')}
+                    {...others}
                 />
                 <SongList songs={songs}/>
             </div>
@@ -45,13 +46,14 @@ class AlbumDetail extends React.PureComponent {
 
 AlbumDetail.propTypes = {
     album: React.PropTypes.instanceOf(Immutable.Map),
+    albumLink: React.PropTypes.string,
     fetchObject: React.PropTypes.func.isRequired,
-    params: React.PropTypes.object.isRequired,
+    params: React.PropTypes.object,
     songs: React.PropTypes.instanceOf(Immutable.List)
 };
 
 function mapStateToProps(state, ownProps) {
-    const id = `/api/v1/album/${ownProps.params.albumId}`
+    const id = ownProps.albumLink ? ownProps.albumLink : `/api/v1/album/${ownProps.params.albumId}`;
     const album = state.urlCache.get(id);
     return {
         album,

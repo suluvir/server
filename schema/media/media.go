@@ -32,11 +32,11 @@ func (m *MediaObject) GetUiLink() string {
 	return "/"
 }
 
-func (m *MediaObject) getUiLink(routeName string) string {
+func (m *MediaObject) getLink(routeName string) string {
 	url, err := web.GetRouter().GetRoute(routeName).URL("id", m.ID)
 
 	if err != nil {
-		logging.GetLogger().Error("error generating ui url for media object", zap.String("id", m.ID), zap.Error(err))
+		logging.GetLogger().Error("error generating url for media object", zap.String("id", m.ID), zap.Error(err))
 		return ""
 	}
 
