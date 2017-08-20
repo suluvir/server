@@ -82,6 +82,10 @@ export default class Page extends React.Component {
                             <hr className="mdc-list-divider"/>
 
                             <div className="mdc-list">
+                                <Link className="mdc-list-item" to="/profile">
+                                    <i className="material-icons mdc-list-item__start-detail" aria-hidden="true">person</i> 
+                                    Profile
+                                </Link>
                                 <Link className="mdc-list-item" to="/upload">
                                     <i className="material-icons mdc-list-item__start-detail" aria-hidden="true">cloud_upload</i> 
                                     Upload
@@ -92,7 +96,7 @@ export default class Page extends React.Component {
 
                             <div className="mdc-list">
                                 <a className="mdc-list-item" onClick={this.logout} href="/logout">
-                                    <i className="material-icons mdc-list-item__start-detail" aria-hidden="true">cloud_upload</i> 
+                                    <i className="material-icons mdc-list-item__start-detail" aria-hidden="true">power_settings_new</i> 
                                     Logout
                                 </a>
                             </div>
