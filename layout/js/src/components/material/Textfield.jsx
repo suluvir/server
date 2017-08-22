@@ -1,7 +1,7 @@
 import React from 'react';
 import {textfield} from 'material-components-web';
 
-import classNames from 'classNames';
+import classNames from 'classnames';
 
 let idCounter = 1;
 
