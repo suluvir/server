@@ -16,15 +16,25 @@
 package printer
 
 import (
+	"github.com/suluvir/server/environment"
+	"github.com/suluvir/server/logging"
+	"go.uber.org/zap"
 	"html/template"
 	"net/http"
+	"path"
 )
 
 func PrintHtmlPageFromFile(w http.ResponseWriter, fileName string, data interface{}) {
-	t, err := template.ParseFiles(fileName)
-	if err != nil {
+	p := path.Join(environment.GetBaseDirectory(), fileName)
+	logging.GetLogger().Debug("path for template", zap.String("path", p))
+	t, parseErr := template.ParseFiles(p)
+	if parseErr != nil {
 		w.WriteHeader(http.StatusInternalServerError)
+		logging.GetLogger().Error("error during template parsing", zap.Error(parseErr))
 		return
 	}
-	t.Execute(w, data)
+	execErr := t.Execute(w, data)
+	if execErr != nil {
+		logging.GetLogger().Error("error during template execution", zap.Error(execErr))
+	}
 }

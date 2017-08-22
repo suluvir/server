@@ -165,10 +165,10 @@ func (e *ExternalsExtractor) GetSuluvirExternal() External {
 		Version:  e.packageContent.Version,
 		Name:     e.packageContent.Name,
 		FileDirectoryMapping: map[string]string{
-			"suluvir.js":      "layout/js/dist",
-			"suluvir.js.map":  "layout/js/dist",
-			"suluvir.css":     "layout/js/dist",
-			"suluvir.css.map": "layout/js/dist",
+			"suluvir.js":      path.Join(environment.GetBaseDirectory(), "layout", "js", "dist"),
+			"suluvir.js.map":  path.Join(environment.GetBaseDirectory(), "layout", "js", "dist"),
+			"suluvir.css":     path.Join(environment.GetBaseDirectory(), "layout", "js", "dist"),
+			"suluvir.css.map": path.Join(environment.GetBaseDirectory(), "layout", "js", "dist"),
 		},
 	}
 }
