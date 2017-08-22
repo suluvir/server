@@ -27,6 +27,8 @@ const (
 	uSER_CONFIG    = "suluvir.toml"
 )
 
+var givenBaseDirectory = ""
+
 // eNV_VAR_BASE_PATH is the name of the environment variable that should contain a path to the suluvir
 // base directory (lowercased, so that it is not exported)
 const eNV_VAR_BASE_PATH string = "SULUVIR_BASE_PATH"
@@ -36,12 +38,17 @@ const eNV_VAR_CI_BASE_PATH = "TRAVIS_BUILD_DIR"
 
 // GetBaseDirectory returns the base directory by checking the following folders for existence
 // (the first folder existing will be returned):
-//   1. as defined in `SULUVIR_BASE_PATH` (if the path exists)
-//   2. as defined in `TRAVIS_BUILD_DIR` (if on ci)
-//   3. the directory of the binary
+//   1. as given in the --base/-b cli flag
+//   2. as defined in `SULUVIR_BASE_PATH` (if the path exists)
+//   3. as defined in `TRAVIS_BUILD_DIR` (if on ci)
+//   4. the directory of the binary
 //
 // this directory is used for further directory determination. This function is guaranteed to return a valid directory
 func GetBaseDirectory() string {
+	if givenBaseDirectory != "" {
+		return givenBaseDirectory
+	}
+
 	envDir, envVarExists := os.LookupEnv(eNV_VAR_BASE_PATH)
 	if envVarExists && util.ExistsDir(envDir) {
 		return envDir
@@ -54,6 +61,14 @@ func GetBaseDirectory() string {
 
 	binDir, _ := filepath.Abs(filepath.Dir(os.Args[0]))
 	return binDir
+}
+
+// SetBaseDirectory sets the base directory. This function is only intended to be called by the main file. It will
+// set the given directory if it exists
+func SetBaseDirectory(dir string) {
+	if dir != "" && util.ExistsDir(dir) {
+		givenBaseDirectory = dir
+	}
 }
 
 // GetConfigurationFile returns the absolute file path of the configuration. If the configuration file could not be

@@ -31,6 +31,7 @@ import (
 
 	_ "github.com/suluvir/server/auth"
 	_ "github.com/suluvir/server/auth/oauth"
+	"github.com/suluvir/server/environment"
 )
 
 func main() {
@@ -48,12 +49,24 @@ func main() {
 
 	logging.GetLogger().Info("suluvir started", zap.String("version", config.GetConfiguration().Version))
 
+	var baseDirectory string
+
+	app.Flags = []cli.Flag{
+		cli.StringFlag{
+			Name:        "base,b",
+			Value:       "",
+			Destination: &baseDirectory,
+			Usage:       "Set the base path manually",
+		},
+	}
+
 	app.Commands = []cli.Command{
 		{
 			Name:    "serve",
 			Aliases: []string{"s"},
 			Usage:   "Runs the server",
 			Action: func(c *cli.Context) error {
+				environment.SetBaseDirectory(baseDirectory)
 				return web.InitializeServer(config.GetConfiguration().Web.OutsidePort)
 			},
 		},
@@ -62,6 +75,7 @@ func main() {
 			Aliases: []string{"u"},
 			Usage:   "Creates or updates the database schema",
 			Action: func(c *cli.Context) error {
+				environment.SetBaseDirectory(baseDirectory)
 				return schema.CreateOrUpdate()
 			},
 		},
