@@ -66,6 +66,7 @@ func main() {
 			Aliases: []string{"s"},
 			Usage:   "Runs the server",
 			Action: func(c *cli.Context) error {
+				environment.ExecuteStartup()
 				environment.SetBaseDirectory(baseDirectory)
 				return web.InitializeServer(config.GetConfiguration().Web.OutsidePort)
 			},
@@ -75,6 +76,7 @@ func main() {
 			Aliases: []string{"u"},
 			Usage:   "Creates or updates the database schema",
 			Action: func(c *cli.Context) error {
+				environment.ExecuteStartup()
 				environment.SetBaseDirectory(baseDirectory)
 				return schema.CreateOrUpdate()
 			},
