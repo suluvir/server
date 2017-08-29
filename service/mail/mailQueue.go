@@ -27,7 +27,7 @@ var queue chan Mail
 func init() {
 	queue = make(chan Mail, 100)
 
-	environment.RegisterCallback(mailLoop, environment.START_SERVICES)
+	environment.RegisterCallback(func() { go mailLoop() }, environment.START_SERVICES)
 }
 
 // QueueMail queues a new mail that should be sent

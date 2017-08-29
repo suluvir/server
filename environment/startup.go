@@ -15,11 +15,6 @@
 
 package environment
 
-import (
-	"fmt"
-	"github.com/suluvir/server/util"
-)
-
 type StartupCallback func()
 
 // constants for the execution times
@@ -61,13 +56,10 @@ func ExecuteStartup() {
 	if startupCalled == true {
 		panic("ExecuteStartup is not allowed to be called twice!")
 	}
-	fmt.Printf("startup\n")
 	startupCalled = true
 	for _, o := range order {
-		fmt.Printf("order: %d\n", o)
 		cbs := callbacks[o]
 		for _, cb := range cbs {
-			fmt.Printf("callback: %s\n", util.GetReflectionName(cb))
 			cb()
 		}
 	}
