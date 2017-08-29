@@ -21,6 +21,7 @@ import (
 	"fmt"
 	"github.com/suluvir/server/auth"
 	"github.com/suluvir/server/config"
+	"github.com/suluvir/server/environment"
 	"github.com/suluvir/server/logging"
 	"github.com/suluvir/server/schema"
 	auth2 "github.com/suluvir/server/schema/auth"
@@ -46,6 +47,10 @@ type googleSigninApiData struct {
 }
 
 func init() {
+	environment.RegisterCallback(applyGoogleProvider, environment.ROUTER_INITIALIZED)
+}
+
+func applyGoogleProvider() {
 	provider := config.GetConfiguration().Oauth[google]
 	if provider.Enabled {
 		AddProvider(google, GoogleProvider{})

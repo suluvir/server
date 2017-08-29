@@ -18,17 +18,14 @@ package config
 import (
 	"github.com/BurntSushi/toml"
 	"github.com/suluvir/server/environment"
-	"github.com/suluvir/server/logging"
 	"github.com/suluvir/server/web/setup"
-	"go.uber.org/zap"
 	"net/http"
 )
 
 var configuration *Config
 
 func init() {
-	LoadConfiguration()
-
+	environment.RegisterCallback(LoadConfiguration, environment.LOAD_CONFIGURATION)
 	setup.AddCallBack(addDevelopmentModeToSetup)
 }
 
@@ -46,16 +43,12 @@ func LoadConfiguration() {
 func ReadConfiguration(filename string) Config {
 	var config Config
 	if _, err := toml.DecodeFile(filename, &config); err != nil {
-		logging.GetLogger().Error("Error loading configuration", zap.Error(err))
+		panic(err)
 	}
-	logging.GetLogger().Info("read configuration file", zap.String("file", filename))
 
 	return config
 }
 
 func GetConfiguration() Config {
-	if configuration == nil {
-		LoadConfiguration()
-	}
 	return *configuration
 }

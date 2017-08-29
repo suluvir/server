@@ -16,12 +16,17 @@
 package v1
 
 import (
+	"github.com/suluvir/server/environment"
 	"github.com/suluvir/server/web"
 	"github.com/suluvir/server/web/httpHelpers"
 	"github.com/suluvir/server/web/routeNames"
 )
 
 func init() {
+	environment.RegisterCallback(applyRoutes, environment.ROUTER_INITIALIZED)
+}
+
+func applyRoutes() {
 	s := web.GetRouter().Subrouter("/api/v1")
 	s.HandleFunc("/song/{id}", songApiHandler).Methods(httpHelpers.GET).Name(routeNames.API_SONG)
 

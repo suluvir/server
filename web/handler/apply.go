@@ -25,6 +25,10 @@ import (
 )
 
 func init() {
+	environment.RegisterCallback(applyRoutes, environment.ROUTER_INITIALIZED)
+}
+
+func applyRoutes() {
 	router := web.GetRouter()
 	router.HandleFunc("/", indexHandler).Methods(httpHelpers.GET).Name(routeNames.INDEX)
 	router.HandleFunc("/songs", indexHandler).Methods(httpHelpers.GET)

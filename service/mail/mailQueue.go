@@ -17,6 +17,7 @@ package mail
 
 import (
 	"github.com/suluvir/server/config"
+	"github.com/suluvir/server/environment"
 	"github.com/suluvir/server/logging"
 	"go.uber.org/zap"
 )
@@ -26,7 +27,7 @@ var queue chan Mail
 func init() {
 	queue = make(chan Mail, 100)
 
-	go mailLoop()
+	environment.RegisterCallback(mailLoop, environment.START_SERVICES)
 }
 
 // QueueMail queues a new mail that should be sent

@@ -17,6 +17,7 @@ package auth
 
 import (
 	"github.com/suluvir/server/config"
+	"github.com/suluvir/server/environment"
 	"github.com/suluvir/server/logging"
 	"github.com/suluvir/server/schema"
 	"github.com/suluvir/server/web"
@@ -26,6 +27,10 @@ import (
 )
 
 func init() {
+	environment.RegisterCallback(addAuthenticationMiddleware, environment.LOGGER_INITIALIZED)
+}
+
+func addAuthenticationMiddleware() {
 	web.AddPrioritizedMiddleware(authenticationMiddleware, web.AUTHENTICATION_MIDDLEWARE_PRIORITY)
 }
 

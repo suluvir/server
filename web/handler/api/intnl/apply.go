@@ -16,11 +16,16 @@
 package intnl
 
 import (
+	"github.com/suluvir/server/environment"
 	"github.com/suluvir/server/web"
 	"github.com/suluvir/server/web/httpHelpers"
 )
 
 func init() {
+	environment.RegisterCallback(applyRoutes, environment.ROUTER_INITIALIZED)
+}
+
+func applyRoutes() {
 	r := web.GetRouter().Subrouter("/api/internal")
 
 	r.HandleFunc("/upload", songUploadHandler).Methods(httpHelpers.POST)

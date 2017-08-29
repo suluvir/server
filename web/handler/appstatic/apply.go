@@ -16,11 +16,16 @@
 package appstatic
 
 import (
+	"github.com/suluvir/server/environment"
 	"github.com/suluvir/server/web"
 	"github.com/suluvir/server/web/routeNames"
 )
 
 func init() {
+	environment.RegisterCallback(applyRoutes, environment.ROUTER_INITIALIZED)
+}
+
+func applyRoutes() {
 	s := web.GetRouter().Subrouter("/appstatic")
 	s.HandleFunc("/{name}/{version}/{file}", appStaticHandler).Name(routeNames.EXTERNAL_RESOURCE)
 }

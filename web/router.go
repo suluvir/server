@@ -19,6 +19,7 @@ import (
 	"fmt"
 	"github.com/gorilla/mux"
 	"github.com/suluvir/server/config"
+	"github.com/suluvir/server/environment"
 	"net/http"
 )
 
@@ -29,6 +30,10 @@ const httpsPort = 443
 
 type SuluvirRouter struct {
 	mux *mux.Router
+}
+
+func init() {
+	environment.RegisterCallback(func() { initializeRouter() }, environment.INITIALIZE_ROUTER)
 }
 
 func (s *SuluvirRouter) HandleFunc(path string, f func(http.ResponseWriter, *http.Request)) *mux.Route {
@@ -55,10 +60,11 @@ func (s *SuluvirRouter) GetMuxRouterForTestingPurposes() *mux.Router {
 	return s.mux
 }
 
+func getMuxRouter() *mux.Router {
+	return suluvirRouter.mux
+}
+
 func initializeRouter() *mux.Router {
-	if suluvirRouter != nil {
-		return suluvirRouter.mux
-	}
 	router := mux.NewRouter().Host(getHostnameFromConfig()).Subrouter()
 	suluvirRouter = &SuluvirRouter{
 		mux: router,
@@ -79,8 +85,5 @@ func makeHostname(hostname string, port int) string {
 }
 
 func GetRouter() *SuluvirRouter {
-	if suluvirRouter == nil {
-		initializeRouter()
-	}
 	return suluvirRouter
 }

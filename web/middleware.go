@@ -16,6 +16,7 @@
 package web
 
 import (
+	"github.com/suluvir/server/environment"
 	"github.com/suluvir/server/logging"
 	"github.com/suluvir/server/util"
 	"go.uber.org/zap"
@@ -36,6 +37,10 @@ const (
 )
 
 func init() {
+	environment.RegisterCallback(addMiddleware, environment.LOGGER_INITIALIZED)
+}
+
+func addMiddleware() {
 	// we cannot apply the log middleware in the log package, since this package uses the log package and
 	// this would lead to an import cycle
 	AddPrioritizedMiddleware(logging.LogMiddleWare, LOG_MIDDLEWARE_PRIORITY)

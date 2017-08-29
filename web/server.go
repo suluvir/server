@@ -23,7 +23,7 @@ import (
 )
 
 func InitializeServer(port int) error {
-	router := initializeRouter()
+	router := getMuxRouter()
 	logging.GetLogger().Info("Starting server", zap.Int("port", port))
 	return http.ListenAndServe(fmt.Sprintf(":%d", port), router)
 }

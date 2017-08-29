@@ -35,26 +35,22 @@ var database *gorm.DB
 var schemata []interface{}
 
 func init() {
-	ConnectDatabase()
+	environment.RegisterCallback(ConnectDatabase, environment.CONNECT_DATABASE)
 }
 
 func AddSchema(schema interface{}) {
 	schemata = append(schemata, schema)
 }
 
-func ConnectDatabase() error {
+func ConnectDatabase() {
 	dialect, connectionString := getDialectAndConnectionString()
 	db, err := gorm.Open(dialect, connectionString)
 	if err != nil {
 		logging.GetLogger().Fatal("error connecting to database", zap.Error(err))
-		return err
 	}
 	database = db
 
-	GetDatabase().LogMode(true)
-	GetDatabase().SetLogger(&DatabaseLogger{})
-
-	return nil
+	GetDatabase().LogMode(true).SetLogger(&DatabaseLogger{})
 }
 
 func getDialectAndConnectionString() (string, string) {
@@ -70,6 +66,10 @@ func getDialectAndConnectionString() (string, string) {
 }
 
 func CloseDatabaseConnection() {
+	if database == nil {
+		// database was never initialized
+		return
+	}
 	logging.GetLogger().Info("close database connection")
 	err := database.Close()
 	if err != nil {

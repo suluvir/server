@@ -2,6 +2,7 @@ package auth
 
 import (
 	"github.com/gorilla/mux"
+	"github.com/suluvir/server/environment"
 	"github.com/suluvir/server/schema"
 	"github.com/suluvir/server/schema/auth"
 	"github.com/suluvir/server/schema/special"
@@ -11,6 +12,10 @@ import (
 )
 
 func init() {
+	environment.RegisterCallback(addPermissionMiddleware, environment.LOGGER_INITIALIZED)
+}
+
+func addPermissionMiddleware() {
 	web.AddPrioritizedMiddleware(permissionMiddleware, web.PERMISSION_MIDDLEWARE_PRIORITY)
 }
 

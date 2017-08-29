@@ -15,22 +15,33 @@
 
 package environment
 
+import (
+	"fmt"
+	"github.com/suluvir/server/util"
+)
+
 type StartupCallback func()
 
 // constants for the execution times
 const (
-	LOAD_CONFIGURATION   = iota
-	CONFIGURATION_LOADED = iota
-	INITIALIZE_LOGGER    = iota
-	INITIALIZE_ROUTES    = iota
-	START_SERVICES       = iota
+	LOAD_CONFIGURATION = iota
+	INITIALIZE_LOGGER  = iota
+	LOGGER_INITIALIZED = iota
+	CONNECT_DATABASE   = iota
+	DATABASE_CONNECTED = iota
+	INITIALIZE_ROUTER  = iota
+	ROUTER_INITIALIZED = iota
+	START_SERVICES     = iota
 )
 
 var order = []uint{
 	LOAD_CONFIGURATION,
-	CONFIGURATION_LOADED,
 	INITIALIZE_LOGGER,
-	INITIALIZE_ROUTES,
+	LOGGER_INITIALIZED,
+	CONNECT_DATABASE,
+	DATABASE_CONNECTED,
+	INITIALIZE_ROUTER,
+	ROUTER_INITIALIZED,
 	START_SERVICES,
 }
 
@@ -50,10 +61,13 @@ func ExecuteStartup() {
 	if startupCalled == true {
 		panic("ExecuteStartup is not allowed to be called twice!")
 	}
+	fmt.Printf("startup\n")
 	startupCalled = true
 	for _, o := range order {
+		fmt.Printf("order: %d\n", o)
 		cbs := callbacks[o]
 		for _, cb := range cbs {
+			fmt.Printf("callback: %s\n", util.GetReflectionName(cb))
 			cb()
 		}
 	}

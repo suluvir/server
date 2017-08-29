@@ -28,13 +28,10 @@ const LOG_FILE_NAME = "log.log"
 var logger *zap.Logger
 
 func init() {
-	InitializeLogger()
+	environment.RegisterCallback(InitializeLogger, environment.INITIALIZE_LOGGER)
 }
 
 func GetLogger() *zap.Logger {
-	if logger == nil {
-		InitializeLogger()
-	}
 	return logger
 }
 
