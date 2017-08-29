@@ -65,7 +65,7 @@ func getRedirectUrl() string {
 	if registeredUsers == 0 && !config.GetConfiguration().Auth.RegistrationDisabled {
 		routeName = routeNames.REGISTER
 	}
-	url, _ := web.GetRouter().GetRoute(routeName).URL()
+	url, _ := web.GetRouter().GetRoute(routeName).URLPath()
 
 	result := url.String()
 	if registeredUsers == 0 {

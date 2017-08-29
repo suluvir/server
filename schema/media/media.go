@@ -33,7 +33,7 @@ func (m *MediaObject) GetUiLink() string {
 }
 
 func (m *MediaObject) getLink(routeName string) string {
-	url, err := web.GetRouter().GetRoute(routeName).URL("id", m.ID)
+	url, err := web.GetRouter().GetRoute(routeName).URLPath("id", m.ID)
 
 	if err != nil {
 		logging.GetLogger().Error("error generating url for media object", zap.String("id", m.ID), zap.Error(err))

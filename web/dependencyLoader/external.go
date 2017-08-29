@@ -46,7 +46,7 @@ func (e *External) SetUrl() {
 	if e.HasJs {
 		e.JsUrls = []string{}
 		for _, jsFile := range e.JsFiles {
-			jsUrl, jsErr := web.GetRouter().GetRoute(routeNames.EXTERNAL_RESOURCE).URL(
+			jsUrl, jsErr := web.GetRouter().GetRoute(routeNames.EXTERNAL_RESOURCE).URLPath(
 				"name", e.Name,
 				"version", e.Version,
 				"file", jsFile)
@@ -64,7 +64,7 @@ func (e *External) SetUrl() {
 	if e.HasCss {
 		e.CssUrls = []string{}
 		for _, cssFile := range e.CssFiles {
-			cssUrl, cssErr := web.GetRouter().GetRoute(routeNames.EXTERNAL_RESOURCE).URL(
+			cssUrl, cssErr := web.GetRouter().GetRoute(routeNames.EXTERNAL_RESOURCE).URLPath(
 				"name", e.Name,
 				"version", e.Version,
 				"file", cssFile)

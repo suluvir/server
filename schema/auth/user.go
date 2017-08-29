@@ -91,7 +91,7 @@ func (u *User) GetAvailableQuota() (int64, int64) {
 
 func (u User) QueueSendActivationMail() {
 	c := config.GetConfiguration()
-	url, _ := web.GetRouter().GetRoute(routeNames.ACTIVATE_USER).URL("uuid", u.EmailActivationCode)
+	url, _ := web.GetRouter().GetRoute(routeNames.ACTIVATE_USER).URLPath("uuid", u.EmailActivationCode)
 	activationLink := url.String()
 	templateData := struct {
 		UserName       string

@@ -66,7 +66,7 @@ func (p *Playlist) ContainsSong(song Song) bool {
 }
 
 func (p *Playlist) GetApiLink() string {
-	url, err := web.GetRouter().GetRoute(routeNames.API_PLAYLIST).URL("id", p.ID)
+	url, err := web.GetRouter().GetRoute(routeNames.API_PLAYLIST).URLPath("id", p.ID)
 
 	if err != nil {
 		logging.GetLogger().Error("error generating api url for playlist", zap.String("id", p.ID), zap.Error(err))

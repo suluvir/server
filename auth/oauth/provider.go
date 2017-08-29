@@ -66,7 +66,7 @@ func addProvidersToSetup(r *http.Request) (string, interface{}) {
 	var setupProviders = map[string]map[string]interface{}{}
 
 	for urlPath := range providers {
-		url, _ := web.GetRouter().GetRoute(getProviderUrlName(urlPath)).URL()
+		url, _ := web.GetRouter().GetRoute(getProviderUrlName(urlPath)).URLPath()
 		setupProviders[urlPath] = map[string]interface{}{
 			"url": url.String(),
 		}

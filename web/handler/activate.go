@@ -28,7 +28,7 @@ func activateHandler(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	err := auth.ActivateUser(vars["uuid"])
 
-	url, _ := web.GetRouter().GetRoute(routeNames.LOGIN).URL()
+	url, _ := web.GetRouter().GetRoute(routeNames.LOGIN).URLPath()
 	urlString := url.String()
 	status := ""
 

@@ -64,7 +64,7 @@ func (s *Song) Create() {
 }
 
 func (s *Song) GetApiLink() string {
-	url, err := web.GetRouter().GetRoute(routeNames.API_SONG).URL("id", s.ID)
+	url, err := web.GetRouter().GetRoute(routeNames.API_SONG).URLPath("id", s.ID)
 
 	if err != nil {
 		logging.GetLogger().Error("error generating api url for song", zap.String("id", s.ID), zap.Error(err))
