@@ -74,7 +74,7 @@ func initializeRouter() *mux.Router {
 
 func getHostnameFromConfig() string {
 	c := config.GetConfiguration()
-	return makeHostname(c.Web.Hostname, c.Web.Port)
+	return makeHostname(c.Web.Hostname, c.Web.OutsidePort)
 }
 
 func makeHostname(hostname string, port int) string {

@@ -34,22 +34,27 @@ import (
 	"github.com/suluvir/server/environment"
 )
 
-func main() {
+var baseDirectory string
+
+func actionWrapper(callback func() error) error {
+	environment.SetBaseDirectory(baseDirectory)
 	environment.ExecuteStartup()
+	logging.GetLogger().Info("base directory", zap.String("base dir", environment.GetBaseDirectory()))
+
+	return callback()
+}
+
+func main() {
 	defer schema.CloseDatabaseConnection()
 
 	app := cli.NewApp()
 	app.Name = "Suluvir"
 	app.Usage = "Manage your own music"
-	app.Version = config.GetConfiguration().Version
+	app.Version = "0.0.1"
 	app.Copyright = "Suluvir Copyright (C) 2017 Jannis Fink\n" +
 		"   This program comes with ABSOLUTELY NO WARRANTY; for details type `show w' (TODO).\n" +
 		"   This is free software, and you are welcome to redistribute it\n" +
 		"   under certain conditions; type `show c' (TODO) for details.\n"
-
-	logging.GetLogger().Info("suluvir started", zap.String("version", config.GetConfiguration().Version))
-
-	var baseDirectory string
 
 	app.Flags = []cli.Flag{
 		cli.StringFlag{
@@ -66,8 +71,9 @@ func main() {
 			Aliases: []string{"s"},
 			Usage:   "Runs the server",
 			Action: func(c *cli.Context) error {
-				environment.SetBaseDirectory(baseDirectory)
-				return web.InitializeServer(config.GetConfiguration().Web.OutsidePort)
+				return actionWrapper(func() error {
+					return web.InitializeServer(config.GetConfiguration().Web.Port)
+				})
 			},
 		},
 		{
@@ -75,8 +81,7 @@ func main() {
 			Aliases: []string{"u"},
 			Usage:   "Creates or updates the database schema",
 			Action: func(c *cli.Context) error {
-				environment.SetBaseDirectory(baseDirectory)
-				return schema.CreateOrUpdate()
+				return actionWrapper(schema.CreateOrUpdate)
 			},
 		},
 	}
