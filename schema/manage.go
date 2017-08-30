@@ -16,6 +16,8 @@
 package schema
 
 import (
+	"errors"
+	"fmt"
 	"github.com/jinzhu/gorm"
 	"github.com/suluvir/server/config"
 	"github.com/suluvir/server/environment"
@@ -27,7 +29,12 @@ import (
 // constants for supported dmbs names in config
 const (
 	SQLITE = "sqlite3"
+	MYSQL  = "mysql"
 )
+
+var supportedDbms = []string{
+	MYSQL,
+}
 
 var database *gorm.DB
 
@@ -43,6 +50,11 @@ func AddSchema(schema interface{}) {
 
 func ConnectDatabase() {
 	dialect, connectionString := getDialectAndConnectionString()
+	dialectErr := checkForSupportedDbms(dialect)
+	if dialectErr != nil {
+		logging.GetLogger().Fatal("dbms not supported", zap.Error(dialectErr))
+		panic(dialectErr)
+	}
 	db, err := gorm.Open(dialect, connectionString)
 	if err != nil {
 		logging.GetLogger().Fatal("error connecting to database", zap.Error(err))
@@ -50,6 +62,15 @@ func ConnectDatabase() {
 	database = db
 
 	GetDatabase().LogMode(true).SetLogger(&DatabaseLogger{})
+}
+
+func checkForSupportedDbms(dialect string) error {
+	for _, dbms := range supportedDbms {
+		if dbms == dialect {
+			return nil
+		}
+	}
+	return errors.New(fmt.Sprintf("dbms '%s' not supported", dialect))
 }
 
 func getDialectAndConnectionString() (string, string) {
