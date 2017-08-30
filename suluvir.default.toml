@@ -24,8 +24,8 @@ outside_port = 8080
 hostname = "localhost"
 
 [database]
-dialect = "sqlite3"
-connection_string = "suluvir.db"
+dialect = "mysql"
+connection_string = "root:@/suluvir?charset=utf8&parseTime=True&loc=Local"
 
 [quota]
 songs = 500

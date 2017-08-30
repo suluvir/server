@@ -1,6 +1,10 @@
 language: go
 
+services:
+  - mysql
+
 before_install:
+  - mysql -e 'CREATE DATABASE suluvir;'
   - make build
   - ./server u
 
