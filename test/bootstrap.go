@@ -13,27 +13,17 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-package auth
+package test
 
 import (
-	"github.com/suluvir/server/test"
+	"github.com/suluvir/server/environment"
+	"os"
 	"testing"
 )
 
-func TestMain(m *testing.M) {
-	test.BootstrapTests(m)
-}
+// BootstrapTests runs bootstrapping (just the startup right now) for a given test suite
+func BootstrapTests(m *testing.M) {
+	environment.ExecuteStartup()
 
-func TestNotAllowed(t *testing.T) {
-	c := NewUrlWhitelistCheck("/")
-	if c.Check() {
-		t.Error("url '/' should not match")
-	}
-}
-
-func TestAllowed(t *testing.T) {
-	c := NewUrlWhitelistCheck("/appstatic/dksjfhgskdjhfg")
-	if !c.Check() {
-		t.Error("url under '/appstatic/' should be allowed")
-	}
+	os.Exit(m.Run())
 }

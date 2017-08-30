@@ -24,6 +24,11 @@ import (
 	"github.com/suluvir/server/logging"
 	"go.uber.org/zap"
 	"path"
+
+	// imports for supported dbms (import them here instead of the main module since the main
+	// module is not compiled during tests)
+	_ "github.com/jinzhu/gorm/dialects/mysql"
+	//	_ "github.com/jinzhu/gorm/dialects/sqlite"
 )
 
 // constants for supported dmbs names in config

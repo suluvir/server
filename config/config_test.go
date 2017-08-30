@@ -27,11 +27,8 @@ func TestReadDefaultConfig(t *testing.T) {
 	if config.Version != "0.0.1" {
 		t.Error("expected version to be 0.0.1, got", config.Version)
 	}
-	if config.Database.Dialect != "sqlite3" {
-		t.Error("expected dialect to be sqlite, got", config.Database.Dialect)
-	}
-	if config.Database.ConnectionString != "suluvir.db" {
-		t.Error("expected connection string to be suluvir.db, got", config.Database.ConnectionString)
+	if config.Database.Dialect != "mysql" {
+		t.Error("expected dialect to be mysql, got", config.Database.Dialect)
 	}
 	if config.Upload.Path != "uploads" {
 		t.Error("expected upload path to be uploads, got", config.Upload.Path)

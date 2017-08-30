@@ -24,10 +24,6 @@ import (
 	"go.uber.org/zap"
 	"os"
 
-	// supported dbms
-	_ "github.com/jinzhu/gorm/dialects/mysql"
-	//	_ "github.com/jinzhu/gorm/dialects/sqlite"
-
 	// apply routes
 	_ "github.com/suluvir/server/web/handler"
 	_ "github.com/suluvir/server/web/handler/api/intnl"

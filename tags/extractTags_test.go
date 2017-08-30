@@ -17,11 +17,16 @@ package tags
 
 import (
 	"github.com/suluvir/server/schema/auth"
+	"github.com/suluvir/server/test"
 	"testing"
 )
 
 var someUser = &auth.User{
 	Username: "test",
+}
+
+func TestMain(m *testing.M) {
+	test.BootstrapTests(m)
 }
 
 func TestGetAlbumByName(t *testing.T) {
