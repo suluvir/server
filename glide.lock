@@ -1,8 +1,10 @@
-hash: b03b556c0709f1c78e4b049ee7c7db5a4174c8e923998dbe1c75263b35677dc6
-updated: 2017-08-14T22:09:48.351746+02:00
+hash: c5530e7b1d895066d89311105bd14f5e557488163c09cc6ffd43904e6f4206da
+updated: 2017-08-30T22:49:07.7351771+02:00
 imports:
 - name: github.com/ascherkus/go-id3
   version: b139b6a612de94bf345f1f520530402314dc12f8
+  subpackages:
+  - src/id3
 - name: github.com/BurntSushi/toml
   version: b26d9c308763d68093482582cea63d69be07a0f0
 - name: github.com/djimenez/iconv-go
@@ -21,17 +23,10 @@ imports:
   version: 5174cc5c242a728b435ea2be8a2f7f998e15429b
   subpackages:
   - dialects/mysql
-  - dialects/sqlite
 - name: github.com/jinzhu/inflection
   version: 1c35d901db3da928c72a72d8458480cc9ade058f
 - name: github.com/mattn/go-sqlite3
   version: ca5e3819723d8eeaf170ad510e7da1d6d2e94a08
-- name: github.com/mikkyang/id3-go
-  version: 0168d962f1d773af3e29867138593203b653782e
-  subpackages:
-  - encodedbytes
-  - v1
-  - v2
 - name: github.com/pborman/uuid
   version: e790cca94e6cc75c7064b1332e63811d4aae1a53
 - name: github.com/urfave/cli
@@ -53,8 +48,4 @@ imports:
   subpackages:
   - bcrypt
   - blowfish
-- name: golang.org/x/net
-  version: 3da985ce5951d99de868be4385f21ea6c2b22f24
-  subpackages:
-  - context
 testImports: []
