@@ -16,15 +16,18 @@
 package intnl
 
 import (
+	"errors"
 	"fmt"
 	"github.com/pborman/uuid"
 	"github.com/suluvir/server/auth"
 	"github.com/suluvir/server/config"
 	"github.com/suluvir/server/logging"
 	"github.com/suluvir/server/tags"
+	"github.com/suluvir/server/web/handler/api"
 	"github.com/suluvir/server/web/httpHelpers"
 	"go.uber.org/zap"
 	"io"
+	"mime/multipart"
 	"net/http"
 	"os"
 )
@@ -32,6 +35,14 @@ import (
 func songUploadHandler(w http.ResponseWriter, r *http.Request) {
 	r.ParseMultipartForm(2 ^ 16)
 	uploadedFile, uploadedFileHeader, err := r.FormFile("media")
+
+	uploadAllowedErr := checkIfUploadAllowed(w, r, uploadedFileHeader)
+	if uploadAllowedErr != nil {
+		// the users quota is reached. Don't log it
+		api.SendJsonError(w, http.StatusForbidden, uploadAllowedErr.Error())
+		return
+	}
+
 	if err != nil {
 		logging.GetLogger().Error("error during form file access", zap.Error(err))
 		w.WriteHeader(http.StatusInternalServerError)
@@ -62,6 +73,16 @@ func songUploadHandler(w http.ResponseWriter, r *http.Request) {
 	song.Create()
 
 	httpHelpers.ServeJsonWithoutCache(w, &song)
+}
+
+func checkIfUploadAllowed(w http.ResponseWriter, r *http.Request, fh *multipart.FileHeader) error {
+	user := auth.MustGetUserForSession(w, r)
+	freeSpace, allowedSongs := user.GetAvailableQuota()
+
+	if freeSpace < fh.Size || allowedSongs < 1 {
+		return errors.New("Your quota is reached")
+	}
+	return nil
 }
 
 // FIXME: remove this duplication
