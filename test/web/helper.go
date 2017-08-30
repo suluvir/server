@@ -21,6 +21,10 @@ import (
 	"net/http/httptest"
 )
 
+// ExecuteRequest is a test helper to fake a request. Use it as follows:
+//
+//     r := httptest.NewRequest("GET", "/api/v1/internal/my/songs", nil)
+//     resp := ExecuteRequest(r)
 func ExecuteRequest(r *http.Request) *httptest.ResponseRecorder {
 	rr := httptest.NewRecorder()
 	web.GetRouter().GetMuxRouterForTestingPurposes().ServeHTTP(rr, r)

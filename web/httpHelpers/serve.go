@@ -20,6 +20,9 @@ import (
 	"net/http"
 )
 
+// ServeJsonWithoutCache takes a response writer and some data as parameters and sets the correct headers, so
+// that clients do (hopefully) not store this response in their caches. It also writes the given data to the
+// response
 func ServeJsonWithoutCache(w http.ResponseWriter, v interface{}) error {
 	w.Header().Set(CONTENT_TYPE, JSON)
 	w.Header().Set(CACHE_CONTROL, NO_CACHE)

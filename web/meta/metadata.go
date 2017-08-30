@@ -15,6 +15,7 @@
 
 package meta
 
+// Metadata is a struct for modeling HTML metadata. (<meta ... />)
 type Metadata struct {
 	Name      string
 	Content   string
@@ -37,10 +38,13 @@ func init() {
 	})
 }
 
+// AddPageMetadata adds a new metadata object to the list of metadata objects, which are added to every served HTML
+// page
 func AddPageMetadata(data Metadata) {
 	metadata = append(metadata, data)
 }
 
+// GetPageMetadata returns all metadata to add to a HTML page
 func GetPageMetadata() []Metadata {
 	return metadata
 }

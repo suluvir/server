@@ -24,6 +24,9 @@ import (
 	"path"
 )
 
+// PrintHtmlPageFromFile takes in an response writer, a filename (relative to the base directory) and an interface
+// containing that will be used as data when loading the given filename as template and executing the resulting
+// template.
 func PrintHtmlPageFromFile(w http.ResponseWriter, fileName string, data interface{}) {
 	p := path.Join(environment.GetBaseDirectory(), fileName)
 	logging.GetLogger().Debug("path for template", zap.String("path", p))

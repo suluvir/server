@@ -15,6 +15,7 @@
 
 package schema
 
+// ObjectMapping is a simple class to map every ID to the relation (tablename) of it's object
 type ObjectMapping struct {
 	Relation string `gorm:"size:128"`
 	ID       string `gorm:"size:64"`

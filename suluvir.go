@@ -24,13 +24,20 @@ import (
 	"go.uber.org/zap"
 	"os"
 
+	// supported dbms
+	_ "github.com/jinzhu/gorm/dialects/mysql"
+	//	_ "github.com/jinzhu/gorm/dialects/sqlite"
+
+	// apply routes
 	_ "github.com/suluvir/server/web/handler"
 	_ "github.com/suluvir/server/web/handler/api/intnl"
 	_ "github.com/suluvir/server/web/handler/api/v1"
 	_ "github.com/suluvir/server/web/handler/appstatic"
 
+	// make sure to call auth callbacks
 	_ "github.com/suluvir/server/auth"
 	_ "github.com/suluvir/server/auth/oauth"
+
 	"github.com/suluvir/server/environment"
 )
 

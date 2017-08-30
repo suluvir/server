@@ -15,6 +15,7 @@
 
 package httpHelpers
 
+// Available HTTP methods
 const (
 	GET    = "GET"
 	POST   = "POST"

@@ -22,7 +22,7 @@ import (
 
 func TestReadDefaultConfig(t *testing.T) {
 	configFile := environment.GetDefaultConfigFile()
-	config := ReadConfiguration(configFile)
+	config := readConfiguration(configFile)
 
 	if config.Version != "0.0.1" {
 		t.Error("expected version to be 0.0.1, got", config.Version)

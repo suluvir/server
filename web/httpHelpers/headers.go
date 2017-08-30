@@ -15,12 +15,12 @@
 
 package httpHelpers
 
+// These constants store the different headers the suluvir application is setting explicitly
 const (
 	CONTENT_TYPE        = "Content-Type"
 	EXPIRES             = "Expires"
 	CACHE_CONTROL       = "Cache-Control"
 	CONTENT_DISPOSITION = "Content-Disposition"
 	CONTENT_LENGTH      = "Content-Length"
-
-	NO_CACHE = "No-Cache"
+	NO_CACHE            = "No-Cache"
 )

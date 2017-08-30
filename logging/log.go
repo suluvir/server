@@ -22,20 +22,21 @@ import (
 	"path"
 )
 
-// don't use configuration here because of import cycle
+// LOG_FILE_NAME is the filename to log to
 const LOG_FILE_NAME = "log.log"
 
 var logger *zap.Logger
 
 func init() {
-	environment.RegisterCallback(InitializeLogger, environment.INITIALIZE_LOGGER)
+	environment.RegisterCallback(initializeLogger, environment.INITIALIZE_LOGGER)
 }
 
+// GetLogger returns the logger to use in the entire suluvir application
 func GetLogger() *zap.Logger {
 	return logger
 }
 
-func InitializeLogger() {
+func initializeLogger() {
 	config := zap.NewDevelopmentConfig()
 	config.OutputPaths = []string{
 		path.Join(environment.GetLogDir(), LOG_FILE_NAME),

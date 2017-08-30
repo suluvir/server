@@ -25,7 +25,7 @@ import (
 var configuration *Config
 
 func init() {
-	environment.RegisterCallback(LoadConfiguration, environment.LOAD_CONFIGURATION)
+	environment.RegisterCallback(loadConfiguration, environment.LOAD_CONFIGURATION)
 	setup.AddCallBack(addDevelopmentModeToSetup)
 }
 
@@ -33,14 +33,14 @@ func addDevelopmentModeToSetup(_ *http.Request) (string, interface{}) {
 	return "development", GetConfiguration().Development.DevelopmentMode
 }
 
-func LoadConfiguration() {
+func loadConfiguration() {
 	// TODO ensure that it is not called multiple times?
 	configurationFile := environment.GetConfigurationFile()
-	c := ReadConfiguration(configurationFile)
+	c := readConfiguration(configurationFile)
 	configuration = &c
 }
 
-func ReadConfiguration(filename string) Config {
+func readConfiguration(filename string) Config {
 	var config Config
 	if _, err := toml.DecodeFile(filename, &config); err != nil {
 		panic(err)
@@ -49,6 +49,7 @@ func ReadConfiguration(filename string) Config {
 	return config
 }
 
+// GetConfiguration returns the configuration object
 func GetConfiguration() Config {
 	return *configuration
 }

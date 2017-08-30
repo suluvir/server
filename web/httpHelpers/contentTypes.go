@@ -17,6 +17,7 @@ package httpHelpers
 
 import "errors"
 
+// Content types for different file types
 const (
 	HTML      = "text/html; charset=uft-8"
 	JSON      = "application/json; charset=uft-8"
@@ -30,6 +31,8 @@ var contentTypeMapping = map[string]string{
 	"mp3": MP3,
 }
 
+// GetContentType returns the appropriate content type for a given file type. It returns an error, if no such content
+// type could be found
 func GetContentType(fileType string) (string, error) {
 	if contentType, ok := contentTypeMapping[fileType]; ok {
 		return contentType, nil
