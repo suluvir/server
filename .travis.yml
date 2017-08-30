@@ -1,6 +1,17 @@
 language: go
 dist: trusty
 
+go:
+  - 1.7
+  - 1.8
+  - 1.9
+  - tip
+
+matrix:
+  allow_failures:
+    - go: tip
+  fast_finish: true
+
 services:
   - mysql
 
@@ -8,8 +19,3 @@ before_install:
   - mysql -e 'CREATE DATABASE suluvir;'
   - make build
   - ./server u
-
-go:
-  - 1.7.x
-  - 1.8.x
-  - master
