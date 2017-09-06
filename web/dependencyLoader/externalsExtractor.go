@@ -17,6 +17,7 @@ package dependencyLoader
 
 import (
 	"encoding/json"
+	"github.com/patrickmn/go-cache"
 	"github.com/suluvir/server/environment"
 	"github.com/suluvir/server/logging"
 	"go.uber.org/zap"
@@ -24,7 +25,10 @@ import (
 	"path"
 	"regexp"
 	"strings"
+	"time"
 )
+
+var externalsCache *cache.Cache
 
 type ExternalsExtractor struct {
 	webpackConfigPath string
@@ -43,6 +47,10 @@ type packageContent struct {
 	Version      string            `json:"version"`
 }
 
+func init() {
+	externalsCache = cache.New(30*time.Minute, 2*time.Hour)
+}
+
 // NewExtractor returns a new ExternalsExtractor. Given paths are treated relatively to suluvir base directory
 func NewExtractor(webpackPath string, packagePath string) *ExternalsExtractor {
 	return &ExternalsExtractor{
@@ -52,6 +60,12 @@ func NewExtractor(webpackPath string, packagePath string) *ExternalsExtractor {
 }
 
 func (e *ExternalsExtractor) ExtractExternals() []External {
+	cachedResult, found := externalsCache.Get(e.webpackConfigPath)
+	if found {
+		logging.GetLogger().Debug("use cached result")
+		return cachedResult.([]External)
+	}
+
 	webpackConfigContent, err := e.readWebpackExternals()
 	if err != nil {
 		return []External{}
@@ -76,6 +90,8 @@ func (e *ExternalsExtractor) ExtractExternals() []External {
 	suluvirExternal := e.GetSuluvirExternal()
 	suluvirExternal.SetUrl()
 	result = append(result, suluvirExternal)
+
+	externalsCache.Add(e.webpackConfigPath, result, cache.DefaultExpiration)
 
 	return result
 }

@@ -18,6 +18,7 @@ package appstatic
 import (
 	"fmt"
 	"github.com/gorilla/mux"
+	"github.com/patrickmn/go-cache"
 	"github.com/suluvir/server/logging"
 	"github.com/suluvir/server/web/dependencyLoader"
 	"github.com/suluvir/server/web/httpHelpers"
@@ -25,20 +26,37 @@ import (
 	"io/ioutil"
 	"net/http"
 	"strings"
+	"time"
 )
 
 const jsSuffix = ".js"
 const cssSuffix = ".css"
 const mapSuffix = ".map"
 
-func appStaticHandler(w http.ResponseWriter, r *http.Request) {
-	externalsExtractor := dependencyLoader.NewExtractor("layout/js/webpack.config.js", "layout/js/package.json")
-	externals := externalsExtractor.ExtractExternals()
+var fileCache *cache.Cache
 
+func init() {
+	fileCache = cache.New(30*time.Minute, 2*time.Hour)
+}
+
+func appStaticHandler(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	externalName := vars["name"]
 	externalVersion := vars["version"]
 	externalFileName := vars["file"]
+
+	cacheKey := fmt.Sprintf("%s%s%s", externalName, externalVersion, externalFileName)
+	result, found := fileCache.Get(cacheKey)
+	if found {
+		setHeaders(&w, externalFileName)
+		w.Write(result.([]byte))
+		logging.GetLogger().Debug("serve from cache", zap.String("filename", externalFileName),
+			zap.String("external", externalName))
+		return
+	}
+
+	externalsExtractor := dependencyLoader.NewExtractor("layout/js/webpack.config.js", "layout/js/package.json")
+	externals := externalsExtractor.ExtractExternals()
 
 	for _, external := range externals {
 		if external.Name == externalName && external.Version == externalVersion {
@@ -51,6 +69,7 @@ func appStaticHandler(w http.ResponseWriter, r *http.Request) {
 				}
 				setHeaders(&w, externalFileName)
 				w.Write(file)
+				fileCache.Set(cacheKey, file, cache.NoExpiration)
 				return
 			} else {
 				logError(&w, external, externalFileName, nil)
