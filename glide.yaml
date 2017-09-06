@@ -26,3 +26,5 @@ import:
 - package: github.com/go-sql-driver/mysql
   version: ^1.3.0
 - package: github.com/ascherkus/go-id3
+- package: github.com/patrickmn/go-cache
+  version: ^2.0.0

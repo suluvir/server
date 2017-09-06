@@ -1,4 +1,4 @@
-// Copyright (c) 2016 Uber Technologies, Inc.
+// Copyright (c) 2017 Uber Technologies, Inc.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -18,40 +18,22 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-package benchmarks
+package observer
 
-import (
-	"io/ioutil"
+import "go.uber.org/zap/zapcore"
 
-	"github.com/apex/log"
-	"github.com/apex/log/handlers/json"
-)
-
-func newDisabledApexLog() *log.Logger {
-	return &log.Logger{
-		Handler: json.New(ioutil.Discard),
-		Level:   log.ErrorLevel,
-	}
+// An LoggedEntry is an encoding-agnostic representation of a log message.
+// Field availability is context dependant.
+type LoggedEntry struct {
+	zapcore.Entry
+	Context []zapcore.Field
 }
 
-func newApexLog() *log.Logger {
-	return &log.Logger{
-		Handler: json.New(ioutil.Discard),
-		Level:   log.DebugLevel,
+// ContextMap returns a map for all fields in Context.
+func (e LoggedEntry) ContextMap() map[string]interface{} {
+	encoder := zapcore.NewMapObjectEncoder()
+	for _, f := range e.Context {
+		f.AddTo(encoder)
 	}
-}
-
-func fakeApexFields() log.Fields {
-	return log.Fields{
-		"int":     _tenInts[0],
-		"ints":    _tenInts,
-		"string":  _tenStrings[0],
-		"strings": _tenStrings,
-		"time":    _tenTimes[0],
-		"times":   _tenTimes,
-		"user1":   _oneUser,
-		"user2":   _oneUser,
-		"users":   _tenUsers,
-		"error":   errExample,
-	}
+	return encoder.Fields
 }

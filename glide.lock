@@ -1,5 +1,5 @@
-hash: c5530e7b1d895066d89311105bd14f5e557488163c09cc6ffd43904e6f4206da
-updated: 2017-08-30T22:49:07.7351771+02:00
+hash: 75ee48af4feae2527054c05e7f1c9d5e1513cd478083a1f4b1611dd9a879ace4
+updated: 2017-09-06T21:16:45.1193887+02:00
 imports:
 - name: github.com/ascherkus/go-id3
   version: b139b6a612de94bf345f1f520530402314dc12f8
@@ -27,6 +27,8 @@ imports:
   version: 1c35d901db3da928c72a72d8458480cc9ade058f
 - name: github.com/mattn/go-sqlite3
   version: ca5e3819723d8eeaf170ad510e7da1d6d2e94a08
+- name: github.com/patrickmn/go-cache
+  version: 1881a9bccb818787f68c52bfba648c6cf34c34fa
 - name: github.com/pborman/uuid
   version: e790cca94e6cc75c7064b1332e63811d4aae1a53
 - name: github.com/urfave/cli
@@ -36,7 +38,7 @@ imports:
 - name: go.uber.org/multierr
   version: 3c4937480c32f4c13a875a1829af76c98ca3d40a
 - name: go.uber.org/zap
-  version: 9d9d6135afe89b6fc4a05e9a8552526caba38048
+  version: 3216c4c73e8ebbafff73c456dd27143f4a7c1f94
   subpackages:
   - buffer
   - internal/bufferpool
