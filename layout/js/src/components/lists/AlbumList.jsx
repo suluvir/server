@@ -14,6 +14,7 @@ export default class AlbumList extends React.Component {
                 <tr>
                     <td className="mdl-data-table__cell--non-numeric"><PlayCollectionButton collection={album} /></td>
                     <td className="mdl-data-table__cell--non-numeric"><Link to={album.get('@ui')}>{album.get('name')}</Link></td>
+                    <td className="mdl-data-table__cell--non-numeric"><Link to={album.get('ui_artist_link')}>{album.get('artist_name')}</Link></td>
                 </tr>
             );
         });
@@ -24,6 +25,7 @@ export default class AlbumList extends React.Component {
                     <thead>
                         <th className="mdl-data-table__cell--non-numeric"></th>
                         <th className="mdl-data-table__cell--non-numeric">Name</th>
+                        <th className="mdl-data-table__cell--non-numeric">Artist</th>
                     </thead>
                     <tbody>
                         {rows}

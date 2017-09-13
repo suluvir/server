@@ -64,6 +64,7 @@ func (a Album) MarshalJSON() ([]byte, error) {
 		ApiCoverLink  string `json:"@cover"`
 		UiLink        string `json:"@ui"`
 		ArtistName    string `json:"artist_name"`
+		UiArtistLink  string `json:"ui_artist_link"`
 	}{
 		JsonAlbum:     JsonAlbum(a),
 		ApiLink:       a.GetApiLink(),
@@ -72,5 +73,6 @@ func (a Album) MarshalJSON() ([]byte, error) {
 		ApiCoverLink:  a.GetCoverLink(),
 		UiLink:        a.GetUiLink(),
 		ArtistName:    artist.Name,
+		UiArtistLink:  artist.GetUiLink(),
 	})
 }
