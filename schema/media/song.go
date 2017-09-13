@@ -83,20 +83,25 @@ func (s Song) MarshalJSON() ([]byte, error) {
 
 	var artistLinks = []string{}
 	var artistNames = []string{}
+	var artistUiLinks = map[string]string{}
 	for _, artist := range artists {
 		artistLinks = append(artistLinks, artist.GetApiLink())
 		artistNames = append(artistNames, artist.Name)
+		artistUiLinks[artist.Name] = artist.GetUiLink()
 	}
 
 	return json.Marshal(struct {
 		JsonSong
-		ApiLink        string   `json:"@id"`
-		ApiAlbumLink   string   `json:"@album"`
-		StreamLink     string   `json:"@stream"`
-		ApiArtistLinks []string `json:"@artists"`
-		ArtistNames    []string `json:"artist_names"`
-		ApiCoverLink   string   `json:"@cover"`
-		UiLink         string   `json:"@ui"`
+		ApiLink        string            `json:"@id"`
+		ApiAlbumLink   string            `json:"@album"`
+		StreamLink     string            `json:"@stream"`
+		ApiArtistLinks []string          `json:"@artists"`
+		ArtistNames    []string          `json:"artist_names"`
+		UiArtistLinks  map[string]string `json:"ui_artist_links"`
+		ApiCoverLink   string            `json:"@cover"`
+		UiLink         string            `json:"@ui"`
+		AlbumName      string            `json:"album_name"`
+		UiAlbumLink    string            `json:"ui_album_link"`
 	}{
 		JsonSong:       JsonSong(s),
 		ApiLink:        s.GetApiLink(),
@@ -106,6 +111,9 @@ func (s Song) MarshalJSON() ([]byte, error) {
 		ArtistNames:    artistNames,
 		ApiCoverLink:   s.GetCoverLink(),
 		UiLink:         s.GetUiLink(),
+		UiArtistLinks:  artistUiLinks,
+		AlbumName:      album.Name,
+		UiAlbumLink:    album.GetUiLink(),
 	})
 }
 
