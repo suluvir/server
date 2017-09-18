@@ -22,6 +22,9 @@ port = 8080
 # to the bind port of the proxy
 outside_port = 8080
 hostname = "localhost"
+# this sets the instance to secure mode, in which the session cookie is only set for ssl connections, links are all
+# prefixed with `https` instead of `http` and so on...
+secure = false
 
 [database]
 dialect = "mysql"

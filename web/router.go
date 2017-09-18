@@ -45,6 +45,10 @@ func (s *SuluvirRouter) Handler(path string, handler http.Handler) *mux.Route {
 }
 
 func (s *SuluvirRouter) GetRoute(name string) *mux.Route {
+	// this is for prefixing every route with `https` instead of `http`
+	if config.GetConfiguration().Web.Secure {
+		return s.mux.Get(name).Schemes("https")
+	}
 	return s.mux.Get(name)
 }
 
@@ -65,7 +69,13 @@ func getMuxRouter() *mux.Router {
 }
 
 func initializeRouter() *mux.Router {
-	router := mux.NewRouter().Host(getHostnameFromConfig()).Subrouter()
+	r := mux.NewRouter().Host(getHostnameFromConfig())
+	// this is for only matching https urls (we don't accept unencrypted connections when
+	// secure mode is set)
+	if config.GetConfiguration().Web.Secure {
+		r = r.Schemes("https")
+	}
+	router := r.Subrouter()
 	suluvirRouter = &SuluvirRouter{
 		mux: router,
 	}

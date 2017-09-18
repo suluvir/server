@@ -17,6 +17,7 @@ package auth
 
 import (
 	"github.com/gorilla/sessions"
+	"github.com/suluvir/server/config"
 	"github.com/suluvir/server/logging"
 	"go.uber.org/zap"
 	"net/http"
@@ -27,6 +28,7 @@ func GetUserSession(r *http.Request) (*sessions.Session, error) {
 	session.Options = &sessions.Options{
 		Path:     "/",
 		HttpOnly: true,
+		Secure:   config.GetConfiguration().Web.Secure,
 	}
 	return session, err
 }

@@ -44,6 +44,7 @@ type web struct {
 	Port        int
 	OutsidePort int `toml:"outside_port"`
 	Hostname    string
+	Secure      bool
 }
 
 type database struct {
