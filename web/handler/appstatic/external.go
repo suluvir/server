@@ -19,6 +19,7 @@ import (
 	"fmt"
 	"github.com/gorilla/mux"
 	"github.com/patrickmn/go-cache"
+	"github.com/suluvir/server/config"
 	"github.com/suluvir/server/logging"
 	"github.com/suluvir/server/web/dependencyLoader"
 	"github.com/suluvir/server/web/httpHelpers"
@@ -47,7 +48,7 @@ func appStaticHandler(w http.ResponseWriter, r *http.Request) {
 
 	cacheKey := fmt.Sprintf("%s%s%s", externalName, externalVersion, externalFileName)
 	result, found := fileCache.Get(cacheKey)
-	if found {
+	if found && !config.GetConfiguration().Development.DevelopmentMode {
 		setHeaders(&w, externalFileName)
 		w.Write(result.([]byte))
 		logging.GetLogger().Debug("serve from cache", zap.String("filename", externalFileName),
