@@ -54,11 +54,12 @@ AlbumDetail.propTypes = {
 };
 
 function mapStateToProps(state, ownProps) {
-    const id = ownProps.albumLink ? ownProps.albumLink : `/api/v1/album/${ownProps.params.albumId}`;
+    const id = ownProps.albumLink ? ownProps.albumLink : `/api/v1/album/${ownProps.match.params.albumId}`;
     const album = state.urlCache.get(id);
     return {
         album,
-        songs: album !== undefined ? state.urlCache.get(album.get('@songs')) : undefined
+        songs: album !== undefined ? state.urlCache.get(album.get('@songs')) : undefined,
+        params: ownProps.match ? ownProps.match.params : undefined
     }
 }
 

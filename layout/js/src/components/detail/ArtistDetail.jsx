@@ -63,9 +63,10 @@ ArtistDetail.propTypes = {
 }
 
 function mapStateToProps(state, ownProps) {
-    const url = getApiLink(ownProps.params.artistId);
+    const url = getApiLink(ownProps.match.params.artistId);
     return {
-        artist:  state.urlCache.get(url)
+        artist:  state.urlCache.get(url),
+        params: ownProps.match ? ownProps.match.params : undefined
     }
 }
 
