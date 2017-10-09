@@ -22,7 +22,7 @@ import {fetchObject} from '../../actions/fetchActions';
 import {setWindowTitle} from '../../utils/helpers';
 
 import SongList from '../lists/SongList';
-import DetailHeader from './DetailHeader';
+import AlbumDetailHeader from './AlbumDetailHeader';
 
 class AlbumDetail extends React.PureComponent {
     getApiLink() {
@@ -47,11 +47,9 @@ class AlbumDetail extends React.PureComponent {
 
         return (
             <div className="suluvir-detail suluvir-album-detail">
-                <DetailHeader
-                    artists={[album.get('artist_name')]}
-                    imgSrc={album.get('@cover')}
-                    numberOfSongs={songs.size}
-                    title={album.get('name')}
+                <AlbumDetailHeader
+                    album={album}
+                    songs={songs}
                     {...others}
                 />
                 <SongList songs={songs}/>

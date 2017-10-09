@@ -21,7 +21,7 @@ import {connect} from 'react-redux';
 import {fetchObject} from '../../actions/fetchActions';
 
 import AlbumDetail from './AlbumDetail';
-import DetailHeader from './DetailHeader';
+import ArtistDetailHeader from './ArtistDetailHeader';
 
 require('./ArtistDetail.scss');
 
@@ -56,11 +56,7 @@ class ArtistDetail extends React.PureComponent {
         return (
             <div className="suluvir-artist-details">
                 <div className="suluvir-artist-details__header">
-                    <DetailHeader
-                        artists={[]}
-                        imgSrc={artist.get('@cover')}
-                        title={artist.get('name')}
-                    />
+                    <ArtistDetailHeader artist={artist} />
                 </div>
                 <div className="suluvir-artist-details__albums">
                     {albumDetails}
