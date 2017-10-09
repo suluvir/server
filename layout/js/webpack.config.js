@@ -38,6 +38,10 @@ module.exports = {
         extensions: [".js", ".jsx"]
     },
 
+    stats: {
+        children: false
+    },
+
     module: {
         rules: [
             {
