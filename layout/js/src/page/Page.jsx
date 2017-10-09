@@ -34,6 +34,8 @@ export default class Page extends React.Component {
                     });
                 });
             });
+        } else {
+            window.location.replace('/logout');
         }
     }
 

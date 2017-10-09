@@ -63,23 +63,23 @@ export default class RoutedPage extends React.PureComponent {
                 </div>
                 <div className="suluvir-routed-page">
                     <BrowserRouter>
-                        <div>
-                            <Route component={ComponentContainer(Overview)} path="/"/>
+                        <div className="suluvir-router-wrapper">
+                            <Route component={ComponentContainer(Overview)} path="/" exact />
 
-                            <Route component={RegistrationPage} path="register"/>
-                            <Route component={LoginPage} path="login"/>
+                            <Route component={RegistrationPage} path="/register"/>
+                            <Route component={LoginPage} path="/login"/>
 
-                            <Route component={ComponentContainer(Profile)} path="profile"/>
+                            <Route component={ComponentContainer(Profile)} path="/profile"/>
 
-                            <Route component={ComponentContainer(MySongList)} path="songs"/>
-                            <Route component={ComponentContainer(MyAlbumList)} path="albums"/>
-                            <Route component={ComponentContainer(MyArtistList)} path="artists"/>
-                            <Route component={ComponentContainer(MyPlaylistList)} path="playlists"/>
+                            <Route component={ComponentContainer(MySongList)} path="/songs"/>
+                            <Route component={ComponentContainer(MyAlbumList)} path="/albums"/>
+                            <Route component={ComponentContainer(MyArtistList)} path="/artists"/>
+                            <Route component={ComponentContainer(MyPlaylistList)} path="/playlists"/>
 
-                            <Route component={ComponentContainer(AlbumDetail)} path="album/:albumId"/>
-                            <Route component={ComponentContainer(ArtistDetail)} path="artist/:artistId"/>
+                            <Route component={ComponentContainer(AlbumDetail)} path="/album/:albumId"/>
+                            <Route component={ComponentContainer(ArtistDetail)} path="/artist/:artistId"/>
 
-                            <Route component={ComponentContainer(Upload)} path="upload"/>
+                            <Route component={ComponentContainer(Upload)} path="/upload"/>
                         </div>
                     </BrowserRouter>
                     <Player />
