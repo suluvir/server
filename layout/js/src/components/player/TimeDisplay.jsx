@@ -14,6 +14,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import {Slider} from 'react-mdl';
 
 import {formatTime} from '../../utils/formatters';
@@ -97,7 +98,7 @@ export default class TimeDisplay extends React.PureComponent {
 }
 
 TimeDisplay.propTypes = {
-    getAudio: React.PropTypes.func.isRequired,
-    readyState: React.PropTypes.number.isRequired,
-    songId: React.PropTypes.string.isRequired
+    getAudio: PropTypes.func.isRequired,
+    readyState: PropTypes.number.isRequired,
+    songId: PropTypes.string.isRequired
 }

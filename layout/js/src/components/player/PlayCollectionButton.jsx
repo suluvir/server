@@ -14,6 +14,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import Immutable from 'immutable';
 import {IconButton} from 'react-mdl';
 import {connect} from 'react-redux';
@@ -39,8 +40,8 @@ class PlayCollectionButton extends React.PureComponent {
 }
 
 PlayCollectionButton.propTypes = {
-    collection: React.PropTypes.instanceOf(Immutable.Map).isRequired,
-    playCollection: React.PropTypes.func.isRequired
+    collection: PropTypes.instanceOf(Immutable.Map).isRequired,
+    playCollection: PropTypes.func.isRequired
 }
 
 export default connect(undefined, {playCollection})(PlayCollectionButton);

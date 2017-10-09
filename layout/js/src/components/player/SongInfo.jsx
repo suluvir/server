@@ -14,6 +14,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import Immutable from 'immutable';
 
 import {artistNameJoin} from '../../utils/formatters';
@@ -43,5 +44,5 @@ export default class SongInfo extends React.PureComponent {
 }
 
 SongInfo.propTypes = {
-    song: React.PropTypes.instanceOf(Immutable.Map).isRequired
+    song: PropTypes.instanceOf(Immutable.Map).isRequired
 }

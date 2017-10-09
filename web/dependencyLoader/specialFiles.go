@@ -16,7 +16,8 @@
 package dependencyLoader
 
 var SPECIAL_EXTERNAL_JS_FILES = map[string][]string{
-	"react": {"react-with-addons.min.js"},
+	"react":     {"react.development.js"},
+	"react-dom": {"react-dom.development.js"},
 	"react-mdl": {
 		"material.min.js",
 		"ReactMDL.min.js",

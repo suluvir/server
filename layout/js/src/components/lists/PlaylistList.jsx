@@ -14,6 +14,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import Immutable from 'immutable';
 
 import PlayCollectionButton from '../player/PlayCollectionButton';
@@ -49,5 +50,5 @@ export default class PlaylistList extends React.PureComponent {
 }
 
 PlaylistList.propTypes = {
-    playlists: React.PropTypes.instanceOf(Immutable.List).isRequired
+    playlists: PropTypes.instanceOf(Immutable.List).isRequired
 }

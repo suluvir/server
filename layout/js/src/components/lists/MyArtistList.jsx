@@ -16,6 +16,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import Immutable from 'immutable';
+import PropTypes from 'prop-types';
 
 import {fetchMyArtists} from '../../actions/thunkActions';
 import {setWindowTitle} from '../../utils/helpers';
@@ -42,8 +43,8 @@ class MyArtistList extends React.Component {
 }
 
 MyArtistList.propTypes = {
-    artists: React.PropTypes.instanceOf(Immutable.List).isRequired,
-    fetchMyArtists: React.PropTypes.func.isRequired
+    artists: PropTypes.instanceOf(Immutable.List).isRequired,
+    fetchMyArtists: PropTypes.func.isRequired
 }
 
 function mapStateToProps(state) {

@@ -14,6 +14,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import Immutable from 'immutable';
 import {connect} from 'react-redux';
 import classNames from 'classnames';
@@ -106,11 +107,11 @@ class Player extends React.Component {
 }
 
 Player.propTypes = {
-    current: React.PropTypes.number,
-    hasNext: React.PropTypes.bool.isRequired,
-    nextSong: React.PropTypes.func.isRequired,
-    playList: React.PropTypes.instanceOf(Immutable.Map),
-    volume: React.PropTypes.number.isRequired
+    current: PropTypes.number,
+    hasNext: PropTypes.bool.isRequired,
+    nextSong: PropTypes.func.isRequired,
+    playList: PropTypes.instanceOf(Immutable.Map),
+    volume: PropTypes.number.isRequired
 }
 
 function mapStateToProps(state) {

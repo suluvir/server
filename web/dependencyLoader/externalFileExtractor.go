@@ -34,6 +34,7 @@ var searchInDirectories = []string{
 	"dist",
 	"out",
 	"extra",
+	"umd",
 }
 
 const jsFileSuffix = ".min.js"

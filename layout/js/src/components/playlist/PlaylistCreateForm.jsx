@@ -14,6 +14,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import {IconButton} from 'react-mdl';
 import {connect} from 'react-redux';
 
@@ -81,7 +82,7 @@ class PlaylistCreateForm extends React.PureComponent {
 }
 
 PlaylistCreateForm.propTypes = {
-    createPlaylist: React.PropTypes.func.isRequired
+    createPlaylist: PropTypes.func.isRequired
 }
 
 export default connect(undefined, {createPlaylist})(PlaylistCreateForm);

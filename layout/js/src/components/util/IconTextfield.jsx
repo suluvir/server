@@ -14,6 +14,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import Textfield from '../material/Textfield';
 import Icon from '../material/Icon';
@@ -42,15 +43,15 @@ export default class IconTextfield extends React.PureComponent {
 }
 
 IconTextfield.propTypes = {
-    autoFocus: React.PropTypes.any,
-    error: React.PropTypes.string,
-    iconName: React.PropTypes.string.isRequired,
-    label: React.PropTypes.string.isRequired,
-    onChange: React.PropTypes.func,
-    pattern: React.PropTypes.string,
-    required: React.PropTypes.bool.isRequired,
-    type: React.PropTypes.string,
-    value: React.PropTypes.string
+    autoFocus: PropTypes.any,
+    error: PropTypes.string,
+    iconName: PropTypes.string.isRequired,
+    label: PropTypes.string.isRequired,
+    onChange: PropTypes.func,
+    pattern: PropTypes.string,
+    required: PropTypes.bool.isRequired,
+    type: PropTypes.string,
+    value: PropTypes.string
 }
 
 IconTextfield.defaultProps = {

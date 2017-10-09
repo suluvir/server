@@ -14,6 +14,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import {IconButton} from 'react-mdl';
 import {connect} from 'react-redux';
 
@@ -40,9 +41,9 @@ class PlaySongButton extends React.PureComponent {
 }
 
 PlaySongButton.propTypes = {
-    currentlyPlaying: React.PropTypes.bool.isRequired,
-    playSongById: React.PropTypes.func.isRequired,
-    songId: React.PropTypes.string.isRequired
+    currentlyPlaying: PropTypes.bool.isRequired,
+    playSongById: PropTypes.func.isRequired,
+    songId: PropTypes.string.isRequired
 };
 
 function mapStateToProps(state, ownProps) {

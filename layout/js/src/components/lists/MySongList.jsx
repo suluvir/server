@@ -14,6 +14,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import React from "react";
+import PropTypes from 'prop-types';
 import Immutable from 'immutable';
 import {connect} from "react-redux";
 
@@ -44,8 +45,8 @@ class MySongList extends React.PureComponent {
 }
 
 MySongList.propTypes = {
-    fetchMySongs: React.PropTypes.func.isRequired,
-    mySongs: React.PropTypes.instanceOf(Immutable.List)
+    fetchMySongs: PropTypes.func.isRequired,
+    mySongs: PropTypes.instanceOf(Immutable.List)
 }
 
 function mapStateToProps(state) {

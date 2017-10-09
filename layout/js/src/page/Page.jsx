@@ -14,9 +14,10 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import React from "react";
+import PropTypes from 'prop-types';
 import SinglePageApplication from "./SinglePageApplication";
 import {drawer} from 'material-components-web';
-import {Link} from 'react-router';
+import {Link} from 'react-router-dom';
 
 require('./Page.scss');
 
@@ -48,6 +49,8 @@ export default class Page extends React.Component {
                     });
                 });
             });
+        } else {
+            window.location.replace('/logout');
         }
     }
 
@@ -128,5 +131,5 @@ export default class Page extends React.Component {
 }
 
 Page.propTypes = {
-    component: React.PropTypes.any.isRequired
+    component: PropTypes.any.isRequired
 }

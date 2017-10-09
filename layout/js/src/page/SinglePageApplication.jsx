@@ -14,6 +14,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
+import PropTypes from 'prop-types';
 
 require('./SinglePageApplication.scss');
 
@@ -32,5 +33,5 @@ export default class SinglePageApplication extends React.PureComponent {
 }
 
 SinglePageApplication.propTypes = {
-    component: React.PropTypes.any.isRequired
+    component: PropTypes.any.isRequired
 };

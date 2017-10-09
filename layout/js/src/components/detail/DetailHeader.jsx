@@ -14,6 +14,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import {artistNameJoin} from '../../utils/formatters';
 
@@ -50,11 +51,11 @@ export default class DetailHeader extends React.PureComponent {
 }
 
 DetailHeader.propTypes = {
-    artists: React.PropTypes.arrayOf(React.PropTypes.string).isRequired,
-    imgSrc: React.PropTypes.string.isRequired,
-    style: React.PropTypes.oneOf(['default', 'condensed']).isRequired,
-    numberOfSongs: React.PropTypes.number,
-    title: React.PropTypes.string.isRequired,
+    artists: PropTypes.arrayOf(PropTypes.string).isRequired,
+    imgSrc: PropTypes.string.isRequired,
+    style: PropTypes.oneOf(['default', 'condensed']).isRequired,
+    numberOfSongs: PropTypes.number,
+    title: PropTypes.string.isRequired,
 }
 
 DetailHeader.defaultProps = {

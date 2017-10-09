@@ -14,7 +14,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import {Route, Router, browserHistory} from 'react-router';
+import {BrowserRouter, Route} from 'react-router-dom';
 
 import {drawer} from 'material-components-web';
 
@@ -77,24 +77,26 @@ export default class RoutedPage extends React.PureComponent {
                     <NotificationList/>
                 </div>
                 <div className="suluvir-routed-page">
-                    <Router history={browserHistory}>
-                        <Route component={ComponentContainer(Overview)} path="/"/>
+                    <BrowserRouter>
+                        <div className="suluvir-router-wrapper">
+                            <Route component={ComponentContainer(Overview)} path="/" exact />
 
-                        <Route component={RegistrationPage} path="register"/>
-                        <Route component={LoginPage} path="login"/>
+                            <Route component={RegistrationPage} path="/register"/>
+                            <Route component={LoginPage} path="/login"/>
 
-                        <Route component={ComponentContainer(Profile)} path="profile"/>
+                            <Route component={ComponentContainer(Profile)} path="/profile"/>
 
-                        <Route component={ComponentContainer(MySongList)} path="songs"/>
-                        <Route component={ComponentContainer(MyAlbumList)} path="albums"/>
-                        <Route component={ComponentContainer(MyArtistList)} path="artists"/>
-                        <Route component={ComponentContainer(MyPlaylistList)} path="playlists"/>
+                            <Route component={ComponentContainer(MySongList)} path="/songs"/>
+                            <Route component={ComponentContainer(MyAlbumList)} path="/albums"/>
+                            <Route component={ComponentContainer(MyArtistList)} path="/artists"/>
+                            <Route component={ComponentContainer(MyPlaylistList)} path="/playlists"/>
 
-                        <Route component={ComponentContainer(AlbumDetail)} path="album/:albumId"/>
-                        <Route component={ComponentContainer(ArtistDetail)} path="artist/:artistId"/>
+                            <Route component={ComponentContainer(AlbumDetail)} path="/album/:albumId"/>
+                            <Route component={ComponentContainer(ArtistDetail)} path="/artist/:artistId"/>
 
-                        <Route component={ComponentContainer(Upload)} path="upload"/>
-                    </Router>
+                            <Route component={ComponentContainer(Upload)} path="/upload"/>
+                        </div>
+                    </BrowserRouter>
                     <Player />
                 </div>
             </div>

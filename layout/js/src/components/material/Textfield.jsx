@@ -14,6 +14,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import {textfield} from 'material-components-web';
 
 import classNames from 'classnames';
@@ -67,10 +68,10 @@ export default class Textfield extends React.PureComponent {
 }
 
 Textfield.propTypes = {
-    autoFocus: React.PropTypes.any,
-    className: React.PropTypes.string,
-    required: React.PropTypes.bool.isRequired,
-    label: React.PropTypes.string
+    autoFocus: PropTypes.any,
+    className: PropTypes.string,
+    required: PropTypes.bool.isRequired,
+    label: PropTypes.string
 };
 
 Textfield.defaultProps = {

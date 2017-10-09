@@ -14,6 +14,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import Immutable from 'immutable';
+import PropTypes from 'prop-types';
 import React from 'react';
 
 import {formatBytes} from '../../utils/formatters';
@@ -50,5 +51,5 @@ export default class PendingSongList extends React.PureComponent {
 }
 
 PendingSongList.propTypes = {
-    pending: React.PropTypes.instanceOf(Immutable.List).isRequired
+    pending: PropTypes.instanceOf(Immutable.List).isRequired
 };

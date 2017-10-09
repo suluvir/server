@@ -14,8 +14,9 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import Immutable from 'immutable';
-import {Link} from 'react-router';
+import {Link} from 'react-router-dom';
 
 import PlayCollectionButton from '../player/PlayCollectionButton';
 
@@ -50,5 +51,5 @@ export default class ArtistList extends React.Component {
 }
 
 ArtistList.propTypes = {
-    artists: React.PropTypes.instanceOf(Immutable.List).isRequired
+    artists: PropTypes.instanceOf(Immutable.List).isRequired
 };

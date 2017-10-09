@@ -14,6 +14,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import Immutable from 'immutable';
 import Dropzone from 'react-dropzone';
 import {connect} from 'react-redux';
@@ -70,8 +71,8 @@ class Upload extends React.PureComponent {
 }
 
 Upload.propTypes = {
-    pending: React.PropTypes.instanceOf(Immutable.List).isRequired,
-    uploaded: React.PropTypes.instanceOf(Immutable.List).isRequired
+    pending: PropTypes.instanceOf(Immutable.List).isRequired,
+    uploaded: PropTypes.instanceOf(Immutable.List).isRequired
 };
 
 function mapStateToProps(state) {
