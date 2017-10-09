@@ -16,7 +16,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Immutable from 'immutable';
-import {IconButton} from 'react-mdl';
 
 import PlayCollectionButton from '../player/PlayCollectionButton';
 
