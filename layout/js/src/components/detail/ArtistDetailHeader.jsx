@@ -24,6 +24,7 @@ export default class ArtistDetailHeader extends React.PureComponent {
         const {artist, ...other} = this.props;
 
         return <DetailHeader
+            collection={artist}
             imgSrc={artist.get('@cover')}
             title={artist.get('name')}
             subTexts={[]}

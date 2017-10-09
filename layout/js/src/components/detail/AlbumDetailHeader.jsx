@@ -29,6 +29,7 @@ export default class AlbumDetailHeader extends React.PureComponent {
         const {album, ...other} = this.props;
 
         return <DetailHeader
+            collection={album}
             imgSrc={album.get('@cover')}
             title={album.get('name')}
             subTexts={[album.get('artist_name'), this.getSongCount()]}
