@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {Slider, IconButton} from 'react-mdl';
 import {connect} from 'react-redux';
 
@@ -63,8 +64,8 @@ class Volume extends React.PureComponent {
 }
 
 Volume.propTypes = {
-    setVolume: React.PropTypes.func.isRequired,
-    volume: React.PropTypes.number.isRequired
+    setVolume: PropTypes.func.isRequired,
+    volume: PropTypes.number.isRequired
 }
 
 function mapStateToProps(state) {

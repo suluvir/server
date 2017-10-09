@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Immutable from 'immutable';
 import {connect} from 'react-redux';
 
@@ -28,7 +29,7 @@ class ArtistDetail extends React.PureComponent {
 
         const albumDetails = artist.get('@albums').map(a => {
             return (
-                <div className="suluvir-artist-details__album">
+                <div className="suluvir-artist-details__album" key={a}>
                     <AlbumDetail
                         albumLink={a}
                         style="condensed"
@@ -55,10 +56,10 @@ class ArtistDetail extends React.PureComponent {
 }
 
 ArtistDetail.propTypes = {
-    artist: React.PropTypes.instanceOf(Immutable.Map),
-    albums: React.PropTypes.instanceOf(Immutable.List).isRequired,
-    fetchObject: React.PropTypes.func.isRequired,
-    params: React.PropTypes.object.isRequired,
+    artist: PropTypes.instanceOf(Immutable.Map),
+    albums: PropTypes.instanceOf(Immutable.List).isRequired,
+    fetchObject: PropTypes.func.isRequired,
+    params: PropTypes.object.isRequired,
 }
 
 function mapStateToProps(state, ownProps) {

@@ -1,7 +1,8 @@
-import React from "react";
-import SinglePageApplication from "./SinglePageApplication";
+import React from 'react';
+import PropTypes from 'prop-types';
+import SinglePageApplication from './SinglePageApplication';
 import {drawer} from 'material-components-web';
-import {Link} from 'react-router';
+import {Link} from 'react-router-dom';
 
 require('./Page.scss');
 
@@ -113,5 +114,5 @@ export default class Page extends React.Component {
 }
 
 Page.propTypes = {
-    component: React.PropTypes.any.isRequired
+    component: PropTypes.any.isRequired
 }

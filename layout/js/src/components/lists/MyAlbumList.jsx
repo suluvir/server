@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import Immutable from 'immutable';
 
@@ -27,8 +28,8 @@ class MyAlbumList extends React.Component {
 }
 
 MyAlbumList.propTypes = {
-    albums: React.PropTypes.instanceOf(Immutable.List).isRequired,
-    fetchMyAlbums: React.PropTypes.func.isRequired
+    albums: PropTypes.instanceOf(Immutable.List).isRequired,
+    fetchMyAlbums: PropTypes.func.isRequired
 }
 
 function mapStateToProps(state) {

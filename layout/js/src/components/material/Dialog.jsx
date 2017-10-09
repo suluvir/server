@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {dialog} from 'material-components-web';
 
 import Button from './Button';
@@ -78,12 +79,12 @@ export default class Dialog extends React.PureComponent {
 }
 
 Dialog.propTypes = {
-    additionalButtons: React.PropTypes.array.isRequired,
-    children: React.PropTypes.any.isRequired,
-    title: React.PropTypes.string,
-    show: React.PropTypes.bool.isRequired,
-    onCancel: React.PropTypes.func,
-    onSubmit: React.PropTypes.func
+    additionalButtons: PropTypes.array.isRequired,
+    children: PropTypes.any.isRequired,
+    title: PropTypes.string,
+    show: PropTypes.bool.isRequired,
+    onCancel: PropTypes.func,
+    onSubmit: PropTypes.func
 };
 
 Dialog.defaultProps = {

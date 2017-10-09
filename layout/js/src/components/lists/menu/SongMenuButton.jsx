@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Immutable from 'immutable';
 import {Menu, MenuItem, IconButton} from 'react-mdl';
 import {connect} from 'react-redux';
@@ -36,8 +37,8 @@ class SongMenuButton extends React.PureComponent {
 }
 
 SongMenuButton.propTypes = {
-    addToPlayQuereById: React.PropTypes.func.isRequired,
-    song: React.PropTypes.instanceOf(Immutable.Map).isRequired
+    addToPlayQuereById: PropTypes.func.isRequired,
+    song: PropTypes.instanceOf(Immutable.Map).isRequired
 }
 
 export default connect(undefined, {addToPlayQuereById})(SongMenuButton);

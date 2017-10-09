@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Immutable from 'immutable';
 import {connect} from 'react-redux';
 
@@ -30,7 +31,7 @@ class NotificationList extends React.PureComponent {
 }
 
 NotificationList.propTypes = {
-    notifications: React.PropTypes.instanceOf(Immutable.Map).isRequired
+    notifications: PropTypes.instanceOf(Immutable.Map).isRequired
 }
 
 function mapStateToProps(state) {

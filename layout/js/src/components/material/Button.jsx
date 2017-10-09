@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 export default class Button extends React.PureComponent {
@@ -15,9 +16,9 @@ export default class Button extends React.PureComponent {
 }
 
 Button.propTypes = {
-    className: React.PropTypes.string,
-    children: React.PropTypes.any.isRequired,
-    raised: React.PropTypes.bool.isRequired
+    className: PropTypes.string,
+    children: PropTypes.any.isRequired,
+    raised: PropTypes.bool.isRequired
 }
 
 Button.defaultProps = {

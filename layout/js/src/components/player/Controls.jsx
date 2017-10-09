@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Immutable from 'immutable';
 import {IconButton} from 'react-mdl';
 import {connect} from 'react-redux';
@@ -58,14 +59,14 @@ class Controls extends React.PureComponent {
 }
 
 Controls.propTypes = {
-    getAudio: React.PropTypes.func.isRequired,
-    hasPrevious: React.PropTypes.bool.isRequired,
-    hasNext: React.PropTypes.bool.isRequired,
-    nextSong: React.PropTypes.func.isRequired,
-    pause: React.PropTypes.func.isRequired,
-    play: React.PropTypes.func.isRequired,
-    previousSong: React.PropTypes.func.isRequired,
-    songToPlay: React.PropTypes.instanceOf(Immutable.Map).isRequired
+    getAudio: PropTypes.func.isRequired,
+    hasPrevious: PropTypes.bool.isRequired,
+    hasNext: PropTypes.bool.isRequired,
+    nextSong: PropTypes.func.isRequired,
+    pause: PropTypes.func.isRequired,
+    play: PropTypes.func.isRequired,
+    previousSong: PropTypes.func.isRequired,
+    songToPlay: PropTypes.instanceOf(Immutable.Map).isRequired
 }
 
 function mapStateToProps(state) {

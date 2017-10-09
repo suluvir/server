@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import Immutable from 'immutable';
 
@@ -45,11 +46,11 @@ class AlbumDetail extends React.PureComponent {
 }
 
 AlbumDetail.propTypes = {
-    album: React.PropTypes.instanceOf(Immutable.Map),
-    albumLink: React.PropTypes.string,
-    fetchObject: React.PropTypes.func.isRequired,
-    params: React.PropTypes.object,
-    songs: React.PropTypes.instanceOf(Immutable.List)
+    album: PropTypes.instanceOf(Immutable.Map),
+    albumLink: PropTypes.string,
+    fetchObject: PropTypes.func.isRequired,
+    params: PropTypes.object,
+    songs: PropTypes.instanceOf(Immutable.List)
 };
 
 function mapStateToProps(state, ownProps) {

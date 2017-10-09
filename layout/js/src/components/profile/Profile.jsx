@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Immutable from 'immutable';
 import {connect} from 'react-redux';
 
@@ -67,8 +68,8 @@ class Profile extends React.PureComponent {
 }
 
 Profile.propTypes = {
-    fetchUser: React.PropTypes.func.isRequired,
-    user: React.PropTypes.instanceOf(Immutable.Map).isRequired
+    fetchUser: PropTypes.func.isRequired,
+    user: PropTypes.instanceOf(Immutable.Map).isRequired
 }
 
 function mapStateToProps(state) {

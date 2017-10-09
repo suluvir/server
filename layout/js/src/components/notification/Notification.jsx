@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import {connect} from 'react-redux';
 
@@ -27,12 +28,12 @@ class Notification extends React.PureComponent {
 }
 
 Notification.propTypes = {
-    closeNotification: React.PropTypes.func.isRequired,
-    details: React.PropTypes.string.isRequired,
-    message: React.PropTypes.string.isRequired,
-    status: React.PropTypes.number.isRequired,
-    type: React.PropTypes.oneOf(['info', 'warning', 'error']).isRequired,
-    id: React.PropTypes.number
+    closeNotification: PropTypes.func.isRequired,
+    details: PropTypes.string.isRequired,
+    message: PropTypes.string.isRequired,
+    status: PropTypes.number.isRequired,
+    type: PropTypes.oneOf(['info', 'warning', 'error']).isRequired,
+    id: PropTypes.number
 }
 
 export default connect(undefined, {closeNotification})(Notification);
