@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Immutale from 'immutable';
 import {connect} from 'react-redux';
 
@@ -27,8 +28,8 @@ class MyPlaylistList extends React.PureComponent {
 }
 
 MyPlaylistList.propTypes = {
-    fetchMyPlaylists: React.PropTypes.func.isRequired,
-    playlists: React.PropTypes.instanceOf(Immutale.List).isRequired
+    fetchMyPlaylists: PropTypes.func.isRequired,
+    playlists: PropTypes.instanceOf(Immutale.List).isRequired
 }
 
 function mapStateToProps(state) {

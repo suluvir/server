@@ -1,6 +1,7 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Immutable from 'immutable';
-import {Link} from 'react-router';
+import {Link} from 'react-router-dom';
 
 import PlayCollectionButton from '../player/PlayCollectionButton';
 
@@ -37,5 +38,5 @@ export default class AlbumList extends React.Component {
 }
 
 AlbumList.propTypes = {
-    albums: React.PropTypes.instanceOf(Immutable.List).isRequired
+    albums: PropTypes.instanceOf(Immutable.List).isRequired
 };

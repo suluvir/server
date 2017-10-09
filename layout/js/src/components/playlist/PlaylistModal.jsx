@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Immutable from 'immutable';
 import {
     List,
@@ -96,14 +97,14 @@ class PlaylistModal extends React.PureComponent {
 }
 
 PlaylistModal.propTypes = {
-    addSongToPlaylist: React.PropTypes.func.isRequired,
-    fetchMyPlaylists: React.PropTypes.func.isRequired,
-    fetchPlaylistsOfSong: React.PropTypes.func.isRequired,
-    onCancel: React.PropTypes.func,
-    playlists: React.PropTypes.instanceOf(Immutable.List).isRequired,
-    playlistsOfSong: React.PropTypes.instanceOf(Immutable.Map),
-    show: React.PropTypes.bool.isRequired,
-    song: React.PropTypes.instanceOf(Immutable.Map).isRequired
+    addSongToPlaylist: PropTypes.func.isRequired,
+    fetchMyPlaylists: PropTypes.func.isRequired,
+    fetchPlaylistsOfSong: PropTypes.func.isRequired,
+    onCancel: PropTypes.func,
+    playlists: PropTypes.instanceOf(Immutable.List).isRequired,
+    playlistsOfSong: PropTypes.instanceOf(Immutable.Map),
+    show: PropTypes.bool.isRequired,
+    song: PropTypes.instanceOf(Immutable.Map).isRequired
 }
 
 function mapStateToProps(state, ownProps) {

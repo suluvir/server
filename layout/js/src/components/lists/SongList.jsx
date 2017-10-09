@@ -1,6 +1,7 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Immutable from 'immutable';
-import {Link} from 'react-router';
+import {Link} from 'react-router-dom';
 
 import {playButton, formatTime} from '../../utils/formatters';
 import SongMenuButton from './menu/SongMenuButton';
@@ -11,7 +12,7 @@ export default class SongList extends React.Component {
     renderArtistLinks(song) {
         return song.get('artist_names').map(name => {
             return (
-                <Link to={song.getIn(['ui_artist_links', name])}>
+                <Link to={song.getIn(['ui_artist_links', name])} key={song.get('@id')}>
                     {name}
                 </Link>
             );
@@ -54,5 +55,5 @@ export default class SongList extends React.Component {
 }
 
 SongList.propTypes = {
-    songs: React.PropTypes.instanceOf(Immutable.List).isRequired
+    songs: PropTypes.instanceOf(Immutable.List).isRequired
 };
