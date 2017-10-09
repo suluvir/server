@@ -2,7 +2,8 @@ import React from 'react';
 import Immutable from 'immutable';
 import {Link} from 'react-router';
 
-import {playButton, songMenuButton, formatTime} from '../../utils/formatters';
+import {playButton, formatTime} from '../../utils/formatters';
+import SongMenuButton from './menu/SongMenuButton';
 
 require('./SongList.scss');
 
@@ -28,7 +29,7 @@ export default class SongList extends React.Component {
                 </td> 
                 <td className="mdl-data-table__cell--non-numeric">{this.renderArtistLinks(song)}</td>
                 <td className="mdl-data-table__cell--non-numeric">{formatTime(song.get('duration'))}</td>
-                <td className="mdl-data-table__cell--non-numeric">{songMenuButton(song)}</td>
+                <td className="mdl-data-table__cell--non-numeric"><SongMenuButton song={song}/></td>
             </tr>);
         });
 
