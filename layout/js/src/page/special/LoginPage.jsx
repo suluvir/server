@@ -48,7 +48,7 @@ export default class LoginPage extends React.PureComponent {
         const {login, password} = this.state;
 
         event.preventDefault();
-        
+
         postJson('/api/internal/user/login', {login, password}).then(this.redirectToOverview);
     }
 
@@ -58,7 +58,7 @@ export default class LoginPage extends React.PureComponent {
         const login = profile.getName();
         const image = profile.getImageUrl();
         const email = profile.getEmail();
-        
+
         const url = getSetup().getIn(['oauth_providers', 'google', 'url']);
         const data = {
             id_token,
@@ -78,16 +78,16 @@ export default class LoginPage extends React.PureComponent {
         return (
             <form className="suluvir-login__form" onSubmit={this.login}>
                 <div>
-                    <IconTextfield 
+                    <IconTextfield
                         autoFocus
                         error="Username is too long"
-                        iconName="person" 
+                        iconName="person"
                         label="Username / E-Mail"
                         onChange={this.onInputChange('login')}
                         pattern="\S{0,120}"
                     />
-                    <IconTextfield 
-                        iconName="vpn_key" 
+                    <IconTextfield
+                        iconName="vpn_key"
                         type="password"
                         label="Password"
                         onChange={this.onInputChange('password')}
@@ -104,21 +104,37 @@ export default class LoginPage extends React.PureComponent {
     }
 
     renderGoogleLogin() {
-        return <div className="g-signin2" data-onsuccess="suluvirOnGoogleSignin"></div>;
+        if (getSetup().getIn(['oauth_providers', 'google']) === undefined) {
+            return undefined;
+        }
+
+        return (
+            <div>
+                <hr/>
+                <div className="g-signin2" data-onsuccess="suluvirOnGoogleSignin"></div>
+            </div>
+        );
+    }
+
+    renderRegistrationLink() {
+        if (getSetup().get('registration_disabled')) {
+            return undefined;
+        }
+        return (
+            <div>
+                <hr/>
+                <Link to="/register" className="suluvir-login__registration-link">Not having an account? Register!</Link>
+            </div>
+        );
     }
 
     render() {
-        const registationLink = getSetup().get('registration_disabled') ? undefined :
-            <Link to="/register" className="suluvir-login__registration-link">Not having an account? Register!</Link>;
-        
         return (
             <div className="suluvir-login">
                 <SmallLogoContainer>
                     {this.renderLoginForm()}
-                    <hr/>
                     {this.renderGoogleLogin()}
-                    <hr/>
-                    {registationLink}
+                    {this.renderRegistrationLink()}
                 </SmallLogoContainer>
             </div>
         );
