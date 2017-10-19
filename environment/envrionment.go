@@ -36,6 +36,10 @@ const eNV_VAR_BASE_PATH string = "SULUVIR_BASE_PATH"
 // eNV_VAR_CI_BASE_PATH is the name of the envrironment variable used by ci to store the base directory
 const eNV_VAR_CI_BASE_PATH = "TRAVIS_BUILD_DIR"
 
+// eNV_VAR_LOG_DIR is the name of the environment variable containing the absolute path to the log dir.
+// Falls back to base directory, if not set
+const eNV_VAR_LOG_DIR = "SULUVIR_LOG_DIR"
+
 // GetBaseDirectory returns the base directory by checking the following folders for existence
 // (the first folder existing will be returned):
 //   1. as given in the --base/-b cli flag
@@ -95,5 +99,9 @@ func GetDefaultConfigFile() string {
 
 // GetLogDir returns the directory for the log files
 func GetLogDir() string {
+	envDir, envVarExists := os.LookupEnv(eNV_VAR_LOG_DIR)
+	if envVarExists && util.ExistsDir(envDir) {
+		return envDir
+	}
 	return GetBaseDirectory()
 }
