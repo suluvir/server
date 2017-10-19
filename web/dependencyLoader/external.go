@@ -22,6 +22,8 @@ import (
 	"go.uber.org/zap"
 )
 
+// External is an external resource loaded onto the webpage (react, immutable, ...)
+// The struct contains all the information to generate the urls and to locate the files
 type External struct {
 	Name    string
 	Version string
@@ -38,6 +40,7 @@ type External struct {
 
 var externalJavascipt = []string{}
 
+// SetUrl generates all css and js urls for this external
 func (e *External) SetUrl() {
 
 	e.HasJs = len(e.JsFiles) > 0
@@ -80,6 +83,7 @@ func (e *External) SetUrl() {
 	}
 }
 
+// NewExternal creates a new external with the given name and version
 func NewExternal(name string, version string) External {
 	return External{
 		Name:                 name,
@@ -94,10 +98,12 @@ func NewExternal(name string, version string) External {
 	}
 }
 
+// AddExternalJavascript adds an external javascript to the site. The url must be valid and should be `https`
 func AddExternalJavascript(url string) {
 	externalJavascipt = append(externalJavascipt, url)
 }
 
+// GetExternalJavascripts returns all external javascripts to be included on every webpage
 func GetExternalJavascripts() []string {
 	return externalJavascipt
 }

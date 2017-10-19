@@ -15,6 +15,7 @@
 
 package config
 
+// Config is the base type describing the structure of the config file
 type Config struct {
 	Version     string
 	Upload      upload
