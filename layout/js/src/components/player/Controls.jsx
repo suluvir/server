@@ -74,7 +74,6 @@ class Controls extends React.PureComponent {
 }
 
 Controls.propTypes = {
-    getAudio: PropTypes.func.isRequired,
     hasPrevious: PropTypes.bool.isRequired,
     hasNext: PropTypes.bool.isRequired,
     nextSong: PropTypes.func.isRequired,

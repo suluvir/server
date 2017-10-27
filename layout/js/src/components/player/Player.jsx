@@ -38,8 +38,6 @@ class Player extends React.Component {
         this.playNextSong = this.playNextSong.bind(this);
         this.state = {};
 
-        this.setReadyState = this.setReadyState.bind(this);
-
         PLAYER.setSongFinishedCallback(this.playNextSong);
     }
 
@@ -51,17 +49,10 @@ class Player extends React.Component {
         this.audio.pause();
     }
 
-    setReadyState() {
-        this.setState({
-            readyState: this.audio.readyState
-        });
-    }
-
     componentWillReceiveProps(nextProps) {
-        if (this.audio === undefined || this.audio === null) {
-            return;
+        if (this.props.volume !== nextProps.volume) {
+            PLAYER.setVolume(nextProps.volume);
         }
-        this.audio.volume = nextProps.volume;
     }
 
     playNextSong() {
@@ -86,22 +77,14 @@ class Player extends React.Component {
 
         return (
             <div id="suluvir-player" className={className}>
-                <audio
-                    autoPlay
-                    onEnded={this.playNextSong}
-                    onLoadedData={this.setReadyState}
-                    src={songToPlay.get('@stream')}
-                    ref={audio => this.audio = audio}
-                >
-                </audio>
                 <div id="suluvir-player__songinfo">
                     <SongInfo song={songToPlay} />
                 </div>
                 <div id="suluvir-player__controls">
-                    <Controls getAudio={() => this.audio} play={this.play} pause={this.pause} songToPlay={songToPlay} />
+                    <Controls play={PLAYER.play} pause={PLAYER.pause} songToPlay={songToPlay} />
                 </div>
                 <div id="suluvir-player__timedisplay">
-                    <TimeDisplay getAudio={() => this.audio} readyState={this.state.readyState} songId={songToPlay.get('@id')} />
+                    <TimeDisplay song={songToPlay} />
                 </div>
                 <div className="suluvir-player__volume-container">
                     <Volume />
