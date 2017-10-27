@@ -14,11 +14,13 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
+import Immutable from 'immutable';
 import PropTypes from 'prop-types';
 import {Slider} from 'react-mdl';
 
 import {formatTime} from '../../utils/formatters';
-import * as readyStates from '../../constants/readyState';
+
+import {PLAYER} from '../../classes/play/Player';
 
 require('./TimeDisplay.scss');
 
@@ -26,35 +28,31 @@ export default class TimeDisplay extends React.PureComponent {
     constructor() {
         super();
         this.state = {
-            currentTime: 0
+            currentTime: 0,
+            show: false
         };
 
         this.setCurrentTime = this.setCurrentTime.bind(this);
+        this.audioLoaded = this.audioLoaded.bind(this);
+
+        PLAYER.setAudioLoadedCallback(this.audioLoaded);
+
         setInterval(this.setCurrentTime, 1000);
     }
 
-    getAudio() {
-        const audio = this.props.getAudio();
-
-        this.setState({
-            audio
-        })
+    audioLoaded() {
+        this.setState
     }
 
     setCurrentTime() {
-        const {audio} = this.state;
-        if (audio === undefined || audio === null) {
-            return;
-        }
-
         this.setState({
-            currentTime: this.state.audio.currentTime
+            currentTime: PLAYER.getCurrentTime()
         })
     }
 
     componentWillReceiveProps(nextProps) {
-        const {songId: current} = this.props;
-        const {songId: next} = nextProps;
+        const {song: current} = this.props;
+        const {song: next} = nextProps;
 
         if (current !== next) {
             this.setState({
@@ -64,18 +62,8 @@ export default class TimeDisplay extends React.PureComponent {
     }
 
     render() {
-        const {audio, currentTime} = this.state;
-        const {readyState} = this.props;
-        if (audio === undefined || audio === null) {
-            this.getAudio();
-            return <div />;
-        }
-
-        if (readyState === readyStates.HAVE_NOTHING || readyState === undefined || readyState === null) {
-            return <div />;
-        }
-
-        
+        const {currentTime} = this.state;
+        const {song} = this.props;
 
         return (
             <div className="suluvir-timedisplay">
@@ -83,14 +71,14 @@ export default class TimeDisplay extends React.PureComponent {
                     {formatTime(currentTime)}
                 </div>
                 <div className="suluvir-hide-small suluvir-timedisplay__timeslider">
-                    <Slider 
-                        min={0} 
-                        max={parseInt(audio.duration)} 
-                        value={parseInt(currentTime)} 
+                    <Slider
+                        min={0}
+                        max={parseInt(song.get('duration'))}
+                        value={parseInt(currentTime)}
                     />
                 </div>
                 <div className="suluvir-hide-small">
-                    {formatTime(audio.duration - currentTime)}
+                    {formatTime(song.get('duration') - currentTime)}
                 </div>
             </div>
         );
@@ -98,7 +86,5 @@ export default class TimeDisplay extends React.PureComponent {
 }
 
 TimeDisplay.propTypes = {
-    getAudio: PropTypes.func.isRequired,
-    readyState: PropTypes.number.isRequired,
-    songId: PropTypes.string.isRequired
+    song: PropTypes.instanceOf(Immutable.Map).isRequired
 }
