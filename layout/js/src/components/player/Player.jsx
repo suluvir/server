@@ -26,6 +26,8 @@ import Volume from './Volume';
 
 import {nextSong} from '../../actions/actions';
 
+import {PLAYER} from '../../classes/play/Player';
+
 require('./Player.scss');
 
 class Player extends React.Component {
@@ -37,6 +39,8 @@ class Player extends React.Component {
         this.state = {};
 
         this.setReadyState = this.setReadyState.bind(this);
+
+        PLAYER.setSongFinishedCallback(this.playNextSong);
     }
 
     play() {
@@ -78,10 +82,11 @@ class Player extends React.Component {
         }
 
         const songToPlay = playList.get(current);
+        PLAYER.playSong(songToPlay);
 
         return (
             <div id="suluvir-player" className={className}>
-                <audio 
+                <audio
                     autoPlay
                     onEnded={this.playNextSong}
                     onLoadedData={this.setReadyState}
