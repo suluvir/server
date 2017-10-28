@@ -23,6 +23,7 @@ import SmallLogoContainer from '../../components/util/SmallLogoContainer';
 import IconTextfield from '../../components/util/IconTextfield';
 
 import Button from '../../components/material/Button';
+import Checkbox from '../../components/material/Checkbox';
 
 require('./LoginPage.scss');
 
@@ -30,7 +31,9 @@ export default class LoginPage extends React.PureComponent {
     constructor() {
         super();
 
-        this.state = {};
+        this.state = {
+            stay_signed_in: true
+        };
         this.login = this.login.bind(this);
         this.suluvirOnGoogleSignin = this.suluvirOnGoogleSignin.bind(this);
 
@@ -44,12 +47,18 @@ export default class LoginPage extends React.PureComponent {
         }
     }
 
+    onCheckboxChange(stateKey) {
+        return event => {
+            this.setState({[stateKey]: event.target.checked});
+        }
+    }
+
     login(event) {
-        const {login, password} = this.state;
+        const {login, password, stay_signed_in} = this.state;
 
         event.preventDefault();
 
-        postJson('/api/internal/user/login', {login, password}).then(this.redirectToOverview);
+        postJson('/api/internal/user/login', {login, password, stay_signed_in}).then(this.redirectToOverview);
     }
 
     suluvirOnGoogleSignin(googleUser) {
@@ -75,6 +84,8 @@ export default class LoginPage extends React.PureComponent {
     }
 
     renderLoginForm() {
+        const {stay_signed_in} = this.state;
+
         return (
             <form className="suluvir-login__form" onSubmit={this.login}>
                 <div>
@@ -93,6 +104,12 @@ export default class LoginPage extends React.PureComponent {
                         onChange={this.onInputChange('password')}
                     />
                 </div>
+
+                <Checkbox
+                    defaultChecked={stay_signed_in}
+                    onChange={this.onCheckboxChange('stay_signed_in')}
+                    label="Stay signed in"
+                />
 
                 <Button onClick={this.login} raised>
                     Login
