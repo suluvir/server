@@ -29,6 +29,7 @@ import (
 	"go.uber.org/zap"
 	"golang.org/x/crypto/bcrypt"
 	"net/http"
+	"time"
 )
 
 // TODO improve secret
@@ -116,6 +117,9 @@ func LoginUser(w http.ResponseWriter, r *http.Request, user auth.User) error {
 		logging.GetLogger().Error("error while getting the user session", zap.Error(getErr))
 		return getErr
 	}
+
+	user.ActiveAt = time.Now()
+	schema.GetDatabase().Save(&user)
 
 	session.Values["user"] = user.Username
 	saveErr := session.Save(r, w)
