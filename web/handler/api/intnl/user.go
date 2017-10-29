@@ -35,8 +35,9 @@ type createUser struct {
 }
 
 type loginUser struct {
-	Login    string `json:"login"`
-	Password string `json:"password"`
+	Login        string `json:"login"`
+	Password     string `json:"password"`
+	StaySignedIn bool   `json:"stay_signed_in"`
 }
 
 func createUserHandler(w http.ResponseWriter, r *http.Request) {
@@ -75,7 +76,7 @@ func loginUserHandler(w http.ResponseWriter, r *http.Request) {
 
 	user := auth.GetUserByNameOrMail(payload.Login)
 	if user != nil {
-		err := auth.CheckLoginUser(w, r, *user, payload.Password)
+		err := auth.CheckLoginUser(w, r, *user, payload.Password, payload.StaySignedIn)
 		if err != nil {
 			responseInvalidCredentials(w)
 			return

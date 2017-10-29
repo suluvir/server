@@ -97,7 +97,7 @@ func (g GoogleProvider) HandlerFunc(w http.ResponseWriter, r *http.Request) {
 		api.SendJsonError(w, http.StatusBadRequest, "Given user is invalid")
 		return
 	}
-	auth.LoginUser(w, r, *user)
+	auth.LoginUser(w, r, *user, false)
 	api.SendJsonError(w, http.StatusOK, "")
 }
 

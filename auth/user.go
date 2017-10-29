@@ -103,15 +103,15 @@ func MustGetUserForSession(w http.ResponseWriter, r *http.Request) *auth.User {
 }
 
 // CheckLoginUser checks the given password and logs in the user after that
-func CheckLoginUser(w http.ResponseWriter, r *http.Request, user auth.User, password string) error {
+func CheckLoginUser(w http.ResponseWriter, r *http.Request, user auth.User, password string, staySignedIn bool) error {
 	err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(password))
 	if err == nil {
-		return LoginUser(w, r, user)
+		return LoginUser(w, r, user, staySignedIn)
 	}
 	return errors.New("username or password is incorrect")
 }
 
-func LoginUser(w http.ResponseWriter, r *http.Request, user auth.User) error {
+func LoginUser(w http.ResponseWriter, r *http.Request, user auth.User, staySignedIn bool) error {
 	session, getErr := GetUserSession(r)
 	if getErr != nil {
 		logging.GetLogger().Error("error while getting the user session", zap.Error(getErr))
@@ -120,6 +120,10 @@ func LoginUser(w http.ResponseWriter, r *http.Request, user auth.User) error {
 
 	user.ActiveAt = time.Now()
 	schema.GetDatabase().Save(&user)
+
+	if staySignedIn {
+		MakePersistentSession(w, r, user)
+	}
 
 	session.Values["user"] = user.Username
 	saveErr := session.Save(r, w)
