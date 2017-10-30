@@ -29,7 +29,6 @@ type UserSession struct {
 	User       User
 	Secret     string `gorm:"size:128"`
 	UserAgent  string `gorm:"size:1024"`
-	IPAddress  string `gorm:"size:64"`
 	ValidUntil time.Time
 }
 

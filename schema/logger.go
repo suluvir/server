@@ -28,12 +28,17 @@ const (
 	timePosition      = 2
 )
 
+const minLength = 5
+
 type DatabaseLogger struct {
 	gorm.Logger
 }
 
 func (logger *DatabaseLogger) Print(v ...interface{}) {
 	l := logging.GetLogger()
+	if len(v) < minLength {
+		return
+	}
 	statement := fmt.Sprintf("%s", v[statementPosition])
 	values := fmt.Sprintf("%s", v[valuesPosition])
 	time := fmt.Sprintf("%s", v[timePosition])

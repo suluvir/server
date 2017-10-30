@@ -72,6 +72,8 @@ func CreateUser(name string, email string, password string) (auth.User, error) {
 	return user, nil
 }
 
+// GetUserForSession returns the user for the given session or nil, if no user is found. When no user is found
+// for this session, it returns the appropriate error
 func GetUserForSession(w http.ResponseWriter, r *http.Request) (*auth.User, error) {
 	session, err := GetUserSession(r)
 	if err != nil {
@@ -137,6 +139,9 @@ func LoginUser(w http.ResponseWriter, r *http.Request, user auth.User, staySigne
 
 func LogoutUser(w http.ResponseWriter, r *http.Request) {
 	session := MustGetUserSession(r)
+
+	DeletePersistentSession(w, r)
+
 	delete(session.Values, "user")
 
 	session.Save(r, w)

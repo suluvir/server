@@ -19,8 +19,8 @@ import (
 	"github.com/gorilla/sessions"
 	"github.com/suluvir/server/config"
 	"github.com/suluvir/server/logging"
+	"github.com/suluvir/server/schema"
 	"github.com/suluvir/server/schema/auth"
-	"github.com/suluvir/server/util"
 	"go.uber.org/zap"
 	"net/http"
 	"time"
@@ -54,7 +54,6 @@ func MakePersistentSession(w http.ResponseWriter, r *http.Request, user auth.Use
 	userSession := auth.NewUserSessionForUser(user)
 	userSession.UserAgent = r.Header.Get("User-Agent")
 	userSession.ValidUntil = time.Now().Add(sessionAge)
-	userSession.IPAddress = string(util.GetClientIpAddress(r))
 
 	browserCookie := http.Cookie{
 		Secure:   config.GetConfiguration().Web.Secure,
@@ -65,6 +64,30 @@ func MakePersistentSession(w http.ResponseWriter, r *http.Request, user auth.Use
 		MaxAge:   cookieMaxAge,
 	}
 
-	//schema.GetDatabase().Save(&userSession)
+	schema.GetDatabase().Save(&userSession)
 	http.SetCookie(w, &browserCookie)
+}
+
+// DeletePersistentSession deletes the cookie in the users browser and the database row
+func DeletePersistentSession(w http.ResponseWriter, r *http.Request) {
+	cookie, cookieErr := r.Cookie(persistentSessionCookieName)
+	if cookieErr != nil {
+		logging.GetLogger().Error("error retrieving the persistent cookie", zap.Error(cookieErr))
+		return
+	}
+
+	user, _ := GetUserForSession(w, r)
+	if user == nil {
+		// user is not logged in, return in this case
+		return
+	}
+
+	if err := schema.GetDatabase().Where("user_id=? AND secret=?", user.ID, cookie.Value).
+		Delete(auth.UserSession{}).Error; err != nil {
+		logging.GetLogger().Error("error during session delete", zap.Error(err))
+	}
+
+	cookie.MaxAge = -3600
+	cookie.Value = ""
+	http.SetCookie(w, cookie)
 }
