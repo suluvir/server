@@ -68,6 +68,28 @@ func MakePersistentSession(w http.ResponseWriter, r *http.Request, user auth.Use
 	http.SetCookie(w, &browserCookie)
 }
 
+// RecoverPersistentSession tries to recover a persistent session. It fails silently when that's not possible
+func RecoverPersistentSession(w http.ResponseWriter, r *http.Request) {
+	cookie, cookieErr := r.Cookie(persistentSessionCookieName)
+	if cookieErr != nil {
+		logging.GetLogger().Error("error retrieving the persistent cookie", zap.Error(cookieErr))
+		return
+	}
+
+	logging.GetLogger().Info("attempting to recover user session", zap.String("secret", cookie.Value))
+
+	var userSession auth.UserSession
+	schema.GetDatabase().First(&userSession, "secret=?", cookie.Value)
+	if userSession.Secret == cookie.Value {
+		var user auth.User
+		schema.GetDatabase().Model(&userSession).Related(&user)
+		if err := LoginUser(w, r, user, false); err != nil {
+			logging.GetLogger().Error("error during login", zap.Error(err))
+		}
+		logging.GetLogger().Info("recovered user session", zap.String("user", user.Username))
+	}
+}
+
 // DeletePersistentSession deletes the cookie in the users browser and the database row
 func DeletePersistentSession(w http.ResponseWriter, r *http.Request) {
 	cookie, cookieErr := r.Cookie(persistentSessionCookieName)

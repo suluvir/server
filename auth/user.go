@@ -208,3 +208,9 @@ func GetUserForAuthProvider(login, provider string) (*auth.User, error) {
 	}
 	return user, nil
 }
+
+// UserIsLoggedIn checks, if the user for the given request is logged in
+func UserIsLoggedIn(w http.ResponseWriter, r *http.Request) bool {
+	user := MustGetUserForSession(w, r)
+	return user != nil && user.Username != ""
+}
