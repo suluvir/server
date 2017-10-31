@@ -58,7 +58,14 @@ export default class LoginPage extends React.PureComponent {
 
         event.preventDefault();
 
-        postJson('/api/internal/user/login', {login, password, stay_signed_in}).then(this.redirectToOverview);
+        const payload = {
+            login,
+            password,
+            stay_signed_in,
+            provider: 'suluvir'
+        };
+
+        postJson('/api/internal/user/login', payload).then(this.redirectToOverview);
     }
 
     suluvirOnGoogleSignin(googleUser) {

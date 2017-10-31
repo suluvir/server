@@ -16,11 +16,14 @@
 package auth
 
 import (
+	"encoding/json"
 	"errors"
 	"github.com/suluvir/server/logging"
+	"github.com/suluvir/server/schema"
 	"github.com/suluvir/server/schema/auth"
 	"go.uber.org/zap"
 	"net/http"
+	"time"
 )
 
 var providers = map[string]*Provider{}
@@ -40,6 +43,11 @@ type Provider interface {
 	CreateUser(w http.ResponseWriter, r *http.Request) (auth.User, error)
 }
 
+type providerJsonInformation struct {
+	Provider     string `json:"provider"`
+	StayLoggedIn bool   `json:"stay_logged_in"`
+}
+
 // AddProvider adds a new authentication provider. Add providers in the `START_SERVICES` startup phase. This function
 // will return an error if the provider cannot be added. The error message will contain detailed information about the
 // reason
@@ -54,4 +62,51 @@ func AddProvider(provider Provider) error {
 	providers[id] = &provider
 	logging.GetLogger().Info("add auth provider", zap.String("id", id))
 	return nil
+}
+
+// MakeProviderLogin logs in the user by calling the correct provider to to the login
+func MakeProviderLogin(w http.ResponseWriter, r *http.Request) (error, int) {
+	decoder := json.NewDecoder(r.Body)
+	var payload providerJsonInformation
+	errInternalError := errors.New("Internal server error, please try again later")
+	if decodeErr := decoder.Decode(&payload); decodeErr != nil {
+		logging.GetLogger().Error("error during provider login", zap.Error(decodeErr))
+		return errInternalError, http.StatusInternalServerError
+	}
+
+	provider := providers[payload.Provider]
+	if provider == nil {
+		logging.GetLogger().Error("provider given is invalid", zap.String("provider", payload.Provider))
+		return errors.New("Given authentication provider is invalid"), http.StatusUnprocessableEntity
+	}
+
+	user, loginErr := (*provider).LoginUser(w, r)
+	if loginErr != nil {
+		time.Sleep(time.Second)
+		return loginErr, http.StatusForbidden
+	}
+
+	if payload.StayLoggedIn {
+		MakePersistentSession(w, r, user)
+	}
+
+	session, getErr := GetUserSession(r)
+	if getErr != nil {
+		logging.GetLogger().Error("error while getting the user session", zap.Error(getErr))
+		return errInternalError, http.StatusInternalServerError
+	}
+
+	session.Values["user"] = user.Username
+
+	if saveErr := session.Save(r, w); saveErr != nil {
+		logging.GetLogger().Error("error while saving the users session", zap.Error(saveErr))
+		return errInternalError, http.StatusInternalServerError
+	}
+
+	user.ActiveAt = time.Now()
+	schema.GetDatabase().Save(&user)
+
+	logging.GetLogger().Info("login for user", zap.String("user", user.Username))
+
+	return nil, http.StatusOK
 }
