@@ -72,6 +72,8 @@ func CreateUser(name string, email string, password string) (auth.User, error) {
 	return user, nil
 }
 
+// GetUserForSession returns the user for the given session or nil, if no user is found. When no user is found
+// for this session, it returns the appropriate error
 func GetUserForSession(w http.ResponseWriter, r *http.Request) (*auth.User, error) {
 	session, err := GetUserSession(r)
 	if err != nil {
@@ -103,15 +105,15 @@ func MustGetUserForSession(w http.ResponseWriter, r *http.Request) *auth.User {
 }
 
 // CheckLoginUser checks the given password and logs in the user after that
-func CheckLoginUser(w http.ResponseWriter, r *http.Request, user auth.User, password string) error {
+func CheckLoginUser(w http.ResponseWriter, r *http.Request, user auth.User, password string, staySignedIn bool) error {
 	err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(password))
 	if err == nil {
-		return LoginUser(w, r, user)
+		return LoginUser(w, r, user, staySignedIn)
 	}
 	return errors.New("username or password is incorrect")
 }
 
-func LoginUser(w http.ResponseWriter, r *http.Request, user auth.User) error {
+func LoginUser(w http.ResponseWriter, r *http.Request, user auth.User, staySignedIn bool) error {
 	session, getErr := GetUserSession(r)
 	if getErr != nil {
 		logging.GetLogger().Error("error while getting the user session", zap.Error(getErr))
@@ -120,6 +122,10 @@ func LoginUser(w http.ResponseWriter, r *http.Request, user auth.User) error {
 
 	user.ActiveAt = time.Now()
 	schema.GetDatabase().Save(&user)
+
+	if staySignedIn {
+		MakePersistentSession(w, r, user)
+	}
 
 	session.Values["user"] = user.Username
 	saveErr := session.Save(r, w)
@@ -133,6 +139,9 @@ func LoginUser(w http.ResponseWriter, r *http.Request, user auth.User) error {
 
 func LogoutUser(w http.ResponseWriter, r *http.Request) {
 	session := MustGetUserSession(r)
+
+	DeletePersistentSession(w, r)
+
 	delete(session.Values, "user")
 
 	session.Save(r, w)
@@ -198,4 +207,10 @@ func GetUserForAuthProvider(login, provider string) (*auth.User, error) {
 		return user, errors.New("there is already a user for a different auth provider")
 	}
 	return user, nil
+}
+
+// UserIsLoggedIn checks, if the user for the given request is logged in
+func UserIsLoggedIn(w http.ResponseWriter, r *http.Request) bool {
+	user := MustGetUserForSession(w, r)
+	return user != nil && user.Username != ""
 }

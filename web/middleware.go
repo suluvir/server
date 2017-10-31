@@ -34,6 +34,8 @@ const (
 	AUTHENTICATION_MIDDLEWARE_PRIORITY = 1
 	// PERMISSION_MIDDLEWARE_PRIORITY sets the priority for the permission middleware
 	PERMISSION_MIDDLEWARE_PRIORITY = 2
+	// STAY_SIGNED_IN_PRIORITY sets the priority for the "stay signed in functionality"
+	STAY_SIGNED_IN_PRIORITY = -1
 )
 
 func init() {
@@ -46,7 +48,7 @@ func addMiddleware() {
 	AddPrioritizedMiddleware(logging.LogMiddleWare, LOG_MIDDLEWARE_PRIORITY)
 }
 
-// AddPrioritizedMiddleware adds a middleware with a priority to the stack of middlewares for each request. The higher
+// AddPrioritizedMiddleware adds a middleware with a priority to the stack of middlewares for each request. The lower
 // the priority, the earlier this middleware will be executed. All other middlewares will be executed after the
 // prioritized ones. This function will log an error and not adds the middleware if two middlewares with the same
 // priority are given.

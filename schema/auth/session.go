@@ -13,36 +13,34 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-package schema
+package auth
 
 import (
-	"fmt"
-	"github.com/jinzhu/gorm"
-	"github.com/suluvir/server/logging"
-	"go.uber.org/zap"
+	"github.com/suluvir/server/random"
+	"github.com/suluvir/server/schema"
+	"time"
 )
 
-const (
-	statementPosition = 3
-	valuesPosition    = 4
-	timePosition      = 2
-)
-
-const minLength = 5
-
-type DatabaseLogger struct {
-	gorm.Logger
+// UserSession maps a user to a secret to allow him to stay signed in across multiple
+// sessions
+type UserSession struct {
+	schema.DatabaseObject
+	UserID     string `gorm:"size:64"`
+	User       User
+	Secret     string `gorm:"size:128"`
+	UserAgent  string `gorm:"size:1024"`
+	ValidUntil time.Time
 }
 
-func (logger *DatabaseLogger) Print(v ...interface{}) {
-	l := logging.GetLogger()
-	if len(v) < minLength {
-		return
-	}
-	statement := fmt.Sprintf("%s", v[statementPosition])
-	values := fmt.Sprintf("%s", v[valuesPosition])
-	time := fmt.Sprintf("%s", v[timePosition])
+func init() {
+	schema.AddSchema(UserSession{})
+}
 
-	l.Debug("sql", zap.String("statement", statement), zap.String("values", values),
-		zap.String("time", time))
+// NewUserSessionForUser returns a new user session for the given user
+func NewUserSessionForUser(user User) UserSession {
+	secret, _ := random.GenerateRandomString(64)
+	return UserSession{
+		User:   user,
+		Secret: secret,
+	}
 }

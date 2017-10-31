@@ -32,6 +32,7 @@ func init() {
 
 func addAuthenticationMiddleware() {
 	web.AddPrioritizedMiddleware(authenticationMiddleware, web.AUTHENTICATION_MIDDLEWARE_PRIORITY)
+	web.AddPrioritizedMiddleware(staySignedInMiddleware, web.STAY_SIGNED_IN_PRIORITY)
 }
 
 func authenticationMiddleware(next http.Handler) http.Handler {
@@ -41,7 +42,7 @@ func authenticationMiddleware(next http.Handler) http.Handler {
 			logging.GetLogger().Error("error retrieving user from session", zap.Error(err))
 		}
 
-		if user == nil || user.Username == "" {
+		if !UserIsLoggedIn(w, r) {
 			logging.GetLogger().Debug("user is not logged in while fetching page",
 				zap.String("url", r.URL.String()))
 
@@ -54,6 +55,17 @@ func authenticationMiddleware(next http.Handler) http.Handler {
 		} else {
 			logging.GetLogger().Debug("got user for session", zap.String("user", user.Username))
 		}
+		next.ServeHTTP(w, r)
+	})
+}
+
+func staySignedInMiddleware(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		if UserIsLoggedIn(w, r) {
+			next.ServeHTTP(w, r)
+			return
+		}
+		RecoverPersistentSession(w, r)
 		next.ServeHTTP(w, r)
 	})
 }

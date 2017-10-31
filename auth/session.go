@@ -19,9 +19,16 @@ import (
 	"github.com/gorilla/sessions"
 	"github.com/suluvir/server/config"
 	"github.com/suluvir/server/logging"
+	"github.com/suluvir/server/schema"
+	"github.com/suluvir/server/schema/auth"
 	"go.uber.org/zap"
 	"net/http"
+	"time"
 )
+
+const persistentSessionCookieName = "suluvir-persistent-session"
+const sessionAge = 30 * 24 * time.Hour // one month (nanoseconds)
+const cookieMaxAge = 60 * 60 * 24 * 30 // one month (seconds)
 
 func GetUserSession(r *http.Request) (*sessions.Session, error) {
 	session, err := store.Get(r, "suluvir")
@@ -39,4 +46,76 @@ func MustGetUserSession(r *http.Request) *sessions.Session {
 		logging.GetLogger().Error("error while retrieving user session", zap.Error(err))
 	}
 	return session
+}
+
+// MakePersistentSession saves a persistent cookie in the users browser and stores the neccessary information
+// in the database
+func MakePersistentSession(w http.ResponseWriter, r *http.Request, user auth.User) {
+	userSession := auth.NewUserSessionForUser(user)
+	userSession.UserAgent = r.Header.Get("User-Agent")
+	userSession.ValidUntil = time.Now().Add(sessionAge)
+
+	browserCookie := http.Cookie{
+		Secure:   config.GetConfiguration().Web.Secure,
+		Name:     persistentSessionCookieName,
+		Value:    userSession.Secret,
+		HttpOnly: true,
+		Path:     "/",
+		MaxAge:   cookieMaxAge,
+	}
+
+	schema.GetDatabase().Save(&userSession)
+	http.SetCookie(w, &browserCookie)
+}
+
+// RecoverPersistentSession tries to recover a persistent session. It fails silently when that's not possible
+func RecoverPersistentSession(w http.ResponseWriter, r *http.Request) {
+	cookie, cookieErr := r.Cookie(persistentSessionCookieName)
+	if cookieErr != nil {
+		logging.GetLogger().Error("error retrieving the persistent cookie", zap.Error(cookieErr))
+		return
+	}
+
+	logging.GetLogger().Info("attempting to recover user session", zap.String("secret", cookie.Value))
+
+	var userSession auth.UserSession
+	schema.GetDatabase().First(&userSession, "secret=?", cookie.Value)
+	if userSession.Secret == cookie.Value {
+		var user auth.User
+		schema.GetDatabase().Model(&userSession).Related(&user)
+		if err := LoginUser(w, r, user, false); err != nil {
+			logging.GetLogger().Error("error during login", zap.Error(err))
+		}
+		logging.GetLogger().Info("recovered user session", zap.String("user", user.Username))
+
+		logging.GetLogger().Debug("refreshing persistent session age")
+		cookie.MaxAge = cookieMaxAge
+		http.SetCookie(w, cookie)
+		userSession.ValidUntil = time.Now().Add(sessionAge)
+		schema.GetDatabase().Save(&userSession)
+	}
+}
+
+// DeletePersistentSession deletes the cookie in the users browser and the database row
+func DeletePersistentSession(w http.ResponseWriter, r *http.Request) {
+	cookie, cookieErr := r.Cookie(persistentSessionCookieName)
+	if cookieErr != nil {
+		logging.GetLogger().Error("error retrieving the persistent cookie", zap.Error(cookieErr))
+		return
+	}
+
+	user, _ := GetUserForSession(w, r)
+	if user == nil {
+		// user is not logged in, return in this case
+		return
+	}
+
+	if err := schema.GetDatabase().Where("user_id=? AND secret=?", user.ID, cookie.Value).
+		Delete(auth.UserSession{}).Error; err != nil {
+		logging.GetLogger().Error("error during session delete", zap.Error(err))
+	}
+
+	cookie.MaxAge = -3600
+	cookie.Value = ""
+	http.SetCookie(w, cookie)
 }
