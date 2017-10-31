@@ -35,8 +35,6 @@ import (
 // TODO improve secret
 var store = sessions.NewCookieStore([]byte("a"))
 
-const password_auth_provider = "suluvir"
-
 func init() {
 	setup.AddCallBack(addRegistrationDisabledToSetup)
 }
