@@ -87,6 +87,12 @@ func RecoverPersistentSession(w http.ResponseWriter, r *http.Request) {
 			logging.GetLogger().Error("error during login", zap.Error(err))
 		}
 		logging.GetLogger().Info("recovered user session", zap.String("user", user.Username))
+
+		logging.GetLogger().Debug("refreshing persistent session age")
+		cookie.MaxAge = cookieMaxAge
+		http.SetCookie(w, cookie)
+		userSession.ValidUntil = time.Now().Add(sessionAge)
+		schema.GetDatabase().Save(&userSession)
 	}
 }
 
