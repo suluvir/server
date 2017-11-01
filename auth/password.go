@@ -48,6 +48,7 @@ func (p PasswordAuthProvider) GetIdentifier() string {
 }
 
 func (p PasswordAuthProvider) LoginUser(w http.ResponseWriter, r *http.Request) (auth.User, error) {
+	logging.GetLogger().Debug("login user by password")
 	var payload loginUser
 	decoder := json.NewDecoder(r.Body)
 	if decodeErr := decoder.Decode(&payload); decodeErr != nil {
@@ -59,7 +60,9 @@ func (p PasswordAuthProvider) LoginUser(w http.ResponseWriter, r *http.Request) 
 
 	errInvalidUser := errors.New("Username or password does not match")
 	if user != nil {
+		logging.GetLogger().Debug("found user, check password", zap.String("user", user.Username))
 		if !p.checkPasswordForUser(payload.Password, *user) {
+			logging.GetLogger().Debug("password does not match", zap.String("user", user.Username))
 			return auth.User{}, errInvalidUser
 		}
 
@@ -67,9 +70,11 @@ func (p PasswordAuthProvider) LoginUser(w http.ResponseWriter, r *http.Request) 
 			return auth.User{}, errors.New("Email must be verified first")
 		}
 
+		logging.GetLogger().Debug("user logged in successfully", zap.String("user", user.Username))
 		return *user, nil
 	}
 
+	logging.GetLogger().Debug("user to login not found", zap.String("login", payload.Login))
 	return auth.User{}, errInvalidUser
 }
 
@@ -83,5 +88,5 @@ func (p PasswordAuthProvider) CreateUser(w http.ResponseWriter, r *http.Request)
 
 func (p PasswordAuthProvider) checkPasswordForUser(password string, user auth.User) bool {
 	err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(password))
-	return err != nil
+	return err == nil
 }

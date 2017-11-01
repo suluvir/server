@@ -67,6 +67,7 @@ func loginUserHandler(w http.ResponseWriter, r *http.Request) {
 	if statusCode != http.StatusOK {
 		api.SendJsonError(w, statusCode, loginErr.Error())
 	}
+	api.SendJsonError(w, http.StatusOK, "")
 }
 
 func getQuotaHandler(w http.ResponseWriter, r *http.Request) {

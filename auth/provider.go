@@ -16,12 +16,15 @@
 package auth
 
 import (
+	"bytes"
 	"encoding/json"
 	"errors"
 	"github.com/suluvir/server/logging"
 	"github.com/suluvir/server/schema"
 	"github.com/suluvir/server/schema/auth"
 	"go.uber.org/zap"
+	"io"
+	"io/ioutil"
 	"net/http"
 	"time"
 )
@@ -66,13 +69,20 @@ func AddProvider(provider Provider) error {
 
 // MakeProviderLogin logs in the user by calling the correct provider to to the login
 func MakeProviderLogin(w http.ResponseWriter, r *http.Request) (error, int) {
-	decoder := json.NewDecoder(r.Body)
+
+	b := bytes.NewBuffer(make([]byte, 0))
+	reader := io.TeeReader(r.Body, b)
+
+	decoder := json.NewDecoder(reader)
 	var payload providerJsonInformation
 	errInternalError := errors.New("Internal server error, please try again later")
 	if decodeErr := decoder.Decode(&payload); decodeErr != nil {
 		logging.GetLogger().Error("error during provider login", zap.Error(decodeErr))
 		return errInternalError, http.StatusInternalServerError
 	}
+
+	defer r.Body.Close()
+	r.Body = ioutil.NopCloser(b)
 
 	provider := providers[payload.Provider]
 	if provider == nil {
