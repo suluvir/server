@@ -20,7 +20,6 @@ import (
 	"encoding/json"
 	"errors"
 	"github.com/suluvir/server/logging"
-	"github.com/suluvir/server/schema"
 	"github.com/suluvir/server/schema/auth"
 	"go.uber.org/zap"
 	"io"
@@ -31,6 +30,9 @@ import (
 
 var providers = map[string]*Provider{}
 
+// StatusCode is a type for http status codes
+type StatusCode int
+
 type Provider interface {
 	// GetIdentifier returns a unique identifier for this provider. It MUST be always the same
 	GetIdentifier() string
@@ -38,8 +40,6 @@ type Provider interface {
 	// in for setting cookies etc. When the user cannot be logged in, the function MUST return a detailed error message,
 	// as this message will be visible for the user
 	LoginUser(w http.ResponseWriter, r *http.Request) (auth.User, error)
-	// LogoutUser logs out the user. It shouldn't fail
-	LogoutUser(w http.ResponseWriter, r *http.Request)
 	// CreateUser creates the new user in the database. The `AuthProvider` column MUST be filled with the same string
 	// that is returned for `GetIdentifier`. The error returned MUST contain a detailed error message, as this message
 	// will be visible for the user
@@ -48,7 +48,7 @@ type Provider interface {
 
 type providerJsonInformation struct {
 	Provider     string `json:"provider"`
-	StayLoggedIn bool   `json:"stay_logged_in"`
+	StayLoggedIn bool   `json:"stay_signed_in"`
 }
 
 // AddProvider adds a new authentication provider. Add providers in the `START_SERVICES` startup phase. This function
@@ -68,8 +68,7 @@ func AddProvider(provider Provider) error {
 }
 
 // MakeProviderLogin logs in the user by calling the correct provider to to the login
-func MakeProviderLogin(w http.ResponseWriter, r *http.Request) (error, int) {
-
+func MakeProviderLogin(w http.ResponseWriter, r *http.Request) (error, StatusCode) {
 	b := bytes.NewBuffer(make([]byte, 0))
 	reader := io.TeeReader(r.Body, b)
 
@@ -100,23 +99,51 @@ func MakeProviderLogin(w http.ResponseWriter, r *http.Request) (error, int) {
 		MakePersistentSession(w, r, user)
 	}
 
-	session, getErr := GetUserSession(r)
-	if getErr != nil {
-		logging.GetLogger().Error("error while getting the user session", zap.Error(getErr))
-		return errInternalError, http.StatusInternalServerError
-	}
-
-	session.Values["user"] = user.Username
-
-	if saveErr := session.Save(r, w); saveErr != nil {
-		logging.GetLogger().Error("error while saving the users session", zap.Error(saveErr))
-		return errInternalError, http.StatusInternalServerError
-	}
-
-	user.ActiveAt = time.Now()
-	schema.GetDatabase().Save(&user)
+	LoginUser(w, r, user)
 
 	logging.GetLogger().Info("login for user", zap.String("user", user.Username))
 
 	return nil, http.StatusOK
+}
+
+// MakeProviderUserCreation creates a user with the given information.
+func MakeProviderUserCreation(w http.ResponseWriter, r *http.Request) (auth.User, error, StatusCode) {
+	var payload providerJsonInformation
+	readProviderInformation(r, &payload)
+
+	provider, err := getProvider(payload.Provider)
+	if err != nil {
+		return auth.User{}, err, http.StatusUnprocessableEntity
+	}
+
+	user, createErr := (*provider).CreateUser(w, r)
+	if createErr != nil {
+		return auth.User{}, createErr, http.StatusBadRequest
+	}
+
+	return user, nil, http.StatusOK
+}
+
+func getProvider(name string) (*Provider, error) {
+	provider := providers[name]
+	if provider == nil {
+		logging.GetLogger().Error("provider given is invalid", zap.String("provider", name))
+		return nil, errors.New("Given authentication provider is invalid")
+	}
+	return provider, nil
+}
+
+func readProviderInformation(r *http.Request, information *providerJsonInformation) {
+	b := bytes.NewBuffer(make([]byte, 0))
+	reader := io.TeeReader(r.Body, b)
+
+	decoder := json.NewDecoder(reader)
+	decoder.Decode(information)
+
+	defer r.Body.Close()
+	r.Body = ioutil.NopCloser(b)
+}
+
+func MakeProviderLogout(w http.ResponseWriter, r *http.Request) {
+	LogoutUser(w, r)
 }

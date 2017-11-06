@@ -25,7 +25,7 @@ import (
 func logoutHandler(w http.ResponseWriter, r *http.Request) {
 	redirectUrl, _ := web.GetRouter().GetRoute(routeNames.INDEX).URLPath()
 
-	auth.LogoutUser(w, r)
+	auth.MakeProviderLogout(w, r)
 
 	http.Redirect(w, r, redirectUrl.String(), http.StatusFound)
 }

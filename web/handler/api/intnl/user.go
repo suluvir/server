@@ -16,7 +16,6 @@
 package intnl
 
 import (
-	"encoding/json"
 	"github.com/suluvir/server/auth"
 	"github.com/suluvir/server/logging"
 	"github.com/suluvir/server/web/handler/api"
@@ -25,38 +24,11 @@ import (
 	"net/http"
 )
 
-type createUser struct {
-	Username       string `json:"username"`
-	Email          string `json:"email"`
-	Password       string `json:"password"`
-	PasswordRepeat string `json:"password_repeat"`
-}
-
-type loginUser struct {
-	Login        string `json:"login"`
-	Password     string `json:"password"`
-	StaySignedIn bool   `json:"stay_signed_in"`
-}
-
 func createUserHandler(w http.ResponseWriter, r *http.Request) {
-	var payload createUser
-	decoder := json.NewDecoder(r.Body)
-	err := decoder.Decode(&payload)
-	if err != nil {
-		logging.GetLogger().Error("error dezerializing request body", zap.Error(err))
-		api.SendJsonError(w, http.StatusBadRequest, "error dezerializing request body")
-		return
-	}
-
-	if payload.Password != payload.PasswordRepeat {
-		api.SendJsonError(w, http.StatusBadRequest, "passwords do not match")
-		return
-	}
-
-	user, err := auth.CreateUser(payload.Username, payload.Email, payload.Password)
+	user, err, statusCode := auth.MakeProviderUserCreation(w, r)
 	if err != nil {
 		logging.GetLogger().Error("error during user creation", zap.Error(err))
-		api.SendJsonError(w, http.StatusInternalServerError, err.Error())
+		api.SendJsonError(w, int(statusCode), err.Error())
 	} else {
 		httpHelpers.ServeJsonWithoutCache(w, &user)
 	}
@@ -65,7 +37,8 @@ func createUserHandler(w http.ResponseWriter, r *http.Request) {
 func loginUserHandler(w http.ResponseWriter, r *http.Request) {
 	loginErr, statusCode := auth.MakeProviderLogin(w, r)
 	if statusCode != http.StatusOK {
-		api.SendJsonError(w, statusCode, loginErr.Error())
+		api.SendJsonError(w, int(statusCode), loginErr.Error())
+		return
 	}
 	api.SendJsonError(w, http.StatusOK, "")
 }

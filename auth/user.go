@@ -102,7 +102,7 @@ func MustGetUserForSession(w http.ResponseWriter, r *http.Request) *auth.User {
 	return user
 }
 
-func LoginUser(w http.ResponseWriter, r *http.Request, user auth.User, staySignedIn bool) error {
+func LoginUser(w http.ResponseWriter, r *http.Request, user auth.User) error {
 	session, getErr := GetUserSession(r)
 	if getErr != nil {
 		logging.GetLogger().Error("error while getting the user session", zap.Error(getErr))
@@ -111,10 +111,6 @@ func LoginUser(w http.ResponseWriter, r *http.Request, user auth.User, staySigne
 
 	user.ActiveAt = time.Now()
 	schema.GetDatabase().Save(&user)
-
-	if staySignedIn {
-		MakePersistentSession(w, r, user)
-	}
 
 	session.Values["user"] = user.Username
 	saveErr := session.Save(r, w)

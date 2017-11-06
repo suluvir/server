@@ -18,8 +18,11 @@ package auth
 import (
 	"encoding/json"
 	"errors"
+	"github.com/pborman/uuid"
+	"github.com/suluvir/server/config"
 	"github.com/suluvir/server/environment"
 	"github.com/suluvir/server/logging"
+	"github.com/suluvir/server/schema"
 	"github.com/suluvir/server/schema/auth"
 	"go.uber.org/zap"
 	"golang.org/x/crypto/bcrypt"
@@ -31,6 +34,13 @@ const password_auth_provider = "suluvir"
 type loginUser struct {
 	Login    string `json:"login"`
 	Password string `json:"password"`
+}
+
+type createUser struct {
+	Username       string `json:"username"`
+	Email          string `json:"email"`
+	Password       string `json:"password"`
+	PasswordRepeat string `json:"password_repeat"`
 }
 
 func init() {
@@ -78,12 +88,51 @@ func (p PasswordAuthProvider) LoginUser(w http.ResponseWriter, r *http.Request) 
 	return auth.User{}, errInvalidUser
 }
 
-func (p PasswordAuthProvider) LogoutUser(w http.ResponseWriter, r *http.Request) {
+func (p PasswordAuthProvider) CreateUser(w http.ResponseWriter, r *http.Request) (auth.User, error) {
+	c := config.GetConfiguration()
+	if c.Auth.RegistrationDisabled {
+		return auth.User{}, errors.New("User could not be created since registration is disabled")
+	}
 
+	userInformation, decodeErr := p.decodeBody(w, r)
+	if decodeErr != nil {
+		return auth.User{}, decodeErr
+	}
+
+	if userInformation.Password != userInformation.PasswordRepeat {
+		return auth.User{}, errors.New("Passwords do not match")
+	}
+
+	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(userInformation.Password), bcrypt.DefaultCost)
+
+	if err != nil {
+		logging.GetLogger().Error("error during password hashing", zap.Error(err))
+	}
+
+	user := GetUserWithMinimalInformation()
+	user.Username = userInformation.Username
+	user.DisplayName = userInformation.Username
+	user.Email = userInformation.Email
+	user.Password = string(hashedPassword)
+	user.AccountStatus = auth.ACCOUNT_STATUS_CREATED
+	user.EmailActivationCode = uuid.NewRandom().String()
+	user.AuthProvider = p.GetIdentifier()
+
+	schema.GetDatabase().Create(&user)
+	user.QueueSendActivationMail()
+
+	return user, nil
 }
 
-func (p PasswordAuthProvider) CreateUser(w http.ResponseWriter, r *http.Request) (auth.User, error) {
-	return auth.User{}, nil
+func (p PasswordAuthProvider) decodeBody(w http.ResponseWriter, r *http.Request) (createUser, error) {
+	var payload createUser
+	decoder := json.NewDecoder(r.Body)
+	err := decoder.Decode(&payload)
+	if err != nil {
+		logging.GetLogger().Error("error during request decoding for creating a new user")
+		return createUser{}, errors.New("Cannot create user. Please try again later")
+	}
+	return payload, nil
 }
 
 func (p PasswordAuthProvider) checkPasswordForUser(password string, user auth.User) bool {
