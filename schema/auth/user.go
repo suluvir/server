@@ -42,8 +42,8 @@ const (
 type User struct {
 	schema.DatabaseObject
 	ActiveAt            time.Time `json:"-"`
-	Username            string    `gorm:"size:128" json:"username"`
-	Email               string    `gorm:"size:128" json:"email"`
+	Username            string    `gorm:"size:128;unique" json:"username"`
+	Email               string    `gorm:"size:128;unique" json:"email"`
 	Password            string    `gorm:"size:64" json:"-"`
 	QuotaSongs          int64     `json:"quota_songs"`
 	QuotaSpace          int64     `json:"quota_space"`
