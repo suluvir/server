@@ -21,6 +21,7 @@ import (
 	"errors"
 	"github.com/suluvir/server/logging"
 	"github.com/suluvir/server/schema/auth"
+	"github.com/suluvir/server/util"
 	"go.uber.org/zap"
 	"io"
 	"io/ioutil"
@@ -42,7 +43,8 @@ type Provider interface {
 	LoginUser(w http.ResponseWriter, r *http.Request) (auth.User, error)
 	// CreateUser creates the new user in the database. The `AuthProvider` column MUST be filled with the same string
 	// that is returned for `GetIdentifier`. The error returned MUST contain a detailed error message, as this message
-	// will be visible for the user
+	// will be visible for the user. When a user with the given username/email exists already, this function MUST
+	// return an error.
 	CreateUser(w http.ResponseWriter, r *http.Request) (auth.User, error)
 }
 
@@ -109,7 +111,7 @@ func MakeProviderLogin(w http.ResponseWriter, r *http.Request) (error, StatusCod
 // MakeProviderUserCreation creates a user with the given information.
 func MakeProviderUserCreation(w http.ResponseWriter, r *http.Request) (auth.User, error, StatusCode) {
 	var payload providerJsonInformation
-	readProviderInformation(r, &payload)
+	util.MultipleReadJsonParse(r, &payload)
 
 	provider, err := getProvider(payload.Provider)
 	if err != nil {
@@ -131,17 +133,6 @@ func getProvider(name string) (*Provider, error) {
 		return nil, errors.New("Given authentication provider is invalid")
 	}
 	return provider, nil
-}
-
-func readProviderInformation(r *http.Request, information *providerJsonInformation) {
-	b := bytes.NewBuffer(make([]byte, 0))
-	reader := io.TeeReader(r.Body, b)
-
-	decoder := json.NewDecoder(reader)
-	decoder.Decode(information)
-
-	defer r.Body.Close()
-	r.Body = ioutil.NopCloser(b)
 }
 
 func MakeProviderLogout(w http.ResponseWriter, r *http.Request) {

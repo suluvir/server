@@ -65,7 +65,7 @@ export default class LoginPage extends React.PureComponent {
             provider: 'suluvir'
         };
 
-        postJson('/api/internal/user/login', payload).then(this.redirectToOverview);
+        this.doLogin(payload);
     }
 
     suluvirOnGoogleSignin(googleUser) {
@@ -75,19 +75,23 @@ export default class LoginPage extends React.PureComponent {
         const image = profile.getImageUrl();
         const email = profile.getEmail();
 
-        const url = getSetup().getIn(['oauth_providers', 'google', 'url']);
         const data = {
             id_token,
             login,
             image,
-            email
+            email,
+            provider: 'google'
         }
 
-        postJson(url, data).then(this.redirectToOverview);
+        this.doLogin(data);
+    }
+
+    doLogin(payload) {
+        postJson('/api/internal/user/login', payload).then(this.redirectToOverview);
     }
 
     redirectToOverview() {
-        window.location.href = '/';
+        window.location.replace('/');
     }
 
     renderLoginForm() {

@@ -99,6 +99,14 @@ func (p PasswordAuthProvider) CreateUser(w http.ResponseWriter, r *http.Request)
 		return auth.User{}, decodeErr
 	}
 
+	if existErr := CheckUsernameAndEmail(userInformation.Username, userInformation.Email); existErr != nil {
+		if existErr == ErrMailInUse {
+			return auth.User{}, errors.New("Mail already in use")
+		} else if existErr == ErrUsernameInUse {
+			return auth.User{}, errors.New("Username already in use")
+		}
+	}
+
 	if userInformation.Password != userInformation.PasswordRepeat {
 		return auth.User{}, errors.New("Passwords do not match")
 	}
