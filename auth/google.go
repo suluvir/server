@@ -21,6 +21,7 @@ import (
 	"github.com/suluvir/server/config"
 	"github.com/suluvir/server/environment"
 	"github.com/suluvir/server/logging"
+	"github.com/suluvir/server/schema"
 	"github.com/suluvir/server/schema/auth"
 	"github.com/suluvir/server/util"
 	"go.uber.org/zap"
@@ -56,7 +57,7 @@ func (g GoogleAuthProvider) LoginUser(w http.ResponseWriter, r *http.Request) (a
 	logging.GetLogger().Debug("login user by google auth")
 
 	var payload googleProviderPayload
-	util.MultipleReadJsonParse(r, payload)
+	util.MultipleReadJsonParse(r, &payload)
 
 	if checkErr := g.checkPayload(payload); checkErr != nil {
 		logging.GetLogger().Warn("error during google login check", zap.Error(checkErr))
@@ -76,7 +77,7 @@ func (g GoogleAuthProvider) LoginUser(w http.ResponseWriter, r *http.Request) (a
 		return g.CreateUser(w, r)
 	}
 
-	return auth.User{}, nil
+	return *user, nil
 }
 
 func (g GoogleAuthProvider) CreateUser(w http.ResponseWriter, r *http.Request) (auth.User, error) {
@@ -88,7 +89,7 @@ func (g GoogleAuthProvider) CreateUser(w http.ResponseWriter, r *http.Request) (
 	user := GetUserWithMinimalInformation()
 
 	var data googleProviderPayload
-	util.MultipleReadJsonParse(r, data)
+	util.MultipleReadJsonParse(r, &data)
 
 	if existErr := CheckUsernameAndEmail(data.Email, data.Email); existErr != nil {
 		if existErr == ErrMailInUse {
@@ -117,12 +118,15 @@ func (g GoogleAuthProvider) CreateUser(w http.ResponseWriter, r *http.Request) (
 	user.Username = data.Email
 	user.AuthProvider = g.GetIdentifier()
 
-	return auth.User{}, nil
+	schema.GetDatabase().Create(&user)
+
+	return user, nil
 }
 
 func (g GoogleAuthProvider) checkPayload(data googleProviderPayload) error {
 	logging.GetLogger().Debug("check google user", zap.String("login", data.Login))
 	url := fmt.Sprintf(google_check_url, data.IdToken)
+	logging.GetLogger().Debug("call url", zap.String("url", url))
 	response, err := http.Get(url)
 	if err != nil {
 		return err
