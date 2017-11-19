@@ -19,12 +19,13 @@ import classNames from 'classnames';
 
 export default class Button extends React.PureComponent {
     render() {
+        const {className, raised, children, ...other} = this.props
         const clazzes = classNames('mdc-button', 'mdc-ripple-upgraded',
-            {'mdc-button--raised': this.props.raised},
-            this.props.className);
+            {'mdc-button--raised': raised},
+            className);
         return (
-            <button className={clazzes}>
-                {this.props.children}
+            <button className={clazzes} {...other}>
+                {children}
             </button>
         );
     }

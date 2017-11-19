@@ -48,8 +48,8 @@ export default class Dialog extends React.PureComponent {
     }
 
     cancel(e) {
-        if (this.props.onCancel !== undefined) {
-            this.props.onCancel(e);
+        if (this.props.onHide !== undefined) {
+            this.props.onHide(e);
         }
     }
 
@@ -83,7 +83,7 @@ export default class Dialog extends React.PureComponent {
                     </section>
                     <footer className="mdc-dialog__footer">
                         {submitButton}
-                        <Button className="mdc-dialog__footer__button--cancel" raised onClick={this.cancel}>Cancel</Button>
+                        <Button className="mdc-dialog__footer__button--cancel" raised={!this.showSubmit()} onClick={this.cancel}>Cancel</Button>
                     </footer>
                     </div>
                     <div className="mdc-dialog__backdrop"></div>
@@ -98,7 +98,7 @@ Dialog.propTypes = {
     children: PropTypes.any.isRequired,
     title: PropTypes.string,
     show: PropTypes.bool.isRequired,
-    onCancel: PropTypes.func,
+    onHide: PropTypes.func,
     onSubmit: PropTypes.func
 };
 

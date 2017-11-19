@@ -144,6 +144,5 @@ func (p PasswordAuthProvider) decodeBody(w http.ResponseWriter, r *http.Request)
 }
 
 func (p PasswordAuthProvider) checkPasswordForUser(password string, user auth.User) bool {
-	err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(password))
-	return err == nil
+	return user.CheckPassword(password)
 }

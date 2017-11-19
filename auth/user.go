@@ -26,6 +26,7 @@ import (
 	"github.com/suluvir/server/util"
 	"github.com/suluvir/server/web/setup"
 	"go.uber.org/zap"
+	"golang.org/x/crypto/bcrypt"
 	"net/http"
 	"time"
 )
@@ -35,6 +36,12 @@ var store = sessions.NewCookieStore([]byte("a"))
 
 var ErrUsernameInUse = errors.New("username is already in use")
 var ErrMailInUse = errors.New("email is already in use")
+
+type changePasswordPayload struct {
+	OldPassword       string `json:"old_pw"`
+	NewPassword       string `json:"new_pw"`
+	NewPasswordRepeat string `json:"new_pw_repeat"`
+}
 
 func init() {
 	setup.AddCallBack(addRegistrationDisabledToSetup)
@@ -188,4 +195,31 @@ func GetUserForAuthProvider(login, provider string) (*auth.User, error) {
 func UserIsLoggedIn(w http.ResponseWriter, r *http.Request) bool {
 	user := MustGetUserForSession(w, r)
 	return user != nil && user.Username != ""
+}
+
+// ChangeUserPassword changes the users password. If that fails, it returns an error message describing
+// the cause for the user
+func ChangeUserPassword(w http.ResponseWriter, r *http.Request) error {
+	user := MustGetUserForSession(w, r)
+
+	var payload changePasswordPayload
+	util.MultipleReadJsonParse(r, &payload)
+	if !user.CheckPassword(payload.OldPassword) {
+		return errors.New("Old password is not correct")
+	}
+
+	if payload.NewPassword != payload.NewPasswordRepeat {
+		return errors.New("New passwords do not match")
+	}
+
+	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(payload.NewPassword), bcrypt.DefaultCost)
+	if err != nil {
+		logging.GetLogger().Error("error during password hashing", zap.Error(err))
+		return errors.New("Password could not be updated")
+	}
+
+	user.Password = string(hashedPassword)
+	schema.GetDatabase().Save(&user)
+
+	return nil
 }

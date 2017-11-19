@@ -20,6 +20,8 @@ import {connect} from 'react-redux';
 
 import {List, ListItem, ListItemContent, ProgressBar} from 'react-mdl';
 
+import ChangePassword from './ChangePassword';
+
 import {fetchUser} from '../../actions/thunkActions';
 
 import {formatBytes} from '../../utils/formatters';
@@ -53,6 +55,11 @@ class Profile extends React.PureComponent {
         setWindowTitle('My profile');
     }
 
+    canChangePassword() {
+        const {user} = this.props;
+        return user !== undefined && user.get('auth_provider') === 'suluvir';
+    }
+
     render() {
         const {user} = this.props;
         return (
@@ -69,6 +76,10 @@ class Profile extends React.PureComponent {
                 </List>
 
                 <hr/>
+
+                {this.canChangePassword() ? <ChangePassword/> : undefined}
+
+                {this.canChangePassword() ? <hr/> : undefined}
 
                 <h2>Quota</h2>
 

@@ -42,4 +42,5 @@ func applyRoutes() {
 
 	r.HandleFunc("/user/register", createUserHandler).Methods(httpHelpers.POST)
 	r.HandleFunc("/user/login", loginUserHandler).Methods(httpHelpers.POST)
+	r.HandleFunc("/user/changepwd", changePassword).Methods(httpHelpers.POST)
 }

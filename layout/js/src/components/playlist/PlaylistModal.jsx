@@ -82,7 +82,7 @@ class PlaylistModal extends React.PureComponent {
                         <ListItemAction>
                             <IconButton
                                 disabled={playlistContainsSong}
-                                name={iconName} 
+                                name={iconName}
                                 onClick={this.addSongToPlaylist(playlist)}
                                 title={title}
                             />
@@ -102,7 +102,7 @@ class PlaylistModal extends React.PureComponent {
 
         return (
             <div>
-                <Dialog show={show} onCancel={onCancel} title="Playlists">
+                <Dialog show={show} onHide={onCancel} title="Playlists">
                     <PlaylistCreateForm />
                     {playlistDisplay}
                 </Dialog>
