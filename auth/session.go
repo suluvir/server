@@ -51,6 +51,7 @@ func MustGetUserSession(r *http.Request) *sessions.Session {
 // MakePersistentSession saves a persistent cookie in the users browser and stores the neccessary information
 // in the database
 func MakePersistentSession(w http.ResponseWriter, r *http.Request, user auth.User) {
+	logging.GetLogger().Debug("create persistent session", zap.String("user", user.Username))
 	userSession := auth.NewUserSessionForUser(user)
 	userSession.UserAgent = r.Header.Get("User-Agent")
 	userSession.ValidUntil = time.Now().Add(sessionAge)
@@ -66,6 +67,7 @@ func MakePersistentSession(w http.ResponseWriter, r *http.Request, user auth.Use
 
 	schema.GetDatabase().Save(&userSession)
 	http.SetCookie(w, &browserCookie)
+	logging.GetLogger().Debug("done creating persistent session", zap.String("user", user.Username))
 }
 
 // RecoverPersistentSession tries to recover a persistent session. It fails silently when that's not possible
@@ -83,7 +85,7 @@ func RecoverPersistentSession(w http.ResponseWriter, r *http.Request) {
 	if userSession.Secret == cookie.Value {
 		var user auth.User
 		schema.GetDatabase().Model(&userSession).Related(&user)
-		if err := LoginUser(w, r, user, false); err != nil {
+		if err := LoginUser(w, r, user); err != nil {
 			logging.GetLogger().Error("error during login", zap.Error(err))
 		}
 		logging.GetLogger().Info("recovered user session", zap.String("user", user.Username))

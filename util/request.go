@@ -13,19 +13,29 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-package handler
+package util
 
 import (
-	"github.com/suluvir/server/auth"
-	"github.com/suluvir/server/web"
-	"github.com/suluvir/server/web/routeNames"
+	"bytes"
+	"encoding/json"
+	"io"
+	"io/ioutil"
 	"net/http"
 )
 
-func logoutHandler(w http.ResponseWriter, r *http.Request) {
-	redirectUrl, _ := web.GetRouter().GetRoute(routeNames.INDEX).URLPath()
+// MultipleReadJsonParse can be called multiple times for a single request to parse the body
+// multiple times
+func MultipleReadJsonParse(r *http.Request, payload interface{}) error {
+	b := bytes.NewBuffer(make([]byte, 0))
+	reader := io.TeeReader(r.Body, b)
 
-	auth.MakeProviderLogout(w, r)
+	decoder := json.NewDecoder(reader)
+	if err := decoder.Decode(payload); err != nil {
+		return err
+	}
 
-	http.Redirect(w, r, redirectUrl.String(), http.StatusFound)
+	defer r.Body.Close()
+	r.Body = ioutil.NopCloser(b)
+
+	return nil
 }

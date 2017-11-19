@@ -19,7 +19,6 @@ import (
 	"errors"
 	"github.com/gorilla/sessions"
 	"github.com/jinzhu/gorm"
-	"github.com/pborman/uuid"
 	"github.com/suluvir/server/config"
 	"github.com/suluvir/server/logging"
 	"github.com/suluvir/server/schema"
@@ -27,7 +26,6 @@ import (
 	"github.com/suluvir/server/util"
 	"github.com/suluvir/server/web/setup"
 	"go.uber.org/zap"
-	"golang.org/x/crypto/bcrypt"
 	"net/http"
 	"time"
 )
@@ -35,7 +33,8 @@ import (
 // TODO improve secret
 var store = sessions.NewCookieStore([]byte("a"))
 
-const password_auth_provider = "suluvir"
+var ErrUsernameInUse = errors.New("username is already in use")
+var ErrMailInUse = errors.New("email is already in use")
 
 func init() {
 	setup.AddCallBack(addRegistrationDisabledToSetup)
@@ -43,33 +42,6 @@ func init() {
 
 func addRegistrationDisabledToSetup(_ *http.Request) (string, interface{}) {
 	return "registration_disabled", config.GetConfiguration().Auth.RegistrationDisabled
-}
-
-func CreateUser(name string, email string, password string) (auth.User, error) {
-	c := config.GetConfiguration()
-	if c.Auth.RegistrationDisabled {
-		return auth.User{}, errors.New("User could not be created since registration is disabled")
-	}
-
-	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
-
-	if err != nil {
-		logging.GetLogger().Error("error during password hashing", zap.Error(err))
-	}
-
-	user := GetUserWithMinimalInformation()
-	user.Username = name
-	user.DisplayName = name
-	user.Email = email
-	user.Password = string(hashedPassword)
-	user.AccountStatus = auth.ACCOUNT_STATUS_CREATED
-	user.EmailActivationCode = uuid.NewRandom().String()
-	user.AuthProvider = password_auth_provider
-
-	schema.GetDatabase().Create(&user)
-	user.QueueSendActivationMail()
-
-	return user, nil
 }
 
 // GetUserForSession returns the user for the given session or nil, if no user is found. When no user is found
@@ -104,16 +76,7 @@ func MustGetUserForSession(w http.ResponseWriter, r *http.Request) *auth.User {
 	return user
 }
 
-// CheckLoginUser checks the given password and logs in the user after that
-func CheckLoginUser(w http.ResponseWriter, r *http.Request, user auth.User, password string, staySignedIn bool) error {
-	err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(password))
-	if err == nil {
-		return LoginUser(w, r, user, staySignedIn)
-	}
-	return errors.New("username or password is incorrect")
-}
-
-func LoginUser(w http.ResponseWriter, r *http.Request, user auth.User, staySignedIn bool) error {
+func LoginUser(w http.ResponseWriter, r *http.Request, user auth.User) error {
 	session, getErr := GetUserSession(r)
 	if getErr != nil {
 		logging.GetLogger().Error("error while getting the user session", zap.Error(getErr))
@@ -122,10 +85,6 @@ func LoginUser(w http.ResponseWriter, r *http.Request, user auth.User, staySigne
 
 	user.ActiveAt = time.Now()
 	schema.GetDatabase().Save(&user)
-
-	if staySignedIn {
-		MakePersistentSession(w, r, user)
-	}
 
 	session.Values["user"] = user.Username
 	saveErr := session.Save(r, w)
@@ -189,6 +148,22 @@ func GetUserByNameOrMail(login string) *auth.User {
 	schema.GetDatabase().Where("username = ? or email = ?", login, login).First(&user)
 
 	return &user
+}
+
+// CheckUsernameAndEmail checks if the given username or email is in use and returns the fitting error in that case
+func CheckUsernameAndEmail(username, email string) error {
+	var user auth.User
+	schema.GetDatabase().Where("username = ?", username).First(&user)
+	if &user != nil && user.Username == username {
+		return ErrUsernameInUse
+	}
+
+	schema.GetDatabase().Where("email = ?", email).First(&user)
+	if &user != nil && user.Email == email {
+		return ErrMailInUse
+	}
+
+	return nil
 }
 
 // GetUserForAuthProvider returns the user for the given auth provider. The user is nil, if there is no user for the

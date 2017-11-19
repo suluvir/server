@@ -44,7 +44,13 @@ export default class RegistrationPage extends React.PureComponent {
 
         const {username, email, password, password_repeat} = this.state;
 
-        const data = {username, email, password, password_repeat};
+        const data = {
+            username,
+            email,
+            password,
+            password_repeat,
+            provider: 'suluvir'
+        };
         postJson('/api/internal/user/register', data).then(() => {
             window.location.href = '/login';
         });
@@ -58,10 +64,10 @@ export default class RegistrationPage extends React.PureComponent {
                 <SmallLogoContainer>
                     <form className="suluvir-registration__form" onSubmit={this.registerUser}>
                         <div>
-                            <IconTextfield 
+                            <IconTextfield
                                 autoFocus
                                 error="Username is too long"
-                                iconName="person" 
+                                iconName="person"
                                 label="Username"
                                 onChange={this.onInputChange('username')}
                                 pattern="\S{0,120}"
@@ -69,16 +75,16 @@ export default class RegistrationPage extends React.PureComponent {
                             />
                             <IconTextfield
                                 error="Has to be a valid email"
-                                iconName="email" 
+                                iconName="email"
                                 label="E-Mail Adress"
                                 onChange={this.onInputChange('email')}
                                 pattern="\S+@\S+\.[a-z]{2,3}"
                                 value={email}
                             />
-                            <IconTextfield 
-                                iconName="vpn_key" 
+                            <IconTextfield
+                                iconName="vpn_key"
                                 label="Password"
-                                onChange={this.onInputChange('password')} 
+                                onChange={this.onInputChange('password')}
                                 type="password"
                                 value={password}
                             />
