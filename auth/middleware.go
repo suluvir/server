@@ -54,6 +54,15 @@ func authenticationMiddleware(next http.Handler) http.Handler {
 
 		} else {
 			logging.GetLogger().Debug("got user for session", zap.String("user", user.Username))
+			blacklistChecker := NewUrlBlacklistCheck(r.URL.EscapedPath())
+			if blacklistChecker.Check() {
+				logging.GetLogger().Debug("user is logged in and not allowed to view the current site",
+					zap.String("url", r.URL.EscapedPath()), zap.String("user", user.Username))
+				route := web.GetRouter().GetRoute(routeNames.INDEX)
+				url, _ := route.URL()
+				http.Redirect(w, r, url.String(), http.StatusFound)
+				return
+			}
 		}
 		next.ServeHTTP(w, r)
 	})
