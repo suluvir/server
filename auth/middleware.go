@@ -59,10 +59,10 @@ func authenticationMiddleware(next http.Handler) http.Handler {
 			blacklistChecker := NewUrlBlacklistCheck(r.URL.EscapedPath())
 			if blacklistChecker.Check() {
 				logging.GetLogger().Debug("user is logged in and not allowed to view the current site",
-					zap.String("url", r.URL.EscapedPath()), zap.String("user", user.Username))
+					zap.String("routeUrl", r.URL.EscapedPath()), zap.String("user", user.Username))
 				route := web.GetRouter().GetRoute(routeNames.INDEX)
-				url, _ := route.URL()
-				http.Redirect(w, r, url.String(), http.StatusFound)
+				routeUrl, _ := route.URL()
+				http.Redirect(w, r, routeUrl.String(), http.StatusFound)
 				return
 			}
 		}

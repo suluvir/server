@@ -52,7 +52,7 @@ export default class RegistrationPage extends React.PureComponent {
             provider: 'suluvir'
         };
         postJson('/api/internal/user/register', data).then(() => {
-            window.location.href = '/login';
+            window.location.replace('/login');
         });
     }
 
