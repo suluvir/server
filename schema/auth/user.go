@@ -25,6 +25,7 @@ import (
 	"github.com/suluvir/server/web"
 	"github.com/suluvir/server/web/routeNames"
 	"go.uber.org/zap"
+	"golang.org/x/crypto/bcrypt"
 	"time"
 )
 
@@ -49,7 +50,7 @@ type User struct {
 	QuotaSpace          int64     `json:"quota_space"`
 	EmailActivationCode string    `gorm:"size:40" json:"-"`
 	AccountStatus       string    `gorm:"size:256" json:"-"`
-	AuthProvider        string    `json:"-"`
+	AuthProvider        string    `json:"auth_provider"`
 	DisplayName         string    `gorm:"size:1024" json:"display_name"`
 }
 
@@ -121,4 +122,9 @@ func (u User) MarshalJSON() ([]byte, error) {
 		AvailableQuotaSongs: availableSongs,
 		AvailableQuotaSpace: availableSpace,
 	})
+}
+
+func (u User) CheckPassword(password string) bool {
+	err := bcrypt.CompareHashAndPassword([]byte(u.Password), []byte(password))
+	return err == nil
 }

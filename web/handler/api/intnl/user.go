@@ -54,6 +54,15 @@ func getQuotaHandler(w http.ResponseWriter, r *http.Request) {
 	httpHelpers.ServeJsonWithoutCache(w, &result)
 }
 
+func changePassword(w http.ResponseWriter, r *http.Request) {
+	err := auth.ChangeUserPassword(w, r)
+	if err != nil {
+		api.SendJsonError(w, http.StatusBadRequest, err.Error())
+		return
+	}
+	api.SendJsonError(w, http.StatusOK, "Password changed")
+}
+
 func getMyUser(w http.ResponseWriter, r *http.Request) {
 	user := auth.MustGetUserForSession(w, r)
 
