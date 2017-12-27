@@ -71,7 +71,7 @@ func (p PasswordAuthProvider) LoginUser(w http.ResponseWriter, r *http.Request) 
 	errInvalidUser := errors.New("Username or password does not match")
 	if user != nil {
 		logging.GetLogger().Debug("found user, check password", zap.String("user", user.Username))
-		if !p.checkPasswordForUser(payload.Password, *user) {
+		if !user.CheckPassword(payload.Password) {
 			logging.GetLogger().Debug("password does not match", zap.String("user", user.Username))
 			return auth.User{}, errInvalidUser
 		}
@@ -141,8 +141,4 @@ func (p PasswordAuthProvider) decodeBody(w http.ResponseWriter, r *http.Request)
 		return createUser{}, errors.New("Cannot create user. Please try again later")
 	}
 	return payload, nil
-}
-
-func (p PasswordAuthProvider) checkPasswordForUser(password string, user auth.User) bool {
-	return user.CheckPassword(password)
 }

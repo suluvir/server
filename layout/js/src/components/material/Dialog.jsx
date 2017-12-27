@@ -37,6 +37,7 @@ export default class Dialog extends React.PureComponent {
     componentDidMount() {
         this.dialog = new dialog.MDCDialog(this.dialogNode);
         this.dialog.listen('MDCDialog:cancel', this.cancel);
+        this.dialog.listen('MDCDialog:accept', this.cancel);
     }
 
     componentWillUpdate(nextProps) {

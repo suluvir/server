@@ -32,6 +32,7 @@ export default class ChangePassword extends React.PureComponent {
         this.showModal = this.showModal.bind(this);
         this.hideModal = this.hideModal.bind(this);
         this.changePassword = this.changePassword.bind(this);
+        this.clearInputs = this.clearInputs.bind(this);
     }
 
     showModal() {
@@ -42,12 +43,20 @@ export default class ChangePassword extends React.PureComponent {
         this.setState({showModal: false});
     }
 
+    clearInputs() {
+        this.setState({
+            old_pw: '',
+            new_pw: '',
+            new_pw_repeat: ''
+        });
+    }
+
     changePassword() {
         const {old_pw, new_pw, new_pw_repeat} = this.state;
         const payload = {
             old_pw, new_pw, new_pw_repeat
         };
-        postJson('/api/internal/user/changepwd', payload).then(this.hideModal);
+        postJson('/api/internal/user/changepwd', payload).then(this.clearInputs);
     }
 
     onInputChange(stateKey) {

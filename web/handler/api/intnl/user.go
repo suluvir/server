@@ -60,7 +60,7 @@ func changePassword(w http.ResponseWriter, r *http.Request) {
 		api.SendJsonError(w, http.StatusBadRequest, err.Error())
 		return
 	}
-	w.WriteHeader(http.StatusNoContent)
+	api.SendJsonError(w, http.StatusOK, "Password changed")
 }
 
 func getMyUser(w http.ResponseWriter, r *http.Request) {
