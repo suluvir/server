@@ -73,22 +73,26 @@ export default class ChangePassword extends React.PureComponent {
                 onHide={this.hideModal}
                 onSubmit={this.changePassword}
             >
-                <Textfield
-                    label="Old password"
-                    autoFocus
-                    type="password"
-                    onChange={this.onInputChange('old_pw')}
-                />
-                <Textfield
-                    label="New password"
-                    type="password"
-                    onChange={this.onInputChange('new_pw')}
-                />
-                <Textfield
-                    label="New password (repeat)"
-                    type="password"
-                    onChange={this.onInputChange('new_pw_repeat')}
-                />
+                <form onSubmit={this.changePassword}>
+                    <div>
+                        <Textfield
+                            label="Old password"
+                            autoFocus
+                            type="password"
+                            onChange={this.onInputChange('old_pw')}
+                        />
+                        <Textfield
+                            label="New password"
+                            type="password"
+                            onChange={this.onInputChange('new_pw')}
+                        />
+                        <Textfield
+                            label="New password (repeat)"
+                            type="password"
+                            onChange={this.onInputChange('new_pw_repeat')}
+                        />
+                    </div>
+                </form>
             </Dialog>
         );
     }
