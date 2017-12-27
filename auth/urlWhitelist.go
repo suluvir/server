@@ -35,10 +35,23 @@ var whitelistedUrls = []string{
 	"^/api/oauth/",
 }
 
+// loggedInBlacklistedUrls contains all urls not allowed for logged in users
+var loggedInBlacklistedUrls = []string{
+	"^/activate/",
+	"^/login",
+	"^/register*",
+	"^/api/internal/register",
+	"^/api/internal/user/register",
+	"^/api/internal/user/login",
+}
+
 var whitelistedUrlsRegexp = []*regexp.Regexp{}
 
-type UrlWhitelistCheck struct {
-	url string
+var loggedInBlacklistedUrlsRegexp = []*regexp.Regexp{}
+
+type UrlRegexpCheck struct {
+	url     string
+	regexes []*regexp.Regexp
 }
 
 func init() {
@@ -46,20 +59,34 @@ func init() {
 		r := regexp.MustCompile(regexpString)
 		whitelistedUrlsRegexp = append(whitelistedUrlsRegexp, r)
 	}
+
+	for _, regexpString := range loggedInBlacklistedUrls {
+		r := regexp.MustCompile(regexpString)
+		loggedInBlacklistedUrlsRegexp = append(loggedInBlacklistedUrlsRegexp, r)
+	}
 }
 
 // NewUrlWhitelistCheck returns a checker to check, if a given url should be accessible without login
-func NewUrlWhitelistCheck(url string) *UrlWhitelistCheck {
-	return &UrlWhitelistCheck{
-		url: url,
+func NewUrlWhitelistCheck(url string) *UrlRegexpCheck {
+	return &UrlRegexpCheck{
+		url:     url,
+		regexes: whitelistedUrlsRegexp,
+	}
+}
+
+// NewUrlBlacklistCheck returns the blacklisted urls for a logged in user
+func NewUrlBlacklistCheck(url string) *UrlRegexpCheck {
+	return &UrlRegexpCheck{
+		url:     url,
+		regexes: loggedInBlacklistedUrlsRegexp,
 	}
 }
 
 // Check returns true, if the url specified is on the whitelist for urls requestable without user
 // authentication
-func (u *UrlWhitelistCheck) Check() bool {
+func (u *UrlRegexpCheck) Check() bool {
 	logging.GetLogger().Debug("checking url for presence in whitelist", zap.String("url", u.url))
-	for _, r := range whitelistedUrlsRegexp {
+	for _, r := range u.regexes {
 		if r.MatchString(u.url) {
 			logging.GetLogger().Debug("url is allowed", zap.String("url", u.url))
 			return true

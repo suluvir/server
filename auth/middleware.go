@@ -16,6 +16,7 @@
 package auth
 
 import (
+	"fmt"
 	"github.com/suluvir/server/config"
 	"github.com/suluvir/server/environment"
 	"github.com/suluvir/server/logging"
@@ -24,6 +25,7 @@ import (
 	"github.com/suluvir/server/web/routeNames"
 	"go.uber.org/zap"
 	"net/http"
+	"net/url"
 )
 
 func init() {
@@ -48,12 +50,21 @@ func authenticationMiddleware(next http.Handler) http.Handler {
 
 			checker := NewUrlWhitelistCheck(r.URL.EscapedPath())
 			if !checker.Check() {
-				http.Redirect(w, r, getRedirectUrl(), http.StatusFound)
+				http.Redirect(w, r, getRedirectUrl(r), http.StatusFound)
 				return
 			}
 
 		} else {
 			logging.GetLogger().Debug("got user for session", zap.String("user", user.Username))
+			blacklistChecker := NewUrlBlacklistCheck(r.URL.EscapedPath())
+			if blacklistChecker.Check() {
+				logging.GetLogger().Debug("user is logged in and not allowed to view the current site",
+					zap.String("routeUrl", r.URL.EscapedPath()), zap.String("user", user.Username))
+				route := web.GetRouter().GetRoute(routeNames.INDEX)
+				routeUrl, _ := route.URL()
+				http.Redirect(w, r, routeUrl.String(), http.StatusFound)
+				return
+			}
 		}
 		next.ServeHTTP(w, r)
 	})
@@ -70,19 +81,18 @@ func staySignedInMiddleware(next http.Handler) http.Handler {
 	})
 }
 
-func getRedirectUrl() string {
+func getRedirectUrl(r *http.Request) string {
 	var registeredUsers uint64
 	schema.GetDatabase().Table("users").Count(&registeredUsers)
 	routeName := routeNames.LOGIN
 	if registeredUsers == 0 && !config.GetConfiguration().Auth.RegistrationDisabled {
 		routeName = routeNames.REGISTER
 	}
-	url, _ := web.GetRouter().GetRoute(routeName).URLPath()
+	redirectUrl, _ := web.GetRouter().GetRoute(routeName).URLPath()
 
-	result := url.String()
-	if registeredUsers == 0 {
-		result += "?admin=1"
-	}
+	result := redirectUrl.String()
+	returnUrl := r.URL.EscapedPath()
+	result += fmt.Sprintf("?return_to=%s", url.QueryEscape(returnUrl))
 
 	return result
 }

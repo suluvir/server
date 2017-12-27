@@ -18,6 +18,7 @@ import {Link} from 'react-router-dom';
 
 import {postJson} from '../../utils/fetch';
 import {getSetup} from '../../utils/helpers';
+import {getRedirectUrl} from '../../utils/url';
 
 import SmallLogoContainer from '../../components/util/SmallLogoContainer';
 import IconTextfield from '../../components/util/IconTextfield';
@@ -36,6 +37,7 @@ export default class LoginPage extends React.PureComponent {
         };
         this.login = this.login.bind(this);
         this.suluvirOnGoogleSignin = this.suluvirOnGoogleSignin.bind(this);
+        this.redirectToOverview = this.redirectToOverview.bind(this);
 
         // write function to global namespace on purpose to allow the google sign in button to trigger it
         window.suluvirOnGoogleSignin = this.suluvirOnGoogleSignin;
@@ -91,7 +93,7 @@ export default class LoginPage extends React.PureComponent {
     }
 
     redirectToOverview() {
-        window.location.replace('/');
+        window.location.replace(getRedirectUrl());
     }
 
     renderLoginForm() {
