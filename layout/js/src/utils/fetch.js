@@ -1,5 +1,5 @@
 // Suluvir streaming server
-// Copyright (C) 2017  Jannis Fink
+// Copyright (C) 2018  Jannis Fink
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -58,7 +58,7 @@ export function getJson (url) {
 
 /**
  * Sends a post request to the given url containing the data given as request body
- * 
+ *
  * @param {string} url url to fetch
  * @param {object} data data to send
  */
@@ -80,7 +80,7 @@ export function postJson(url, data = undefined) {
 
 /**
  * Sends a file as multipart/form-data.
- * 
+ *
  * @param {string} url the url to send the post request to
  * @param {File} file the file
  * @param {string} fileKey name unter which the file gets set in the FormData object

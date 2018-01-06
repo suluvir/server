@@ -1,5 +1,5 @@
 // Suluvir streaming server
-// Copyright (C) 2017  Jannis Fink
+// Copyright (C) 2018  Jannis Fink
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -39,7 +39,7 @@ export default class DetailHeader extends React.PureComponent {
                     <h3>{title}</h3>
                     <div>{subTexts.join(' - ')}</div>
                 </div>
-            </div>   
+            </div>
         );
     }
 }

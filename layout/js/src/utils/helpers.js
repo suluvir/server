@@ -1,5 +1,5 @@
 // Suluvir streaming server
-// Copyright (C) 2017  Jannis Fink
+// Copyright (C) 2018  Jannis Fink
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -37,9 +37,9 @@ export function isDebugMode() {
 
 /**
  * This function calls the given function only if debug moide is enabled. It is a noop else.
- * 
- * @param {function} func 
- * @param {any} params 
+ *
+ * @param {function} func
+ * @param {any} params
  */
 export function onlyInDebug(func, ...params) {
     if(isDebugMode()) {

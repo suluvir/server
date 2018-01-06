@@ -1,5 +1,5 @@
 // Suluvir streaming server
-// Copyright (C) 2017  Jannis Fink
+// Copyright (C) 2018  Jannis Fink
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -28,7 +28,7 @@ require('./Volume.scss');
 class Volume extends React.PureComponent {
     constructor() {
         super();
-        this.volumeChange = this.volumeChange.bind(this); 
+        this.volumeChange = this.volumeChange.bind(this);
         this.toggleMute = this.toggleMute.bind(this);
         this.state = {
             muted: false,

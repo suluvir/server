@@ -1,5 +1,5 @@
 // Suluvir streaming server
-// Copyright (C) 2017  Jannis Fink
+// Copyright (C) 2018  Jannis Fink
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -36,7 +36,7 @@ export function fetchMyArtists() {
     return dispatch => {
         return getJson('/api/internal/my/artists').then(myArtists => {
             dispatch(actions.setMyArtists(Immutable.fromJS(myArtists)));
-        }) 
+        })
     }
 }
 
@@ -52,7 +52,7 @@ export function fetchMyPlaylists() {
     return dispatch => {
         return getJson('/api/internal/my/playlists').then(myPlaylists => {
             dispatch(actions.setMyPlaylists(Immutable.fromJS(myPlaylists)));
-        }) 
+        })
     }
 }
 
@@ -116,8 +116,8 @@ export function createPlaylist(name) {
  * Plays all songs of a given collection. The collection must be an
  * Immutable.Map and must contain an `@songs` field containing the
  * url for fetching all the collections songs.
- * 
- * @param {Immutable.Map} collection the collection to play 
+ *
+ * @param {Immutable.Map} collection the collection to play
  */
 export function playCollection(collection) {
     return dispatch => {

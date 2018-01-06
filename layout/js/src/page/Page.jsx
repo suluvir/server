@@ -1,5 +1,5 @@
 // Suluvir streaming server
-// Copyright (C) 2017  Jannis Fink
+// Copyright (C) 2018  Jannis Fink
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -76,11 +76,11 @@ export default class Page extends React.Component {
                         <nav className="mdc-temporary-drawer__content mdc-list-group">
                             <div id="icon-with-text-demo" className="mdc-list">
                                 <Link className="mdc-list-item" to="/">
-                                    <i className="material-icons mdc-list-item__start-detail" aria-hidden="true">home</i> 
+                                    <i className="material-icons mdc-list-item__start-detail" aria-hidden="true">home</i>
                                     Home
                                 </Link>
                                 <Link className="mdc-list-item" to="/artists">
-                                    <i className="material-icons mdc-list-item__start-detail" aria-hidden="true">person</i> 
+                                    <i className="material-icons mdc-list-item__start-detail" aria-hidden="true">person</i>
                                     Artists
                                 </Link>
                                 <Link className="mdc-list-item" to="/albums">
@@ -88,11 +88,11 @@ export default class Page extends React.Component {
                                     Albums
                                 </Link>
                                 <Link className="mdc-list-item" to="/songs">
-                                    <i className="material-icons mdc-list-item__start-detail" aria-hidden="true">music_note</i> 
+                                    <i className="material-icons mdc-list-item__start-detail" aria-hidden="true">music_note</i>
                                     Songs
                                 </Link>
                                 <Link className="mdc-list-item" to="/playlists">
-                                    <i className="material-icons mdc-list-item__start-detail" aria-hidden="true">list</i> 
+                                    <i className="material-icons mdc-list-item__start-detail" aria-hidden="true">list</i>
                                     Playlists
                                 </Link>
                             </div>
@@ -101,11 +101,11 @@ export default class Page extends React.Component {
 
                             <div className="mdc-list">
                                 <Link className="mdc-list-item" to="/profile">
-                                    <i className="material-icons mdc-list-item__start-detail" aria-hidden="true">person</i> 
+                                    <i className="material-icons mdc-list-item__start-detail" aria-hidden="true">person</i>
                                     Profile
                                 </Link>
                                 <Link className="mdc-list-item" to="/upload">
-                                    <i className="material-icons mdc-list-item__start-detail" aria-hidden="true">cloud_upload</i> 
+                                    <i className="material-icons mdc-list-item__start-detail" aria-hidden="true">cloud_upload</i>
                                     Upload
                                 </Link>
                             </div>
@@ -114,7 +114,7 @@ export default class Page extends React.Component {
 
                             <div className="mdc-list">
                                 <a className="mdc-list-item" onClick={this.logout} href="/logout">
-                                    <i className="material-icons mdc-list-item__start-detail" aria-hidden="true">power_settings_new</i> 
+                                    <i className="material-icons mdc-list-item__start-detail" aria-hidden="true">power_settings_new</i>
                                     Logout
                                 </a>
                             </div>

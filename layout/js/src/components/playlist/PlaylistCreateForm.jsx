@@ -1,5 +1,5 @@
 // Suluvir streaming server
-// Copyright (C) 2017  Jannis Fink
+// Copyright (C) 2018  Jannis Fink
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -63,7 +63,7 @@ class PlaylistCreateForm extends React.PureComponent {
         return (
             <div className="suluvir__playlist-create">
                 <form onSubmit={this.createPlaylist}>
-                    <Textfield 
+                    <Textfield
                         className="suluvir-playlist-create__text-input"
                         label="Create new playlist..."
                         onChange={event => this.setState({name: event.target.value})}

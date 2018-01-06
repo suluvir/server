@@ -1,5 +1,5 @@
 // Suluvir streaming server
-// Copyright (C) 2017  Jannis Fink
+// Copyright (C) 2018  Jannis Fink
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -41,15 +41,15 @@ export default class Textfield extends React.PureComponent {
         const {required, label, autoFocus, className, ...other} = this.props;
 
         const labelClasses = classNames('mdc-textfield__label', {'mdc-textfield__label--float-above': this.props.autoFocus});
-        const labelNode = label !== '' ? 
-            <label htmlFor={this.id} className={labelClasses}>{label}</label> : 
+        const labelNode = label !== '' ?
+            <label htmlFor={this.id} className={labelClasses}>{label}</label> :
             undefined;
-        
+
         const rootClasses = classNames('suluvir-textfield', 'mdc-textfield', 'mdc-textfield--upgraded', className,
             {'mdc-textfield--focused': autoFocus});
 
         return (
-            <div 
+            <div
                 className={rootClasses}
                 ref={tfRoot => this.tfRoot = tfRoot}
             >
@@ -59,7 +59,7 @@ export default class Textfield extends React.PureComponent {
                     className="mdc-textfield__input"
                     required={required}
                     ref={input => this.input = input}
-                    {...other} 
+                    {...other}
                 />
                 {labelNode}
             </div>

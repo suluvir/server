@@ -1,5 +1,5 @@
 // Suluvir streaming server
-// Copyright (C) 2017  Jannis Fink
+// Copyright (C) 2018  Jannis Fink
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -49,7 +49,7 @@ class Upload extends React.PureComponent {
         return (
             <div className="suluvir-upload">
                 <div className="suluvir-upload__dropzone-wrapper">
-                    <Dropzone 
+                    <Dropzone
                         accept="audio/mp3"
                         className="suluvir-upload__dropzone mdl-shadow--2dp"
                         onDrop={this.handleDrop}

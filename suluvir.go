@@ -1,5 +1,5 @@
 // Suluvir streaming server
-// Copyright (C) 2017  Jannis Fink
+// Copyright (C) 2018  Jannis Fink
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -54,7 +54,7 @@ func main() {
 	app.Name = "Suluvir"
 	app.Usage = "Manage your own music"
 	app.Version = "0.0.1"
-	app.Copyright = "Suluvir Copyright (C) 2017 Jannis Fink\n" +
+	app.Copyright = "Suluvir Copyright (C) 2018 Jannis Fink\n" +
 		"   This program comes with ABSOLUTELY NO WARRANTY; for details type `show w' (TODO).\n" +
 		"   This is free software, and you are welcome to redistribute it\n" +
 		"   under certain conditions; type `show c' (TODO) for details.\n"

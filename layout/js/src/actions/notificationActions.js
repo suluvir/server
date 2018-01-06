@@ -1,5 +1,5 @@
 // Suluvir streaming server
-// Copyright (C) 2017  Jannis Fink
+// Copyright (C) 2018  Jannis Fink
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -19,7 +19,7 @@ import {createAction} from './actions';
 
 /**
  * Adds a new error to the list of dislayed errors.
- * 
+ *
  * @param {object} error the error, containing {details, message, status, type}
  */
 export function addNotification(notification) {

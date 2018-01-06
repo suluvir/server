@@ -1,5 +1,5 @@
 // Suluvir streaming server
-// Copyright (C) 2017  Jannis Fink
+// Copyright (C) 2018  Jannis Fink
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -48,13 +48,13 @@ if (!drawer.MDCTemporaryDrawer.prototype.getDefaultFoundation_) {
     drawer.MDCTemporaryDrawer.prototype.getDefaultFoundation_ = drawer.MDCTemporaryDrawer.prototype.getDefaultFoundation;
     drawer.MDCTemporaryDrawer.prototype.getDefaultFoundation = function() {
       const foundation = this.getDefaultFoundation_();
-  
+
       foundation.drawerClickHandler_ = (e) => {
         if (e.target.tagName !== 'A') {
           e.stopPropagation();
         }
       };
-  
+
       return foundation;
     };
   }

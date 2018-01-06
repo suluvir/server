@@ -1,5 +1,5 @@
 // Suluvir streaming server
-// Copyright (C) 2017  Jannis Fink
+// Copyright (C) 2018  Jannis Fink
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -47,7 +47,7 @@ PlaySongButton.propTypes = {
 };
 
 function mapStateToProps(state, ownProps) {
-    const currentlyPlaying = state.play.get('list').get(state.play.get('current')) !== undefined && 
+    const currentlyPlaying = state.play.get('list').get(state.play.get('current')) !== undefined &&
         state.play.get('list').get(state.play.get('current')).get('@id') === ownProps.songId;
     return {
         currentlyPlaying

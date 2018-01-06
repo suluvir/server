@@ -1,5 +1,5 @@
 // Suluvir streaming server
-// Copyright (C) 2017  Jannis Fink
+// Copyright (C) 2018  Jannis Fink
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -26,7 +26,7 @@ class NotificationList extends React.PureComponent {
     render() {
         const {notifications} = this.props;
         const display = [];
-        
+
         notifications.forEach(notification => display.push(
             <Notification
                 details={notification.get('details')}

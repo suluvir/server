@@ -1,5 +1,5 @@
 // Suluvir streaming server
-// Copyright (C) 2017  Jannis Fink
+// Copyright (C) 2018  Jannis Fink
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -41,8 +41,8 @@ export default class SongList extends React.Component {
                 <td className="mdl-data-table__cell--non-numeric">{playButton(song.get('@id'))}</td>
                 <td className="mdl-data-table__cell--non-numeric">{song.get('title')}</td>
                 <td className="mdl-data-table__cell--non-numeric">
-                    <Link to={song.get('ui_album_link')}>{song.get('album_name')}</Link>    
-                </td> 
+                    <Link to={song.get('ui_album_link')}>{song.get('album_name')}</Link>
+                </td>
                 <td className="mdl-data-table__cell--non-numeric">{this.renderArtistLinks(song)}</td>
                 <td className="mdl-data-table__cell--non-numeric">{formatTime(song.get('duration'))}</td>
                 <td className="mdl-data-table__cell--non-numeric"><SongMenuButton song={song}/></td>
