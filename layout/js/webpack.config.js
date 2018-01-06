@@ -88,6 +88,7 @@ module.exports = {
         "react-mdl": "ReactMDL",
         "immutable": "Immutable",
         "material-components-web": "mdc",
-        "howler": "howler"
+        "howler": "howler",
+        "material-ui": "material-ui"
     }
 };

@@ -22,6 +22,9 @@ var SPECIAL_EXTERNAL_JS_FILES = map[string][]string{
 		"material.min.js",
 		"ReactMDL.min.js",
 	},
+	"material-ui": {
+		"material-ui.development.js",
+	},
 }
 
 var SPECIAL_EXTERNAL_CSS_FILES = map[string]string{
