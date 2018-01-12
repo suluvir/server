@@ -94,7 +94,7 @@ export default class Page extends React.Component {
                 </AppBar>
 
                 <Drawer open={this.state.drawer} onClose={this.closeDrawer}>
-                    <List>
+                    <List className="suluvir-drawer-list">
                         <Link to="/">
                             <ListItem button>
                                 <ListItemIcon>
@@ -137,7 +137,7 @@ export default class Page extends React.Component {
                         </Link>
                     </List>
                     <Divider/>
-                    <List>
+                    <List className="suluvir-drawer-list">
                         <Link to="/profile">
                             <ListItem button>
                                 <ListItemIcon>
@@ -156,7 +156,7 @@ export default class Page extends React.Component {
                         </Link>
                     </List>
                     <Divider/>
-                    <List>
+                    <List className="suluvir-drawer-list">
                         <ListItem button component="a" href="/logout" onClick={this.logout}>
                             <ListItemIcon>
                                 <PowerSettingsNewIcon/>
