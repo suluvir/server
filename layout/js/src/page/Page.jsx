@@ -16,20 +16,37 @@
 import React from "react";
 import PropTypes from 'prop-types';
 import SinglePageApplication from "./SinglePageApplication";
-import {drawer} from 'material-components-web';
 import {Link} from 'react-router-dom';
+
+import AppBar from 'material-ui/AppBar';
+import Toolbar from 'material-ui/Toolbar';
+import Typography from 'material-ui/Typography';
+import IconButton from 'material-ui/IconButton';
+import Drawer from 'material-ui/Drawer';
+import List, { ListItem, ListItemIcon, ListItemText } from 'material-ui/List';
+import Divider from 'material-ui/Divider';
+
+import MenuIcon from 'material-ui-icons/Menu';
+import HomeIcon from 'material-ui-icons/Home';
+import PersonIcon from 'material-ui-icons/Person';
+import AlbumButton from 'material-ui-icons/Album';
+import MusicNoteButton from 'material-ui-icons/MusicNote';
+import ListIcon from 'material-ui-icons/List';
+import CloudUploadIcon from 'material-ui-icons/CloudUpload';
+import PowerSettingsNewIcon from 'material-ui-icons/PowerSettingsNew';
 
 require('./Page.scss');
 
 export default class Page extends React.Component {
     constructor() {
         super();
-        this.drawer = undefined;
         this.logout = this.logout.bind(this);
-    }
+        this.closeDrawer = this.closeDrawer.bind(this);
+        this.openDrawer = this.openDrawer.bind(this);
 
-    componentDidMount() {
-        this.drawer = new drawer.MDCTemporaryDrawer(document.querySelector('.mdc-temporary-drawer'));
+        this.state = {
+            drawer: false
+        };
     }
 
     logout(e) {
@@ -54,77 +71,102 @@ export default class Page extends React.Component {
         }
     }
 
+    closeDrawer() {
+        this.setState({drawer: false});
+    }
+
+    openDrawer() {
+        this.setState({drawer: true});
+    }
+
     render() {
         return (
             <div id="suluvir-root">
-                <div className="mdc-toolbar mdc-toolbar--fixed">
-                    <div className="mdc-toolbar__row">
-                        <section className="mdc-toolbar__section mdc-toolbar__section--align-start">
-                        <button className="material-icons mdc-toolbar__icon--menu" onClick={() => this.drawer.open = true}>menu</button>
-                        <span className="mdc-toolbar__title catalog-title">Suluvir</span>
-                        </section>
-                    </div>
-                </div>
-
-                <aside className="mdc-temporary-drawer">
-                    <nav className="mdc-temporary-drawer__drawer">
-                        <header className="mdc-temporary-drawer__header">
-                        <div className="mdc-temporary-drawer__header-content mdc-theme--primary-bg mdc-theme--text-primary-on-primary">
+                <AppBar position="static">
+                    <Toolbar>
+                        <IconButton color="contrast" aria-label="Menu" onClick={this.openDrawer}>
+                            <MenuIcon/>
+                        </IconButton>
+                        <Typography type="title" color="inherit">
                             Suluvir
-                        </div>
-                        </header>
-                        <nav className="mdc-temporary-drawer__content mdc-list-group">
-                            <div id="icon-with-text-demo" className="mdc-list">
-                                <Link className="mdc-list-item" to="/">
-                                    <i className="material-icons mdc-list-item__start-detail" aria-hidden="true">home</i>
-                                    Home
-                                </Link>
-                                <Link className="mdc-list-item" to="/artists">
-                                    <i className="material-icons mdc-list-item__start-detail" aria-hidden="true">person</i>
-                                    Artists
-                                </Link>
-                                <Link className="mdc-list-item" to="/albums">
-                                    <i className="material-icons mdc-list-item__start-detail" aria-hidden="true">album</i>
-                                    Albums
-                                </Link>
-                                <Link className="mdc-list-item" to="/songs">
-                                    <i className="material-icons mdc-list-item__start-detail" aria-hidden="true">music_note</i>
-                                    Songs
-                                </Link>
-                                <Link className="mdc-list-item" to="/playlists">
-                                    <i className="material-icons mdc-list-item__start-detail" aria-hidden="true">list</i>
-                                    Playlists
-                                </Link>
-                            </div>
+                        </Typography>
+                    </Toolbar>
+                </AppBar>
 
-                            <hr className="mdc-list-divider"/>
+                <Drawer open={this.state.drawer} onClose={this.closeDrawer}>
+                    <List>
+                        <Link to="/">
+                            <ListItem button>
+                                <ListItemIcon>
+                                    <HomeIcon/>
+                                </ListItemIcon>
+                                <ListItemText primary="Home"/>
+                            </ListItem>
+                        </Link>
+                        <Link to="/artists">
+                            <ListItem button>
+                                <ListItemIcon>
+                                    <PersonIcon/>
+                                </ListItemIcon>
+                                <ListItemText primary="Artists"/>
+                            </ListItem>
+                        </Link>
+                        <Link to="/albums">
+                            <ListItem button>
+                                <ListItemIcon>
+                                    <AlbumButton/>
+                                </ListItemIcon>
+                                <ListItemText primary="Albums"/>
+                            </ListItem>
+                        </Link>
+                        <Link to="/songs">
+                            <ListItem button>
+                                <ListItemIcon>
+                                    <MusicNoteButton/>
+                                </ListItemIcon>
+                                <ListItemText primary="Songs"/>
+                            </ListItem>
+                        </Link>
+                        <Link to="/playlists">
+                            <ListItem button>
+                                <ListItemIcon>
+                                    <ListIcon/>
+                                </ListItemIcon>
+                                <ListItemText primary="Playlists"/>
+                            </ListItem>
+                        </Link>
+                    </List>
+                    <Divider/>
+                    <List>
+                        <Link to="/profile">
+                            <ListItem button>
+                                <ListItemIcon>
+                                    <PersonIcon/>
+                                </ListItemIcon>
+                                <ListItemText primary="Profile"/>
+                            </ListItem>
+                        </Link>
+                        <Link to="/upload">
+                            <ListItem button>
+                                <ListItemIcon>
+                                    <CloudUploadIcon/>
+                                </ListItemIcon>
+                                <ListItemText primary="Upload"/>
+                            </ListItem>
+                        </Link>
+                    </List>
+                    <Divider/>
+                    <List>
+                        <ListItem button component="a" href="/logout" onClick={this.logout}>
+                            <ListItemIcon>
+                                <PowerSettingsNewIcon/>
+                            </ListItemIcon>
+                            <ListItemText primary="Logout" />
+                        </ListItem>
+                    </List>
+                </Drawer>
 
-                            <div className="mdc-list">
-                                <Link className="mdc-list-item" to="/profile">
-                                    <i className="material-icons mdc-list-item__start-detail" aria-hidden="true">person</i>
-                                    Profile
-                                </Link>
-                                <Link className="mdc-list-item" to="/upload">
-                                    <i className="material-icons mdc-list-item__start-detail" aria-hidden="true">cloud_upload</i>
-                                    Upload
-                                </Link>
-                            </div>
-
-                            <hr className="mdc-list-divider"/>
-
-                            <div className="mdc-list">
-                                <a className="mdc-list-item" onClick={this.logout} href="/logout">
-                                    <i className="material-icons mdc-list-item__start-detail" aria-hidden="true">power_settings_new</i>
-                                    Logout
-                                </a>
-                            </div>
-                        </nav>
-                    </nav>
-                </aside>
-
-                <main className="mdc-toolbar-fixed-adjust">
-                    <SinglePageApplication component={this.props.component} {...this.props}/>
-                </main>
+                <SinglePageApplication component={this.props.component} {...this.props}/>
             </div>
         )
     }
