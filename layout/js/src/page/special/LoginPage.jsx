@@ -23,8 +23,9 @@ import {getRedirectUrl} from '../../utils/url';
 import SmallLogoContainer from '../../components/util/SmallLogoContainer';
 import IconTextfield from '../../components/util/IconTextfield';
 
-import Button from '../../components/material/Button';
-import Checkbox from '../../components/material/Checkbox';
+import Button from 'material-ui/Button';
+import Checkbox from 'material-ui/Checkbox';
+import {FormControlLabel} from 'material-ui/Form';
 
 require('./LoginPage.scss');
 
@@ -118,13 +119,17 @@ export default class LoginPage extends React.PureComponent {
                     />
                 </div>
 
-                <Checkbox
-                    defaultChecked={stay_signed_in}
-                    onChange={this.onCheckboxChange('stay_signed_in')}
+                <FormControlLabel
+                    control={
+                        <Checkbox
+                            checked={stay_signed_in}
+                            onChange={this.onCheckboxChange('stay_signed_in')}
+                        />
+                    }
                     label="Stay signed in"
                 />
 
-                <Button onClick={this.login} raised>
+                <Button onClick={this.login} raised color="primary">
                     Login
                 </Button>
 

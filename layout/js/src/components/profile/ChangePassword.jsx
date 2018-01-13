@@ -17,7 +17,8 @@ import React from 'react';
 
 import {postJson} from '../../utils/fetch';
 
-import Button from '../material/Button';
+import Button from 'material-ui/Button';
+
 import Dialog from '../material/Dialog';
 import Textfield from '../material/Textfield';
 

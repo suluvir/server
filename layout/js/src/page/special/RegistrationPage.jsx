@@ -19,7 +19,7 @@ import {Link} from 'react-router-dom';
 import IconTextfield from '../../components/util/IconTextfield';
 import SmallLogoContainer from '../../components/util/SmallLogoContainer';
 
-import Button from '../../components/material/Button';
+import Button from 'material-ui/Button';
 
 import {postJson} from '../../utils/fetch';
 
@@ -97,7 +97,7 @@ export default class RegistrationPage extends React.PureComponent {
                             />
                         </div>
 
-                        <Button onClick={this.registerUser} raised>
+                        <Button onClick={this.registerUser} raised color="primary">
                             Register
                         </Button>
 

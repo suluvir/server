@@ -14,7 +14,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import {Spinner} from 'react-mdl';
+import { CircularProgress } from 'material-ui/Progress';
 
 require('./Loading.scss');
 
@@ -22,7 +22,7 @@ export default class Loading extends React.Component {
     render() {
         return (
             <div className="suluvir-loading-indicator">
-                <Spinner />
+                <CircularProgress />
             </div>
         );
     }

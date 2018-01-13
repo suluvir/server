@@ -16,23 +16,22 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import Textfield from '../material/Textfield';
-import Icon from '../material/Icon';
+import TextField from 'material-ui/TextField';
+import Icon from 'material-ui/Icon';
 
 require('./IconTextfield.scss');
 
 export default class IconTextfield extends React.PureComponent {
     render() {
-        const {error, iconName, label, onChange, pattern, value, required, type, autoFocus} = this.props;
+        const {iconName, label, onChange, value, required, type, autoFocus} = this.props;
         return (
             <div className="suluvir-icon-textfield">
-                <Icon name={iconName} />
-                <Textfield
+                <Icon>{iconName}</Icon>
+                <TextField
                     autoFocus={autoFocus}
-                    error={error}
+                    fullWidth
                     label={label}
                     onChange={onChange}
-                    pattern={pattern}
                     required={required}
                     type={type}
                     value={value}

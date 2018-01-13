@@ -17,7 +17,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {dialog} from 'material-components-web';
 
-import Button from './Button';
+import Button from 'material-ui/Button';
 
 let id = 1;
 
@@ -62,7 +62,7 @@ export default class Dialog extends React.PureComponent {
         const {show, title, children, onSubmit} = this.props;
 
         const submitButton = !this.showSubmit() ? undefined :
-            <Button className="mdc-dialog__footer__button--accept" raised onClick={onSubmit}>Submit</Button>;
+            <Button className="mdc-dialog__footer__button--accept" raised color="primary" onClick={onSubmit}>Submit</Button>;
 
         return (
             <div className="suluvir-dialog">
@@ -84,7 +84,7 @@ export default class Dialog extends React.PureComponent {
                     </section>
                     <footer className="mdc-dialog__footer">
                         {submitButton}
-                        <Button className="mdc-dialog__footer__button--cancel" raised={!this.showSubmit()} onClick={this.cancel}>Cancel</Button>
+                        <Button className="mdc-dialog__footer__button--cancel" raised color={this.showSubmit() ? "default" : "primary"} onClick={this.cancel}>Cancel</Button>
                     </footer>
                     </div>
                     <div className="mdc-dialog__backdrop"></div>
