@@ -16,8 +16,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Immutable from 'immutable';
-import {IconButton} from 'react-mdl';
 import {connect} from 'react-redux';
+
+import IconButton from 'material-ui/IconButton';
+import PlayCircleOutlineIcon from 'material-ui-icons/PlayCircleOutline';
 
 import {playCollection} from '../../actions/thunkActions';
 
@@ -34,7 +36,9 @@ class PlayCollectionButton extends React.PureComponent {
 
     render() {
         return (
-            <IconButton name="play_circle_outline" onClick={this.onClick} />
+            <IconButton onClick={this.onClick}>
+                <PlayCircleOutlineIcon/>
+            </IconButton>
         );
     }
 }
