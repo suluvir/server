@@ -40,7 +40,7 @@ export default class SongList extends React.Component {
     render() {
         const tableRows = [];
         this.props.songs.forEach(song => {
-            tableRows.push(<tr>
+            tableRows.push(<TableRow>
                 <TableCell>{playButton(song.get('@id'))}</TableCell>
                 <TableCell>{song.get('title')}</TableCell>
                 <TableCell>
@@ -49,7 +49,7 @@ export default class SongList extends React.Component {
                 <TableCell>{this.renderArtistLinks(song)}</TableCell>
                 <TableCell>{formatTime(song.get('duration'))}</TableCell>
                 <TableCell><SongMenuButton song={song}/></TableCell>
-            </tr>);
+            </TableRow>);
         });
 
         return (
