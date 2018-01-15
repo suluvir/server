@@ -18,6 +18,9 @@ import PropTypes from 'prop-types';
 import Immutable from 'immutable';
 import {Link} from 'react-router-dom';
 
+import Paper from 'material-ui/Paper';
+import Table, {TableBody, TableCell, TableHead, TableRow} from 'material-ui/Table';
+
 import PlayCollectionButton from '../player/PlayCollectionButton';
 
 require('./ArtistList.scss');
@@ -27,24 +30,26 @@ export default class ArtistList extends React.Component {
         const rows = [];
         this.props.artists.forEach(artist => {
             rows.push(
-                <tr>
-                    <td className="mdl-data-table__cell--non-numeric"><PlayCollectionButton collection={artist} /></td>
-                    <td className="mdl-data-table__cell--non-numeric"><Link to={artist.get('@ui')}>{artist.get('name')}</Link></td>
-                </tr>
+                <TableRow>
+                    <TableCell><PlayCollectionButton collection={artist} /></TableCell>
+                    <TableCell><Link to={artist.get('@ui')}>{artist.get('name')}</Link></TableCell>
+                </TableRow>
             );
         });
 
         return (
             <div className="suluvir-artist-list">
-                <table className="mdl-data-table mdl-js-data-table mdl-shadow--3dp">
-                    <thead>
-                        <th className="mdl-data-table__cell--non-numeric"></th>
-                        <th className="mdl-data-table__cell--non-numeric">Name</th>
-                    </thead>
-                    <tbody>
-                        {rows}
-                    </tbody>
-                </table>
+                <Paper>
+                    <Table>
+                        <TableHead>
+                            <TableCell></TableCell>
+                            <TableCell>Name</TableCell>
+                        </TableHead>
+                        <TableBody>
+                            {rows}
+                        </TableBody>
+                    </Table>
+                </Paper>
             </div>
         );
     }

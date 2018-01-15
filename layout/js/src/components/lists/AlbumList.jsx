@@ -18,6 +18,9 @@ import PropTypes from 'prop-types';
 import Immutable from 'immutable';
 import {Link} from 'react-router-dom';
 
+import Paper from 'material-ui/Paper';
+import Table, {TableBody, TableCell, TableHead, TableRow} from 'material-ui/Table';
+
 import PlayCollectionButton from '../player/PlayCollectionButton';
 
 require('./AlbumList.scss');
@@ -27,26 +30,28 @@ export default class AlbumList extends React.Component {
         const rows = [];
         this.props.albums.forEach(album => {
             rows.push(
-                <tr>
-                    <td className="mdl-data-table__cell--non-numeric"><PlayCollectionButton collection={album} /></td>
-                    <td className="mdl-data-table__cell--non-numeric"><Link to={album.get('@ui')}>{album.get('name')}</Link></td>
-                    <td className="mdl-data-table__cell--non-numeric"><Link to={album.get('ui_artist_link')}>{album.get('artist_name')}</Link></td>
-                </tr>
+                <TableRow>
+                    <TableCell><PlayCollectionButton collection={album} /></TableCell>
+                    <TableCell><Link to={album.get('@ui')}>{album.get('name')}</Link></TableCell>
+                    <TableCell><Link to={album.get('ui_artist_link')}>{album.get('artist_name')}</Link></TableCell>
+                </TableRow>
             );
         });
 
         return (
             <div className="suluvir-artist-list">
-                <table className="mdl-data-table mdl-js-data-table mdl-shadow--3dp">
-                    <thead>
-                        <th className="mdl-data-table__cell--non-numeric"></th>
-                        <th className="mdl-data-table__cell--non-numeric">Name</th>
-                        <th className="mdl-data-table__cell--non-numeric">Artist</th>
-                    </thead>
-                    <tbody>
-                        {rows}
-                    </tbody>
-                </table>
+                <Paper>
+                    <Table>
+                        <TableHead>
+                            <TableCell></TableCell>
+                            <TableCell>Name</TableCell>
+                            <TableCell>Artist</TableCell>
+                        </TableHead>
+                        <TableBody>
+                            {rows}
+                        </TableBody>
+                    </Table>
+                </Paper>
             </div>
         );
     }

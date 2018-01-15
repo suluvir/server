@@ -18,6 +18,9 @@ import PropTypes from 'prop-types';
 import Immutable from 'immutable';
 import {Link} from 'react-router-dom';
 
+import Paper from 'material-ui/Paper';
+import Table, {TableBody, TableCell, TableHead, TableRow} from 'material-ui/Table';
+
 import {playButton, formatTime} from '../../utils/formatters';
 import SongMenuButton from './menu/SongMenuButton';
 
@@ -38,32 +41,34 @@ export default class SongList extends React.Component {
         const tableRows = [];
         this.props.songs.forEach(song => {
             tableRows.push(<tr>
-                <td className="mdl-data-table__cell--non-numeric">{playButton(song.get('@id'))}</td>
-                <td className="mdl-data-table__cell--non-numeric">{song.get('title')}</td>
-                <td className="mdl-data-table__cell--non-numeric">
+                <TableCell>{playButton(song.get('@id'))}</TableCell>
+                <TableCell>{song.get('title')}</TableCell>
+                <TableCell>
                     <Link to={song.get('ui_album_link')}>{song.get('album_name')}</Link>
-                </td>
-                <td className="mdl-data-table__cell--non-numeric">{this.renderArtistLinks(song)}</td>
-                <td className="mdl-data-table__cell--non-numeric">{formatTime(song.get('duration'))}</td>
-                <td className="mdl-data-table__cell--non-numeric"><SongMenuButton song={song}/></td>
+                </TableCell>
+                <TableCell>{this.renderArtistLinks(song)}</TableCell>
+                <TableCell>{formatTime(song.get('duration'))}</TableCell>
+                <TableCell><SongMenuButton song={song}/></TableCell>
             </tr>);
         });
 
         return (
             <div className={"suluvir-song-list"}>
-                <table className="mdl-data-table mdl-js-data-table mdl-shadow--3dp">
-                    <thead>
-                        <th className="mdl-data-table__cell--non-numeric"></th>
-                        <th className="mdl-data-table__cell--non-numeric">Title</th>
-                        <th className="mdl-data-table__cell--non-numeric">Album</th>
-                        <th className="mdl-data-table__cell--non-numeric">Artists</th>
-                        <th className="mdl-data-table__cell--non-numeric">Duration</th>
-                        <th className="mdl-data-table__cell--non-numeric"></th>
-                    </thead>
-                    <tbody>
-                        {tableRows}
-                    </tbody>
-                </table>
+                <Paper>
+                    <Table>
+                        <TableHead>
+                            <TableCell></TableCell>
+                            <TableCell>Title</TableCell>
+                            <TableCell>Album</TableCell>
+                            <TableCell>Artists</TableCell>
+                            <TableCell>Duration</TableCell>
+                            <TableCell></TableCell>
+                        </TableHead>
+                        <TableBody>
+                            {tableRows}
+                        </TableBody>
+                    </Table>
+                </Paper>
             </div>
         );
     }
