@@ -16,14 +16,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Immutable from 'immutable';
-import {
-    List,
-    ListItemAction,
-    ListItemContent,
-    ListItem,
-
-    IconButton
-} from 'react-mdl';
 import {connect} from 'react-redux';
 
 import Dialog, {
@@ -32,6 +24,10 @@ import Dialog, {
     DialogTitle,
 } from 'material-ui/Dialog';
 import Button from 'material-ui/Button';
+import List, {ListItem, ListItemSecondaryAction, ListItemText} from 'material-ui/List';
+import IconButton from 'material-ui/IconButton';
+import PlaylistAddCheckIcon from 'material-ui-icons/PlaylistAddCheck';
+import PlaylistAddIcon from 'material-ui-icons/PlaylistAdd';
 
 import Loading from '../util/Loading';
 import PlaylistCreateForm from './PlaylistCreateForm';
@@ -75,23 +71,22 @@ class PlaylistModal extends React.PureComponent {
             for (const playlist of playlists.toArray()) {
                 const playlistContainsSong = playlistsOfSong !== undefined &&
                     playlistsOfSong.get(playlist.get('@id')) === true;
-                const iconName = playlistContainsSong ? 'playlist_add_check' : 'playlist_add';
                 const title = playlistContainsSong ? 'The song is already in this playlist' :
                     'Add the song to this playlist';
+                const icon = playlistContainsSong ? <PlaylistAddCheckIcon/> : <PlaylistAddIcon/>;
 
                 playlistListItems.push(
                     <ListItem>
-                        <ListItemContent>
-                            {playlist.get('name')}
-                        </ListItemContent>
-                        <ListItemAction>
+                        <ListItemText primary={playlist.get('name')}/>
+                        <ListItemSecondaryAction>
                             <IconButton
                                 disabled={playlistContainsSong}
-                                name={iconName}
                                 onClick={this.addSongToPlaylist(playlist)}
                                 title={title}
-                            />
-                        </ListItemAction>
+                            >
+                                {icon}
+                            </IconButton>
+                        </ListItemSecondaryAction>
                     </ListItem>
                 );
             }
