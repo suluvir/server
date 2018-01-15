@@ -26,7 +26,12 @@ import {
 } from 'react-mdl';
 import {connect} from 'react-redux';
 
-import Dialog from '../material/Dialog';
+import Dialog, {
+    DialogActions,
+    DialogContent,
+    DialogTitle,
+} from 'material-ui/Dialog';
+import Button from 'material-ui/Button';
 
 import Loading from '../util/Loading';
 import PlaylistCreateForm from './PlaylistCreateForm';
@@ -102,9 +107,20 @@ class PlaylistModal extends React.PureComponent {
 
         return (
             <div>
-                <Dialog show={show} onHide={onCancel} title="Playlists">
-                    <PlaylistCreateForm />
-                    {playlistDisplay}
+                <Dialog
+                    open={show}
+                    onClose={onCancel}
+                >
+                    <DialogTitle>Playlists</DialogTitle>
+                    <DialogContent>
+                        <PlaylistCreateForm />
+                        {playlistDisplay}
+                    </DialogContent>
+                    <DialogActions>
+                        <Button color="primary" raised onClick={onCancel}>
+                            Close
+                        </Button>
+                    </DialogActions>
                 </Dialog>
             </div>
         );

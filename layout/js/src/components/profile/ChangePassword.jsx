@@ -75,7 +75,7 @@ export default class ChangePassword extends React.PureComponent {
                 open={this.state.showModal}
                 onClose={this.hideModal}
             >
-                <DialogTitle id="form-dialog-title">Change Password</DialogTitle>
+                <DialogTitle>Change Password</DialogTitle>
                 <DialogContent>
                     <form onSubmit={this.changePassword}>
                         <div>
