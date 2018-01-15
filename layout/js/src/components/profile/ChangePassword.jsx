@@ -17,10 +17,13 @@ import React from 'react';
 
 import {postJson} from '../../utils/fetch';
 
+import Dialog, {
+    DialogActions,
+    DialogContent,
+    DialogTitle,
+} from 'material-ui/Dialog';
 import Button from 'material-ui/Button';
-
-import Dialog from '../material/Dialog';
-import Textfield from '../material/Textfield';
+import TextField from 'material-ui/TextField';
 
 export default class ChangePassword extends React.PureComponent {
     constructor() {
@@ -69,31 +72,43 @@ export default class ChangePassword extends React.PureComponent {
     renderDialog() {
         return (
             <Dialog
-                show={this.state.showModal}
-                title="Change Password"
-                onHide={this.hideModal}
-                onSubmit={this.changePassword}
+                open={this.state.showModal}
+                onClose={this.hideModal}
             >
-                <form onSubmit={this.changePassword}>
-                    <div>
-                        <Textfield
-                            label="Old password"
-                            autoFocus
-                            type="password"
-                            onChange={this.onInputChange('old_pw')}
-                        />
-                        <Textfield
-                            label="New password"
-                            type="password"
-                            onChange={this.onInputChange('new_pw')}
-                        />
-                        <Textfield
-                            label="New password (repeat)"
-                            type="password"
-                            onChange={this.onInputChange('new_pw_repeat')}
-                        />
-                    </div>
-                </form>
+                <DialogTitle id="form-dialog-title">Change Password</DialogTitle>
+                <DialogContent>
+                    <form onSubmit={this.changePassword}>
+                        <div>
+                            <TextField
+                                label="Old password"
+                                fullWidth
+                                autoFocus
+                                type="password"
+                                onChange={this.onInputChange('old_pw')}
+                            />
+                            <TextField
+                                fullWidth
+                                label="New password"
+                                type="password"
+                                onChange={this.onInputChange('new_pw')}
+                            />
+                            <TextField
+                                fullWidth
+                                label="New password (repeat)"
+                                type="password"
+                                onChange={this.onInputChange('new_pw_repeat')}
+                            />
+                        </div>
+                    </form>
+                </DialogContent>
+                <DialogActions>
+                    <Button color="default" onClick={this.hideModal}>
+                        Close
+                    </Button>
+                    <Button color="primary" onClick={this.changePassword} raised>
+                        Change Password
+                    </Button>
+                </DialogActions>
             </Dialog>
         );
     }
