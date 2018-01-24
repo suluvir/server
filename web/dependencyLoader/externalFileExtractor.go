@@ -17,6 +17,7 @@ package dependencyLoader
 
 import (
 	"fmt"
+	"github.com/suluvir/server/config"
 	"github.com/suluvir/server/environment"
 	"github.com/suluvir/server/logging"
 	"go.uber.org/zap"
@@ -37,8 +38,18 @@ var searchInDirectories = []string{
 	"umd",
 }
 
-const jsFileSuffix = ".min.js"
 const cssFileSuffix = ".css"
+
+var jsFileSuffixes = map[string][]string{
+	"production": {
+		".min.js",
+		".production.min.js",
+	},
+	"development": {
+		".js",
+		".development.js",
+	},
+}
 
 func NewExternalFileExtractor(externals []External) *ExternalFileExtractor {
 	return &ExternalFileExtractor{
@@ -72,16 +83,24 @@ func (e *ExternalFileExtractor) LookupExternalFiles() []External {
 						}
 					}
 				} else {
-					externalDir := fmt.Sprintf("%s/%s%s", externalBaseDir, external.Name, jsFileSuffix)
-					if _, err := os.Stat(externalDir); err == nil {
-						jsFile := fmt.Sprintf("%s%s", external.Name, jsFileSuffix)
-						external.FileDirectoryMapping[jsFile] = externalBaseDir
-						external.JsFiles = append(external.JsFiles, jsFile)
-						logging.GetLogger().Info("found externals file",
-							zap.String("path", externalDir))
-					} else {
-						logging.GetLogger().Debug("unable to find externals file",
-							zap.String("expected path", externalDir))
+					dev := config.GetConfiguration().Development.DevelopmentMode
+					mode := "production"
+					if dev {
+						mode = "development"
+					}
+					suffixes := jsFileSuffixes[mode]
+					for _, suffix := range suffixes {
+						externalDir := fmt.Sprintf("%s/%s%s", externalBaseDir, external.Name, suffix)
+						if _, err := os.Stat(externalDir); err == nil {
+							jsFile := fmt.Sprintf("%s%s", external.Name, suffix)
+							external.FileDirectoryMapping[jsFile] = externalBaseDir
+							external.JsFiles = append(external.JsFiles, jsFile)
+							logging.GetLogger().Info("found externals file",
+								zap.String("path", externalDir))
+						} else {
+							logging.GetLogger().Debug("unable to find externals file",
+								zap.String("expected path", externalDir))
+						}
 					}
 				}
 			}
