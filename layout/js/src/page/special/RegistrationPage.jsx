@@ -101,7 +101,7 @@ export default class RegistrationPage extends React.PureComponent {
                             />
                         </div>
 
-                        <Button onClick={this.registerUser} raised color="primary">
+                        <Button type="submit" onClick={this.registerUser} raised color="primary">
                             Register
                         </Button>
 

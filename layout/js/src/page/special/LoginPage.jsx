@@ -132,7 +132,7 @@ export default class LoginPage extends React.PureComponent {
                     label="Stay signed in"
                 />
 
-                <Button onClick={this.login} raised color="primary">
+                <Button type="submit" onClick={this.login} raised color="primary">
                     Login
                 </Button>
 

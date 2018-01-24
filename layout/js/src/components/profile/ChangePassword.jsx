@@ -55,12 +55,19 @@ export default class ChangePassword extends React.PureComponent {
         });
     }
 
-    changePassword() {
+    changePassword(event) {
+        if (event) {
+            event.preventDefault();
+        }
+
         const {old_pw, new_pw, new_pw_repeat} = this.state;
         const payload = {
             old_pw, new_pw, new_pw_repeat
         };
-        postJson('/api/internal/user/changepwd', payload).then(this.clearInputs);
+        postJson('/api/internal/user/changepwd', payload).then(() => {
+            this.clearInputs();
+            this.hideModal();
+        });
     }
 
     onInputChange(stateKey) {
@@ -99,6 +106,8 @@ export default class ChangePassword extends React.PureComponent {
                                 onChange={this.onInputChange('new_pw_repeat')}
                             />
                         </div>
+
+                        <input type="submit" style={{position: 'absolute', left: '-9999px'}}/>
                     </form>
                 </DialogContent>
                 <DialogActions>
