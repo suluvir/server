@@ -24,8 +24,6 @@ import Table, {TableBody, TableCell, TableHead, TableRow} from 'material-ui/Tabl
 import {playButton, formatTime} from '../../utils/formatters';
 import SongMenuButton from './menu/SongMenuButton';
 
-require('./SongList.scss');
-
 export default class SongList extends React.Component {
     renderArtistLinks(song) {
         return song.get('artist_names').map(name => {

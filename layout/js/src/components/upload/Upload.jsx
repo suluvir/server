@@ -19,6 +19,8 @@ import Immutable from 'immutable';
 import Dropzone from 'react-dropzone';
 import {connect} from 'react-redux';
 
+import Paper from 'material-ui/Paper';
+
 import SongList from '../lists/SongList';
 import PendingSongList from './PendingSongList';
 
@@ -49,13 +51,15 @@ class Upload extends React.PureComponent {
         return (
             <div className="suluvir-upload">
                 <div className="suluvir-upload__dropzone-wrapper">
-                    <Dropzone
-                        accept="audio/mp3"
-                        className="suluvir-upload__dropzone mdl-shadow--2dp"
-                        onDrop={this.handleDrop}
-                    >
-                        Drop some files here or click here to select the songs to upload.
-                    </Dropzone>
+                    <Paper elevation={2}>
+                        <Dropzone
+                            accept="audio/mp3"
+                            className="suluvir-upload__dropzone"
+                            onDrop={this.handleDrop}
+                        >
+                            Drop some files here or click here to select the songs to upload.
+                        </Dropzone>
+                    </Paper>
                 </div>
                 <div className="suluvir-upload__pending-files">
                     <h3>Pending Songs</h3>

@@ -18,6 +18,8 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import {connect} from 'react-redux';
 
+import Paper from 'material-ui/Paper';
+
 import {closeNotification} from '../../actions/notificationActions';
 
 import IconButton from 'material-ui/IconButton';
@@ -30,18 +32,20 @@ class Notification extends React.PureComponent {
     render() {
         const {details, type} = this.props;
 
-        const className = classNames('mdl-shadow--3dp', 'suluvir-notification', `suluvir-notification--color-${type}`)
+        const className = classNames('suluvir-notification', `suluvir-notification--color-${type}`)
         return (
-            <div className={className}>
-                <div className="suluvir-notification__details">
-                    {details}
+            <Paper elevation={3}>
+                <div className={className}>
+                    <div className="suluvir-notification__details">
+                        {details}
+                    </div>
+                    <div className="suluvir-notification__close">
+                        <IconButton onClick={() => this.props.closeNotification(this.props.id)}>
+                            <CloseIcon/>
+                        </IconButton>
+                    </div>
                 </div>
-                <div className="suluvir-notification__close">
-                    <IconButton onClick={() => this.props.closeNotification(this.props.id)}>
-                        <CloseIcon/>
-                    </IconButton>
-                </div>
-            </div>
+            </Paper>
         );
     }
 }

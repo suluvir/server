@@ -23,8 +23,6 @@ import Table, {TableBody, TableCell, TableHead, TableRow} from 'material-ui/Tabl
 
 import PlayCollectionButton from '../player/PlayCollectionButton';
 
-require('./ArtistList.scss');
-
 export default class ArtistList extends React.Component {
     render() {
         const rows = [];

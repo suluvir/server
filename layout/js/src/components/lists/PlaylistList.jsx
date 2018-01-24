@@ -22,8 +22,6 @@ import Table, {TableBody, TableCell, TableHead, TableRow} from 'material-ui/Tabl
 
 import PlayCollectionButton from '../player/PlayCollectionButton';
 
-require('./PlaylistList.scss');
-
 export default class PlaylistList extends React.PureComponent {
     render() {
         const rows = [];
