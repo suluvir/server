@@ -17,15 +17,28 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {Provider} from 'react-redux';
 
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import {createMuiTheme} from 'material-ui/styles';
+import {teal, red} from 'material-ui/colors';
+
 import {getStore} from './utils/redux';
 
 import RoutedPage from './page/RoutedPage';
 
 require('./utils.scss');
 
+const theme = createMuiTheme({
+    palette: {
+      primary: teal,
+      secondary: red,
+    },
+});
+
 ReactDOM.render(
     <Provider store={getStore()}>
-        <RoutedPage />
+        <MuiThemeProvider theme={theme}>
+            <RoutedPage />
+        </MuiThemeProvider>
     </Provider>,
     document.getElementById('application-root')
 );
