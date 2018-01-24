@@ -21,7 +21,6 @@ import {getStore} from './utils/redux';
 
 import RoutedPage from './page/RoutedPage';
 
-require('./mdc.scss');
 require('./utils.scss');
 
 ReactDOM.render(

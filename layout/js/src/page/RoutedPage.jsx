@@ -16,8 +16,6 @@
 import React from 'react';
 import {BrowserRouter, Route} from 'react-router-dom';
 
-import {drawer} from 'material-components-web';
-
 import Greeter from '../classes/Greeter';
 
 import Page from './Page';
@@ -41,23 +39,6 @@ import ArtistDetail from '../components/detail/ArtistDetail';
 import Upload from '../components/upload/Upload';
 
 require('./RoutedPage.scss');
-
-// mokey patch to stop full page reload when clicking on a link inside the drawer
-// https://github.com/material-components/material-components-web/issues/1004#issuecomment-322924467
-if (!drawer.MDCTemporaryDrawer.prototype.getDefaultFoundation_) {
-    drawer.MDCTemporaryDrawer.prototype.getDefaultFoundation_ = drawer.MDCTemporaryDrawer.prototype.getDefaultFoundation;
-    drawer.MDCTemporaryDrawer.prototype.getDefaultFoundation = function() {
-      const foundation = this.getDefaultFoundation_();
-
-      foundation.drawerClickHandler_ = (e) => {
-        if (e.target.tagName !== 'A') {
-          e.stopPropagation();
-        }
-      };
-
-      return foundation;
-    };
-  }
 
 function ComponentContainer(component) {
     return props => <Page component={component} {...props}/>;  // eslint-disable-line

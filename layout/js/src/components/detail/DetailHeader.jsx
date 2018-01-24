@@ -17,6 +17,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Immutable from 'immutable';
 
+import Paper from 'material-ui/Paper';
+
 import PlayCollectionButton from '../player/PlayCollectionButton';
 
 require('./DetailHeader.scss');
@@ -24,22 +26,24 @@ require('./DetailHeader.scss');
 export default class DetailHeader extends React.PureComponent {
     render() {
         const {imgSrc, title, style, subTexts, collection} = this.props;
-        const rootClassname = `suluvir-detail-header suluvir-detail-header--${style} mdc-elevation--z3`;
+        const rootClassname = `suluvir-detail-header suluvir-detail-header--${style}`;
         const coverClassname = `suluvir-detail-header__cover suluvir-detail-header__cover--${style}`;
         const headerClassname = `suluvir-detail-header__header suluvir-detail-header__header--${style}`;
         return (
-            <div className={rootClassname}>
-                <div className={coverClassname}>
-                    <img src={imgSrc}/>
-                    <div className="suluvir-detail-header__play-button">
-                        <PlayCollectionButton collection={collection} />
+            <Paper elevation={3}>
+                <div className={rootClassname}>
+                    <div className={coverClassname}>
+                        <img src={imgSrc}/>
+                        <div className="suluvir-detail-header__play-button">
+                            <PlayCollectionButton collection={collection} />
+                        </div>
+                    </div>
+                    <div className={headerClassname}>
+                        <h3>{title}</h3>
+                        <div>{subTexts.join(' - ')}</div>
                     </div>
                 </div>
-                <div className={headerClassname}>
-                    <h3>{title}</h3>
-                    <div>{subTexts.join(' - ')}</div>
-                </div>
-            </div>
+            </Paper>
         );
     }
 }

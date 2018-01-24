@@ -16,8 +16,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Immutable from 'immutable';
-import {IconButton} from 'react-mdl';
 import {connect} from 'react-redux';
+
+import IconButton from 'material-ui/IconButton';
+import SkipPreviousButton from 'material-ui-icons/SkipPrevious';
+import SkipNextButton from 'material-ui-icons/SkipNext';
+import PlayCircleFilledButton from 'material-ui-icons/PlayCircleFilled';
+import PauseCircleFilled from 'material-ui-icons/PauseCircleFilled';
 
 import {nextSong, previousSong} from '../../actions/actions';
 
@@ -63,11 +68,20 @@ class Controls extends React.PureComponent {
     render() {
         const {play} = this.state;
         const {hasNext, hasPrevious, nextSong, previousSong} = this.props;
+
+        const playPauseButton = play ? <PauseCircleFilled color="primary"/> : <PlayCircleFilledButton color="primary"/>;
+
         return (
             <div>
-                <IconButton disabled={!hasPrevious} name="skip_previous" ripple onClick={previousSong} />
-                <IconButton name={play ? 'pause_circle_filled' : 'play_circle_filled'} colored ripple onClick={this.togglePlayPause} />
-                <IconButton disabled={!hasNext} name="skip_next" ripple onClick={nextSong} />
+                <IconButton disabled={!hasPrevious} ripple onClick={previousSong}>
+                    <SkipPreviousButton/>
+                </IconButton>
+                <IconButton colored ripple onClick={this.togglePlayPause}>
+                    {playPauseButton}
+                </IconButton>
+                <IconButton disabled={!hasNext} ripple onClick={nextSong}>
+                    <SkipNextButton/>
+                </IconButton>
             </div>
         );
     }

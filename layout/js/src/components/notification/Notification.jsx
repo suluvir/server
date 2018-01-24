@@ -20,7 +20,9 @@ import {connect} from 'react-redux';
 
 import {closeNotification} from '../../actions/notificationActions';
 
-import {IconButton} from 'react-mdl';
+import IconButton from 'material-ui/IconButton';
+import CloseIcon from 'material-ui-icons/Close';
+
 
 require('./Notification.scss');
 
@@ -35,7 +37,9 @@ class Notification extends React.PureComponent {
                     {details}
                 </div>
                 <div className="suluvir-notification__close">
-                    <IconButton name="close" onClick={() => this.props.closeNotification(this.props.id)}/>
+                    <IconButton onClick={() => this.props.closeNotification(this.props.id)}>
+                        <CloseIcon/>
+                    </IconButton>
                 </div>
             </div>
         );
