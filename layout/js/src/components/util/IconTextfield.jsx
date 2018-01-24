@@ -23,10 +23,10 @@ require('./IconTextfield.scss');
 
 export default class IconTextfield extends React.PureComponent {
     render() {
-        const {iconName, label, onChange, value, required, type, autoFocus} = this.props;
+        const {icon, label, onChange, value, required, type, autoFocus} = this.props;
         return (
             <div className="suluvir-icon-textfield">
-                <Icon>{iconName}</Icon>
+                <Icon>{icon}</Icon>
                 <TextField
                     autoFocus={autoFocus}
                     fullWidth
@@ -44,7 +44,7 @@ export default class IconTextfield extends React.PureComponent {
 IconTextfield.propTypes = {
     autoFocus: PropTypes.any,
     error: PropTypes.string,
-    iconName: PropTypes.string.isRequired,
+    icon: PropTypes.element.isRequired,
     label: PropTypes.string.isRequired,
     onChange: PropTypes.func,
     pattern: PropTypes.string,

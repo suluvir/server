@@ -16,6 +16,10 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
 
+import PersonIcon from 'material-ui-icons/Person';
+import VpnKeyIcon from 'material-ui-icons/VpnKey';
+import EmailIcon from 'material-ui-icons/Email';
+
 import IconTextfield from '../../components/util/IconTextfield';
 import SmallLogoContainer from '../../components/util/SmallLogoContainer';
 
@@ -67,7 +71,7 @@ export default class RegistrationPage extends React.PureComponent {
                             <IconTextfield
                                 autoFocus
                                 error="Username is too long"
-                                iconName="person"
+                                icon={<PersonIcon/>}
                                 label="Username"
                                 onChange={this.onInputChange('username')}
                                 pattern="\S{0,120}"
@@ -75,21 +79,21 @@ export default class RegistrationPage extends React.PureComponent {
                             />
                             <IconTextfield
                                 error="Has to be a valid email"
-                                iconName="email"
+                                icon={<EmailIcon/>}
                                 label="E-Mail Adress"
                                 onChange={this.onInputChange('email')}
                                 pattern="\S+@\S+\.[a-z]{2,3}"
                                 value={email}
                             />
                             <IconTextfield
-                                iconName="vpn_key"
+                                icon={<VpnKeyIcon/>}
                                 label="Password"
                                 onChange={this.onInputChange('password')}
                                 type="password"
                                 value={password}
                             />
                             <IconTextfield
-                                iconName="vpn_key"
+                                icon={<VpnKeyIcon/>}
                                 label="Repeat Password"
                                 onChange={this.onInputChange('password_repeat')}
                                 type="password"

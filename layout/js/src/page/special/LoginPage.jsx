@@ -16,6 +16,9 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
 
+import PersonIcon from 'material-ui-icons/Person';
+import VpnKeyIcon from 'material-ui-icons/VpnKey';
+
 import {postJson} from '../../utils/fetch';
 import {getSetup} from '../../utils/helpers';
 import {getRedirectUrl} from '../../utils/url';
@@ -106,13 +109,13 @@ export default class LoginPage extends React.PureComponent {
                     <IconTextfield
                         autoFocus
                         error="Username is too long"
-                        iconName="person"
+                        icon={<PersonIcon/>}
                         label="Username / E-Mail"
                         onChange={this.onInputChange('login')}
                         pattern="\S{0,120}"
                     />
                     <IconTextfield
-                        iconName="vpn_key"
+                        icon={<VpnKeyIcon/>}
                         type="password"
                         label="Password"
                         onChange={this.onInputChange('password')}
