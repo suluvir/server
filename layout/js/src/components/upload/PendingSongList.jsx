@@ -17,9 +17,10 @@ import Immutable from 'immutable';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import {formatBytes} from '../../utils/formatters';
+import Table, { TableBody, TableCell, TableHead, TableRow } from 'material-ui/Table';
+import Paper from 'material-ui/Paper';
 
-require('./PendingSongList.scss');
+import {formatBytes} from '../../utils/formatters';
 
 export default class PendingSongList extends React.PureComponent {
     render() {
@@ -27,25 +28,27 @@ export default class PendingSongList extends React.PureComponent {
 
         this.props.pending.forEach(p => {
             rows.push(
-                <tr>
-                    <td className="mdl-data-table__cell--non-numeric">{p.get('name')}</td>
-                    <td className="mdl-data-table__cell--non-numeric">{formatBytes(p.get('size'))}</td>
-                </tr>
+                <TableRow>
+                    <TableCell>{p.get('name')}</TableCell>
+                    <TableCell>{formatBytes(p.get('size'))}</TableCell>
+                </TableRow>
             );
         });
 
         return (
-            <div className="suluvir-pending-songs">
-                <table className="mdl-data-table mdl-js-data-table mdl-shadow--3dp">
-                    <thead>
-                        <th className="mdl-data-table__cell--non-numeric">File Name</th>
-                        <th className="mdl-data-table__cell--non-numeric">Size</th>
-                    </thead>
-                    <tbody>
-                        {rows}
-                    </tbody>
-                </table>
-            </div>
+            <Paper elevation={3}>
+                <div className="suluvir-pending-songs">
+                    <Table>
+                        <TableHead>
+                            <TableCell>File Name</TableCell>
+                            <TableCell>Size</TableCell>
+                        </TableHead>
+                        <TableBody>
+                            {rows}
+                        </TableBody>
+                    </Table>
+                </div>
+            </Paper>
         );
     }
 }

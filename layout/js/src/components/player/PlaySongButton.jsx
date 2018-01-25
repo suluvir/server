@@ -15,8 +15,11 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import {IconButton} from 'react-mdl';
 import {connect} from 'react-redux';
+
+import IconButton from 'material-ui/IconButton';
+import PlayCircleFilledIcon from 'material-ui-icons/PlayCircleFilled';
+import PlayCircleOutlineButton from 'material-ui-icons/PlayCircleOutline';
 
 import {playSongById} from '../../actions/thunkActions';
 
@@ -34,9 +37,17 @@ class PlaySongButton extends React.PureComponent {
     render() {
         const {currentlyPlaying} = this.props;
         if (currentlyPlaying) {
-            return <IconButton name={"play_circle_filled"}/>;
+            return (
+                <IconButton>
+                    <PlayCircleFilledIcon/>
+                </IconButton>
+            );
         }
-        return <IconButton name="play_circle_outline" onClick={this.onClick} />;
+        return (
+            <IconButton onClick={this.onClick}>
+                <PlayCircleOutlineButton/>
+            </IconButton>
+        );
     }
 }
 

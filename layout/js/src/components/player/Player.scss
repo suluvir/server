@@ -13,8 +13,6 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-@import '../../animations';
-
 .suluvir-player {
     display: flex;
     flex-shrink: 0;
@@ -24,13 +22,7 @@
     z-index: 10;
     position: relative;
 
-    @include heightTransition();
-
     #suluvir-player__timedisplay {
         flex-grow: 10000000000;
     }
-}
-
-.suluvir-player--active {
-    @include heightTransitionExpanded();
 }

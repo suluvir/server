@@ -16,7 +16,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Immutable from 'immutable';
-import {Menu, MenuItem, IconButton} from 'react-mdl';
+
+import IconButton from 'material-ui/IconButton';
+import Menu, { MenuItem } from 'material-ui/Menu';
+import MoreVertIcon from 'material-ui-icons/MoreVert';
+
 import {connect} from 'react-redux';
 
 import PlaylistModal from '../../playlist/PlaylistModal';
@@ -28,12 +32,13 @@ class SongMenuButton extends React.PureComponent {
         super();
 
         this.state = {
+            anchorEl: null,
             showModal: false
         };
     }
 
     render() {
-        const {showModal} = this.state;
+        const {showModal, anchorEl} = this.state;
         const {song, addToPlayQuereById} = this.props;
         const songId = song.get('@id');
         const id = `suluvir-song-menu-${songId}`
@@ -41,10 +46,22 @@ class SongMenuButton extends React.PureComponent {
             <div>
                 <PlaylistModal show={showModal} song={song} onCancel={() => this.setState({showModal: false})}/>
 
-                <IconButton name="more_vert" id={id} />
-                <Menu target={id} align="right" ripple>
-                    <MenuItem onClick={() => addToPlayQuereById(songId)}>Add to play quere</MenuItem>
-                    <MenuItem onClick={() => this.setState({showModal: true})}>Add to playlist</MenuItem>
+                <IconButton
+                    aria-label="More"
+                    aria-owns={anchorEl ? 'long-menu' : null}
+                    aria-haspopup="true"
+                    onClick={e => this.setState({anchorEl: e.currentTarget})}
+                >
+                    <MoreVertIcon />
+                </IconButton>
+                <Menu
+                    id={id}
+                    anchorEl={anchorEl}
+                    open={Boolean(anchorEl)}
+                    onClose={() => this.setState({anchorEl: null})}
+                >
+                    <MenuItem key="add_queue" onClick={() => addToPlayQuereById(songId)}>Add to play quere</MenuItem>
+                    <MenuItem key="add_playlist" onClick={() => this.setState({showModal: true})}>Add to playlist</MenuItem>
                 </Menu>
             </div>
         );

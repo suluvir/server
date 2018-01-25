@@ -15,10 +15,11 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import {IconButton} from 'react-mdl';
 import {connect} from 'react-redux';
 
-import Textfield from '../material/Textfield';
+import TextField from 'material-ui/TextField';
+import IconButton from 'material-ui/IconButton';
+import AddIcon from 'material-ui-icons/Add';
 
 import {createPlaylist} from '../../actions/thunkActions';
 
@@ -63,7 +64,7 @@ class PlaylistCreateForm extends React.PureComponent {
         return (
             <div className="suluvir__playlist-create">
                 <form onSubmit={this.createPlaylist}>
-                    <Textfield
+                    <TextField
                         className="suluvir-playlist-create__text-input"
                         label="Create new playlist..."
                         onChange={event => this.setState({name: event.target.value})}
@@ -71,11 +72,13 @@ class PlaylistCreateForm extends React.PureComponent {
                     />
                 </form>
                 <IconButton
+                    color="primary"
                     disabled={!this.isNameSet()}
-                    name="add"
                     onClick={this.createPlaylist}
                     title="Create new playlist"
-                />
+                >
+                    <AddIcon/>
+                </IconButton>
             </div>
         );
     }

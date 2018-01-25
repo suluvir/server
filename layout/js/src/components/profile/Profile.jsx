@@ -18,7 +18,12 @@ import PropTypes from 'prop-types';
 import Immutable from 'immutable';
 import {connect} from 'react-redux';
 
-import {List, ListItem, ListItemContent, ProgressBar} from 'react-mdl';
+import List, {ListItem, ListItemText} from 'material-ui/List';
+import Avatar from 'material-ui/Avatar';
+import {LinearProgress} from 'material-ui/Progress';
+
+import PersonOutlineIcon from 'material-ui-icons/PersonOutline';
+import MailOutlineIcon from 'material-ui-icons/MailOutline';
 
 import ChangePassword from './ChangePassword';
 
@@ -67,11 +72,17 @@ class Profile extends React.PureComponent {
                 <h1>Profile</h1>
 
                 <List>
-                    <ListItem twoLine>
-                        <ListItemContent avatar="person_outline" subtitle="Username">{user.get('username')}</ListItemContent>
+                    <ListItem button>
+                        <Avatar>
+                            <PersonOutlineIcon/>
+                        </Avatar>
+                        <ListItemText primary="Username" secondary={user.get('username')}/>
                     </ListItem>
-                    <ListItem twoLine>
-                        <ListItemContent avatar="mail_outline" subtitle="E-Mail">{user.get('email')}</ListItemContent>
+                    <ListItem button>
+                        <Avatar>
+                            <MailOutlineIcon/>
+                        </Avatar>
+                        <ListItemText primary="E-Mail" secondary={user.get('email')} />
                     </ListItem>
                 </List>
 
@@ -84,10 +95,10 @@ class Profile extends React.PureComponent {
                 <h2>Quota</h2>
 
                 Songs ({this.getQuotaSongDisplay()}):
-                <ProgressBar progress={this.getQuotaSongPercentage()} />
+                <LinearProgress mode="determinate" value={this.getQuotaSongPercentage()} />
 
                 Space ({this.getQuotaSpaceDisplay()}):
-                <ProgressBar progress={this.getQuotaSpacePercentage()} />
+                <LinearProgress mode="determinate" value={this.getQuotaSpacePercentage()} />
             </div>
         );
     }

@@ -16,6 +16,9 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
 
+import PersonIcon from 'material-ui-icons/Person';
+import VpnKeyIcon from 'material-ui-icons/VpnKey';
+
 import {postJson} from '../../utils/fetch';
 import {getSetup} from '../../utils/helpers';
 import {getRedirectUrl} from '../../utils/url';
@@ -23,8 +26,9 @@ import {getRedirectUrl} from '../../utils/url';
 import SmallLogoContainer from '../../components/util/SmallLogoContainer';
 import IconTextfield from '../../components/util/IconTextfield';
 
-import Button from '../../components/material/Button';
-import Checkbox from '../../components/material/Checkbox';
+import Button from 'material-ui/Button';
+import Checkbox from 'material-ui/Checkbox';
+import {FormControlLabel} from 'material-ui/Form';
 
 require('./LoginPage.scss');
 
@@ -105,26 +109,30 @@ export default class LoginPage extends React.PureComponent {
                     <IconTextfield
                         autoFocus
                         error="Username is too long"
-                        iconName="person"
+                        icon={<PersonIcon/>}
                         label="Username / E-Mail"
                         onChange={this.onInputChange('login')}
                         pattern="\S{0,120}"
                     />
                     <IconTextfield
-                        iconName="vpn_key"
+                        icon={<VpnKeyIcon/>}
                         type="password"
                         label="Password"
                         onChange={this.onInputChange('password')}
                     />
                 </div>
 
-                <Checkbox
-                    defaultChecked={stay_signed_in}
-                    onChange={this.onCheckboxChange('stay_signed_in')}
+                <FormControlLabel
+                    control={
+                        <Checkbox
+                            checked={stay_signed_in}
+                            onChange={this.onCheckboxChange('stay_signed_in')}
+                        />
+                    }
                     label="Stay signed in"
                 />
 
-                <Button onClick={this.login} raised>
+                <Button type="submit" onClick={this.login} raised color="primary">
                     Login
                 </Button>
 

@@ -16,7 +16,7 @@
 -->
 
 <!DOCTYPE html>
-<html class="mdc-typography suluvir-web-app">
+<html class="suluvir-web-app">
 
     <head>
         <title>Suluvir</title>
@@ -37,12 +37,6 @@
         <link rel="apple-touch-icon" href="/static/img/logo/png/suluvir.png">
         <link rel="shortcut icon" href="/static/img/logo/png/suluvir.png" type="image/x-icon">
 
-        <!-- use /nodestatic here for no versioned, but faster way to provide icon font. If we use /appstatic here, -->
-        <!-- we have to provide a way to serve woff-files etc there. -->
-        <!-- do not use fonts.googleapis.com, serve all files via this server -->
-        <link rel="stylesheet" href="/nodestatic/material-design-icons/iconfont/material-icons.css">
-
-        <link rel="stylesheet" href="/nodestatic/dialog-polyfill/dialog-polyfill.css">
         <style>
             .suluvir-noscript {
                 text-align: center;
@@ -94,7 +88,6 @@
             <script src="{{.}}" async defer></script>
         {{end}}
 
-        <script src="/nodestatic/dialog-polyfill/dialog-polyfill.js"></script>
         {{range .Externals}}
             {{if .HasJs}}
                 {{range .JsUrls}}
@@ -102,10 +95,6 @@
                 {{end}}
             {{end}}
         {{end}}
-
-        <script>
-        window.mdc.autoInit();
-        </script>
 
     </body>
 </html>

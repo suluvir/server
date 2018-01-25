@@ -15,8 +15,13 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Slider, IconButton} from 'react-mdl';
+import {Slider} from 'react-mdl';
 import {connect} from 'react-redux';
+
+import IconButton from 'material-ui/IconButton';
+import VolumeMuteIcon from 'material-ui-icons/VolumeMute';
+import VolumeUpIcon from 'material-ui-icons/VolumeUp';
+import VolumeDownIcon from 'material-ui-icons/VolumeDown';
 
 import {setVolume} from '../../actions/actions';
 
@@ -62,16 +67,18 @@ class Volume extends React.PureComponent {
 
     render() {
         const {volume} = this.props;
-        let iconName = 'volume_mute';
+        let icon = <VolumeMuteIcon/>;
         if (volume > VOLUME_DOWN) {
-            iconName = 'volume_down';
+            icon = <VolumeDownIcon/>;
         }
         if (volume > VOLUME_UP) {
-            iconName = 'volume_up';
+            icon = <VolumeUpIcon/>;
         }
         return (
             <div className="suluvir-player__volume suluvir-hide-extra-small">
-                <IconButton name={iconName} onClick={this.toggleMute} />
+                <IconButton onClick={this.toggleMute}>
+                    {icon}
+                </IconButton>
                 <Slider min={0} max={100} onChange={this.volumeChange} value={this.props.volume * 100} />
             </div>
         );

@@ -17,33 +17,36 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Immutable from 'immutable';
 
-import PlayCollectionButton from '../player/PlayCollectionButton';
+import Paper from 'material-ui/Paper';
+import Table, {TableBody, TableCell, TableHead, TableRow} from 'material-ui/Table';
 
-require('./PlaylistList.scss');
+import PlayCollectionButton from '../player/PlayCollectionButton';
 
 export default class PlaylistList extends React.PureComponent {
     render() {
         const rows = [];
         this.props.playlists.forEach(playlist => {
             rows.push(
-                <tr>
-                    <td className="mdl-data-table__cell--non-numeric"><PlayCollectionButton collection={playlist} /></td>
-                    <td className="mdl-data-table__cell--non-numeric">{playlist.get('name')}</td>
-                </tr>
+                <TableRow>
+                    <TableCell><PlayCollectionButton collection={playlist} /></TableCell>
+                    <TableCell>{playlist.get('name')}</TableCell>
+                </TableRow>
             );
         });
 
         return (
             <div className="suluvir-playlist-list">
-                <table className="mdl-data-table mdl-js-data-table mdl-shadow--3dp">
-                    <thead>
-                        <th className="mdl-data-table__cell--non-numeric"></th>
-                        <th className="mdl-data-table__cell--non-numeric">Name</th>
-                    </thead>
-                    <tbody>
-                        {rows}
-                    </tbody>
-                </table>
+                <Paper>
+                    <Table>
+                        <TableHead>
+                            <TableCell></TableCell>
+                            <TableCell>Name</TableCell>
+                        </TableHead>
+                        <TableBody>
+                            {rows}
+                        </TableBody>
+                    </Table>
+                </Paper>
             </div>
         );
     }

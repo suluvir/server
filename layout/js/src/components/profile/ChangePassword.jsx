@@ -17,9 +17,13 @@ import React from 'react';
 
 import {postJson} from '../../utils/fetch';
 
-import Button from '../material/Button';
-import Dialog from '../material/Dialog';
-import Textfield from '../material/Textfield';
+import Dialog, {
+    DialogActions,
+    DialogContent,
+    DialogTitle,
+} from 'material-ui/Dialog';
+import Button from 'material-ui/Button';
+import TextField from 'material-ui/TextField';
 
 export default class ChangePassword extends React.PureComponent {
     constructor() {
@@ -51,12 +55,19 @@ export default class ChangePassword extends React.PureComponent {
         });
     }
 
-    changePassword() {
+    changePassword(event) {
+        if (event) {
+            event.preventDefault();
+        }
+
         const {old_pw, new_pw, new_pw_repeat} = this.state;
         const payload = {
             old_pw, new_pw, new_pw_repeat
         };
-        postJson('/api/internal/user/changepwd', payload).then(this.clearInputs);
+        postJson('/api/internal/user/changepwd', payload).then(() => {
+            this.clearInputs();
+            this.hideModal();
+        });
     }
 
     onInputChange(stateKey) {
@@ -68,31 +79,45 @@ export default class ChangePassword extends React.PureComponent {
     renderDialog() {
         return (
             <Dialog
-                show={this.state.showModal}
-                title="Change Password"
-                onHide={this.hideModal}
-                onSubmit={this.changePassword}
+                open={this.state.showModal}
+                onClose={this.hideModal}
             >
-                <form onSubmit={this.changePassword}>
-                    <div>
-                        <Textfield
-                            label="Old password"
-                            autoFocus
-                            type="password"
-                            onChange={this.onInputChange('old_pw')}
-                        />
-                        <Textfield
-                            label="New password"
-                            type="password"
-                            onChange={this.onInputChange('new_pw')}
-                        />
-                        <Textfield
-                            label="New password (repeat)"
-                            type="password"
-                            onChange={this.onInputChange('new_pw_repeat')}
-                        />
-                    </div>
-                </form>
+                <DialogTitle>Change Password</DialogTitle>
+                <DialogContent>
+                    <form onSubmit={this.changePassword}>
+                        <div>
+                            <TextField
+                                label="Old password"
+                                fullWidth
+                                autoFocus
+                                type="password"
+                                onChange={this.onInputChange('old_pw')}
+                            />
+                            <TextField
+                                fullWidth
+                                label="New password"
+                                type="password"
+                                onChange={this.onInputChange('new_pw')}
+                            />
+                            <TextField
+                                fullWidth
+                                label="New password (repeat)"
+                                type="password"
+                                onChange={this.onInputChange('new_pw_repeat')}
+                            />
+                        </div>
+
+                        <input type="submit" style={{position: 'absolute', left: '-9999px'}}/>
+                    </form>
+                </DialogContent>
+                <DialogActions>
+                    <Button color="default" onClick={this.hideModal}>
+                        Close
+                    </Button>
+                    <Button color="primary" onClick={this.changePassword} raised>
+                        Change Password
+                    </Button>
+                </DialogActions>
             </Dialog>
         );
     }

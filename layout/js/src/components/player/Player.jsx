@@ -19,6 +19,8 @@ import Immutable from 'immutable';
 import {connect} from 'react-redux';
 import classNames from 'classnames';
 
+import Paper from 'material-ui/Paper';
+
 import Controls from './Controls';
 import SongInfo from './SongInfo';
 import TimeDisplay from './TimeDisplay';
@@ -67,7 +69,7 @@ class Player extends React.Component {
 
         const active = playList !== undefined && playList !== null &&
             playList.size > 0 && playList.size > current;
-        const className = classNames('suluvir-player', 'mdl-shadow--3dp', {'suluvir-player--active': active});
+        const className = classNames('suluvir-player', {'suluvir-player--active': active});
         if (!active) {
             return (<div id="suluvir-player" className={className}/>);
         }
@@ -76,20 +78,22 @@ class Player extends React.Component {
         PLAYER.playSong(songToPlay);
 
         return (
-            <div id="suluvir-player" className={className}>
-                <div id="suluvir-player__songinfo">
-                    <SongInfo song={songToPlay} />
+            <Paper elevation={3}>
+                <div id="suluvir-player" className={className}>
+                    <div id="suluvir-player__songinfo">
+                        <SongInfo song={songToPlay} />
+                    </div>
+                    <div id="suluvir-player__controls">
+                        <Controls play={PLAYER.play} pause={PLAYER.pause} songToPlay={songToPlay} />
+                    </div>
+                    <div id="suluvir-player__timedisplay">
+                        <TimeDisplay song={songToPlay} />
+                    </div>
+                    <div className="suluvir-player__volume-container">
+                        <Volume />
+                    </div>
                 </div>
-                <div id="suluvir-player__controls">
-                    <Controls play={PLAYER.play} pause={PLAYER.pause} songToPlay={songToPlay} />
-                </div>
-                <div id="suluvir-player__timedisplay">
-                    <TimeDisplay song={songToPlay} />
-                </div>
-                <div className="suluvir-player__volume-container">
-                    <Volume />
-                </div>
-            </div>
+            </Paper>
         );
     }
 }

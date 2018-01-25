@@ -15,9 +15,9 @@
 
 .suluvir-icon-textfield {
     display: flex;
-    align-items: center;
+    align-items: baseline;
 
-    & > i {
+    & > span {
         margin-right: 1rem;
     }
 
