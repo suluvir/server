@@ -19,7 +19,7 @@ import {Provider} from 'react-redux';
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import {createMuiTheme} from 'material-ui/styles';
-import {teal, red} from 'material-ui/colors';
+import {red} from 'material-ui/colors';
 
 import {getStore} from './utils/redux';
 
@@ -27,9 +27,27 @@ import RoutedPage from './page/RoutedPage';
 
 require('./utils.scss');
 
+const primaryPalette = {
+    50: '#92e1f4',
+    100: '#6ac7dd',
+    200: '#38adc9',
+    300: '#3994aa',
+    400: '#397d8e',
+    500: '#337180',
+    600: '#2a5e6b',
+    700: '#124a58',
+    800: '#0b4452',
+    900: '#093844',
+    A100: '#337180',
+    A200: '#337180',
+    A400: '#337180',
+    A700: '#0b4452',
+    contrastDefaultColor: 'light',
+};
+
 const theme = createMuiTheme({
     palette: {
-      primary: teal,
+      primary: primaryPalette,
       secondary: red,
     },
 });
