@@ -22,8 +22,9 @@ const (
 	API_ARTIST      = "api_artist"
 	API_PLAYLIST    = "api_playlist"
 
-	UI_ALBUM  = "ui_album"
-	UI_ARTIST = "ui_artist"
+	UI_ALBUM    = "ui_album"
+	UI_ARTIST   = "ui_artist"
+	UI_PLAYLIST = "ui_playlist"
 
 	ACTIVATE_USER = "activate_user"
 

@@ -35,6 +35,7 @@ import MyPlaylistList from '../components/lists/MyPlaylistList';
 
 import AlbumDetail from '../components/detail/AlbumDetail';
 import ArtistDetail from '../components/detail/ArtistDetail';
+import PlaylistDetail from '../components/detail/PlaylistDetail';
 
 import Upload from '../components/upload/Upload';
 
@@ -74,6 +75,7 @@ export default class RoutedPage extends React.PureComponent {
 
                             <Route component={ComponentContainer(AlbumDetail)} path="/album/:albumId"/>
                             <Route component={ComponentContainer(ArtistDetail)} path="/artist/:artistId"/>
+                            <Route component={ComponentContainer(PlaylistDetail)} path="/playlist/:playlistId"/>
 
                             <Route component={ComponentContainer(Upload)} path="/upload"/>
                         </div>

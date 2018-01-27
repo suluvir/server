@@ -76,6 +76,10 @@ func (p *Playlist) GetApiLink() string {
 	return url.String()
 }
 
+func (p *Playlist) GetUiLink() string {
+	return p.getLink(routeNames.UI_PLAYLIST)
+}
+
 func (p Playlist) MarshalJSON() ([]byte, error) {
 	apiLink := p.GetApiLink()
 	songsLink := fmt.Sprintf("%s/songs", apiLink)
