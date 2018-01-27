@@ -34,6 +34,7 @@ class NotificationList extends React.PureComponent {
                 status={notification.get('status')}
                 type={notification.get('type')}
                 id={notification.get('id')}
+                key={notification.get('id')}
             />
         ));
 
@@ -46,7 +47,7 @@ class NotificationList extends React.PureComponent {
 }
 
 NotificationList.propTypes = {
-    notifications: PropTypes.instanceOf(Immutable.Map).isRequired
+    notifications: PropTypes.instanceOf(Immutable.List).isRequired
 }
 
 function mapStateToProps(state) {

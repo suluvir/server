@@ -102,7 +102,7 @@ Player.propTypes = {
     current: PropTypes.number,
     hasNext: PropTypes.bool.isRequired,
     nextSong: PropTypes.func.isRequired,
-    playList: PropTypes.instanceOf(Immutable.Map),
+    playList: PropTypes.instanceOf(Immutable.List),
     volume: PropTypes.number.isRequired
 }
 

@@ -38,7 +38,7 @@ export default class SongList extends React.Component {
     render() {
         const tableRows = [];
         this.props.songs.forEach(song => {
-            tableRows.push(<TableRow>
+            tableRows.push(<TableRow key={song}>
                 <TableCell>{playButton(song.get('@id'))}</TableCell>
                 <TableCell>{song.get('title')}</TableCell>
                 <TableCell>

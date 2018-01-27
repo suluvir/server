@@ -27,7 +27,7 @@ export default class PlaylistList extends React.PureComponent {
         const rows = [];
         this.props.playlists.forEach(playlist => {
             rows.push(
-                <TableRow>
+                <TableRow key={playlist}>
                     <TableCell><PlayCollectionButton collection={playlist} /></TableCell>
                     <TableCell>{playlist.get('name')}</TableCell>
                 </TableRow>

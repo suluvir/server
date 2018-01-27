@@ -28,7 +28,7 @@ export default class ArtistList extends React.Component {
         const rows = [];
         this.props.artists.forEach(artist => {
             rows.push(
-                <TableRow>
+                <TableRow key={artist}>
                     <TableCell><PlayCollectionButton collection={artist} /></TableCell>
                     <TableCell><Link to={artist.get('@ui')}>{artist.get('name')}</Link></TableCell>
                 </TableRow>

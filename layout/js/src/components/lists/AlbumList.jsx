@@ -28,7 +28,7 @@ export default class AlbumList extends React.Component {
         const rows = [];
         this.props.albums.forEach(album => {
             rows.push(
-                <TableRow>
+                <TableRow key={album}>
                     <TableCell><PlayCollectionButton collection={album} /></TableCell>
                     <TableCell><Link to={album.get('@ui')}>{album.get('name')}</Link></TableCell>
                     <TableCell><Link to={album.get('ui_artist_link')}>{album.get('artist_name')}</Link></TableCell>
