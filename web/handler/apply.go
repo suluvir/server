@@ -38,6 +38,7 @@ func applyRoutes() {
 
 	router.HandleFunc("/album/{id}", indexHandler).Methods(httpHelpers.GET).Name(routeNames.UI_ALBUM)
 	router.HandleFunc("/artist/{id}", indexHandler).Methods(httpHelpers.GET).Name(routeNames.UI_ARTIST)
+	router.HandleFunc("/playlist/{id}", indexHandler).Methods(httpHelpers.GET).Name(routeNames.UI_PLAYLIST)
 
 	router.HandleFunc("/profile", indexHandler).Methods(httpHelpers.GET)
 

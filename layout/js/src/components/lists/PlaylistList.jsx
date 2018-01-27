@@ -16,6 +16,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Immutable from 'immutable';
+import {Link} from 'react-router-dom';
 
 import Paper from 'material-ui/Paper';
 import Table, {TableBody, TableCell, TableHead, TableRow} from 'material-ui/Table';
@@ -29,7 +30,7 @@ export default class PlaylistList extends React.PureComponent {
             rows.push(
                 <TableRow key={playlist}>
                     <TableCell><PlayCollectionButton collection={playlist} /></TableCell>
-                    <TableCell>{playlist.get('name')}</TableCell>
+                    <TableCell><Link to={playlist.get('@ui')}>{playlist.get('name')}</Link></TableCell>
                 </TableRow>
             );
         });
