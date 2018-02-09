@@ -31,14 +31,16 @@ class AlbumDetail extends React.PureComponent {
     }
 
     render() {
-        const {album, fetchObject, songs, ...others} = this.props;
+        const {album, fetchObject, setTitle, songs, ...others} = this.props;
 
         if (album === undefined) {
             fetchObject(this.getApiLink());
             return <div/>
         }
 
-        setWindowTitle(album.get('name'));
+        if (setTitle) {
+            setWindowTitle(album.get('name'));
+        }
 
         if (songs === undefined) {
             fetchObject(album.get('@songs'));
@@ -63,8 +65,13 @@ AlbumDetail.propTypes = {
     albumLink: PropTypes.string,
     fetchObject: PropTypes.func.isRequired,
     params: PropTypes.object,
-    songs: PropTypes.instanceOf(Immutable.List)
+    songs: PropTypes.instanceOf(Immutable.List),
+    setTitle: PropTypes.bool.isRequired,
 };
+
+AlbumDetail.defaultProps = {
+    setTitle: true
+}
 
 function mapStateToProps(state, ownProps) {
     const id = ownProps.albumLink ? ownProps.albumLink : `/api/v1/album/${ownProps.match.params.albumId}`;

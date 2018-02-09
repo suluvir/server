@@ -22,6 +22,7 @@ import {fetchObject} from '../../actions/fetchActions';
 
 import AlbumDetail from './AlbumDetail';
 import ArtistDetailHeader from './ArtistDetailHeader';
+import { setWindowTitle } from '../../utils/helpers';
 
 require('./ArtistDetail.scss');
 
@@ -42,12 +43,15 @@ class ArtistDetail extends React.PureComponent {
             return <div/>;
         }
 
+        setWindowTitle(artist.get('name'));
+
         const albumDetails = artist.get('@albums').map(a => {
             return (
                 <div className="suluvir-artist-details__album" key={a}>
                     <AlbumDetail
                         albumLink={a}
                         style="condensed"
+                        setTitle={false}
                     />
                 </div>
             );

@@ -23,6 +23,7 @@ import {fetchObject} from '../../actions/fetchActions';
 import PlaylistDetailHeader from './PlaylistDetailHeader';
 
 import SongList from '../lists/SongList';
+import { setWindowTitle } from '../../utils/helpers';
 
 function getApiLink(id) {
     return `/api/v1/playlist/${id}`;
@@ -46,6 +47,8 @@ class PlaylistDetail extends React.PureComponent {
             fetchObject(playlist.get('@songs'));
             return <div/>;
         }
+
+        setWindowTitle(playlist.get('name'));
 
         return (<div className="suluvir-playlist-details">
             <div className="suluvir-playlist-details__header">
