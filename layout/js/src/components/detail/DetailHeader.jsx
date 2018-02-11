@@ -19,7 +19,7 @@ import Immutable from 'immutable';
 
 import Paper from 'material-ui/Paper';
 
-import PlayCollectionButton from '../player/PlayCollectionButton';
+import OverlayPlayButton from '../util/OverlayPlayButton';
 
 require('./DetailHeader.scss');
 
@@ -34,9 +34,7 @@ export default class DetailHeader extends React.PureComponent {
                 <div className={rootClassname}>
                     <div className={coverClassname}>
                         <img src={imgSrc}/>
-                        <div className="suluvir-detail-header__play-button">
-                            <PlayCollectionButton collection={collection} />
-                        </div>
+                        <OverlayPlayButton collection={collection}/>
                     </div>
                     <div className={headerClassname}>
                         <h3>{title}</h3>
