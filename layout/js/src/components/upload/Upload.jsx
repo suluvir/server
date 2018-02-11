@@ -53,7 +53,7 @@ class Upload extends React.PureComponent {
                 <div className="suluvir-upload__dropzone-wrapper">
                     <Paper elevation={2}>
                         <Dropzone
-                            accept="audio/mp3"
+                            accept="audio/mp3,audio/mpeg"
                             className="suluvir-upload__dropzone"
                             onDrop={this.handleDrop}
                         >
