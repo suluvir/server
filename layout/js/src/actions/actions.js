@@ -73,3 +73,7 @@ export function setPlayQueue(songs) {
 export function setUser(user) {
     return createAction(actionNames.FETCH_USER, user);
 }
+
+export function setNewContent(content) {
+    return createAction(actionNames.FETCH_NEW_CONTENT, content);
+}

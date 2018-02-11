@@ -14,17 +14,62 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
+import PropTypes from 'prop-types';
+import Immutable from 'immutable';
+
+import {connect} from 'react-redux';
 
 import {setWindowTitle} from '../../utils/helpers';
 
-export default class Overview extends React.PureComponent {
+import {fetchNewContent} from '../../actions/thunkActions';
+
+import Loading from '../util/Loading';
+import Tile from './Tile';
+
+require('./Overview.scss');
+
+class Overview extends React.PureComponent {
     componentWillMount() {
         setWindowTitle(undefined);
+        this.props.fetchNewContent();
     }
 
     render() {
+        const {artists, albums} = this.props;
+
+        if (artists === undefined || albums === undefined) {
+            return <Loading/>;
+        }
+
         return (
-            <div/>
+            <div>
+                <h2>Your newest Artists</h2>
+                <div className="suluvir-home-content-list">
+                    {artists.map(a => <Tile collection={a} key={a}/>)}
+                </div>
+
+                <hr/>
+
+                <h2>Your newest Albums</h2>
+                <div className="suluvir-home-content-list">
+                    {albums.map(a => <Tile collection={a} key={a}/>)}
+                </div>
+            </div>
         );
     }
 }
+
+Overview.propTypes = {
+    fetchNewContent: PropTypes.func.isRequired,
+    artists: PropTypes.instanceOf(Immutable.List),
+    albums: PropTypes.instanceOf(Immutable.List),
+};
+
+function mapStateToProps(state) {
+    return {
+        artists: state.newContent.get('artists'),
+        albums: state.newContent.get('albums'),
+    }
+}
+
+export default connect(mapStateToProps, {fetchNewContent})(Overview);

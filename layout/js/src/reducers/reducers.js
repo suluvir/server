@@ -135,3 +135,12 @@ export function urlCache(state = defaultStates.URL_CACHE, action) {
             return state;
     }
 }
+
+export function newContent(state = defaultStates.NEW_CONTENT, action) {
+    switch (action.type) {
+        case actionNames.FETCH_NEW_CONTENT:
+            return action.payload;
+        default:
+            return state;
+    }
+}
