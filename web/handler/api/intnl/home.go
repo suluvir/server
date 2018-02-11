@@ -33,8 +33,8 @@ func getNewestContentHandler(w http.ResponseWriter, r *http.Request) {
 	var newestArtists []media.Artist
 	var newestAlbums []media.Album
 
-	db.Find(&newestArtists).Limit(responseLimit)
-	db.Find(&newestAlbums).Limit(responseLimit)
+	db.Order("created_at desc").Limit(responseLimit).Find(&newestArtists)
+	db.Order("created_at desc").Limit(responseLimit).Find(&newestAlbums)
 
 	response["artists"] = newestArtists
 	response["albums"] = newestAlbums
