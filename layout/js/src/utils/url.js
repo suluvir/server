@@ -20,7 +20,8 @@ export function getUrlParams() {
 
 export function getRedirectUrl() {
     const urlParams = getUrlParams();
-    if (urlParams.has('return_to')) {
+    // urlParams might be undefined in ie/edge, so ignore it
+    if (urlParams && urlParams.has('return_to')) {
         return unescape(urlParams.get('return_to'));
     }
     return '/';
