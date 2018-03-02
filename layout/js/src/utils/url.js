@@ -14,8 +14,13 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 export function getUrlParams() {
-    const url = new URL(window.location.href);
-    return url.searchParams;
+    try {
+        const url = new URL(window.location.href);
+        return url.searchParams;
+    } catch (error) {
+        // URL isn't supported in IE
+        return undefined;
+    }
 }
 
 export function getRedirectUrl() {
