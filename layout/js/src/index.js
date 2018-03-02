@@ -25,6 +25,8 @@ import {getStore} from './utils/redux';
 
 import RoutedPage from './page/RoutedPage';
 
+require('./utils/polyfills');
+
 require('./utils.scss');
 
 const primaryPalette = {
