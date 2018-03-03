@@ -30,7 +30,7 @@ func TestGetBytesValid(t *testing.T) {
 
 	mega, _ := GetBytes("22M")
 	if mega != 23068672 {
-		t.Error("expected 1024, got", 23068672)
+		t.Error("expected 23068672, got", mega)
 	}
 }
 
