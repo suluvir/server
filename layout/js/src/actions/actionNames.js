@@ -26,5 +26,6 @@ export const SET_VOLUME = 'SET_VOLUME';
 export const SET_PLAYLISTS_FOR_SONG = 'SET_PLAYLISTS_FOR_SONG';
 export const SET_PLAY_QUEUE = 'SET_PLAY_QUEUE';
 export const FETCH_USER = 'FETCH_USER';
+export const FETCH_NEW_CONTENT = 'FETCH_NEW_CONTENT';
 
 export const ADD_TO_URL_CACHE = 'ADD_OBJECT_BY_ID';

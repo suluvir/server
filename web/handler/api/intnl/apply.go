@@ -30,6 +30,8 @@ func applyRoutes() {
 
 	r.HandleFunc("/upload", songUploadHandler).Methods(httpHelpers.POST)
 
+	r.HandleFunc("/newcontent", getNewestContentHandler).Methods(httpHelpers.GET)
+
 	r.HandleFunc("/my/songs", mySongsHandler).Methods(httpHelpers.GET)
 	r.HandleFunc("/my/artists", myArtistsHandler).Methods(httpHelpers.GET)
 	r.HandleFunc("/my/albums", myAlbumsHandler).Methods(httpHelpers.GET)

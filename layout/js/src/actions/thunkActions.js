@@ -134,3 +134,11 @@ export function fetchUser() {
         });
     }
 }
+
+export function fetchNewContent() {
+    return dispatch => {
+        return getJson('/api/internal/newcontent').then(newcontent => {
+            dispatch(actions.setNewContent(Immutable.fromJS(newcontent)));
+        });
+    }
+}

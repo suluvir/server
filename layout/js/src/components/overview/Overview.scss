@@ -13,42 +13,12 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-@import '../../constants';
-
-.suluvir-detail-header {
+.suluvir-home-content-list {
     display: flex;
-    flex-direction: row;
     flex-wrap: wrap;
-    padding: 1rem 1rem 0 1rem;
-    margin-bottom: 1rem;
 
-    .suluvir-detail-header__cover {
-        position: relative;
-
-        border-radius: 0.5rem;
-        overflow: hidden;
-
-        & > img {
-            width: 100%;
-        }
-
-        width: 100%;
+    & > div {
+        margin-bottom: 1rem;
         margin-right: 1rem;
-        margin-bottom: 1rem;
-
-        &--default {
-            max-width: 15rem;
-        }
-
-        &--condensed {
-            max-width: 5rem;
-        }
-    }
-
-    .suluvir-detail-header__header {
-        & > h3 {
-            margin: 0;
-        }
-        margin-bottom: 1rem;
     }
 }
