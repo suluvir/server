@@ -14,6 +14,9 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
+import {getStore} from '../../utils/redux';
+
+
 export default class Player {
     constructor() {
         this.queue = [];
@@ -50,6 +53,8 @@ export default class Player {
 
             'onend': this.onEnd,
             'onload': this.onLoad,
+
+            'volume': getStore().getState().play.get('volume'),
         });
         this.play();
         this.currentSong = song;
