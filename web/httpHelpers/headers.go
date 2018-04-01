@@ -23,4 +23,5 @@ const (
 	CONTENT_DISPOSITION = "Content-Disposition"
 	CONTENT_LENGTH      = "Content-Length"
 	NO_CACHE            = "No-Cache"
+	CONTENT_RANGE       = "Content-Range"
 )
