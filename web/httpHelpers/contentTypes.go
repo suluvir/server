@@ -19,10 +19,10 @@ import "errors"
 
 // Content types for different file types
 const (
-	HTML      = "text/html; charset=uft-8"
-	JSON      = "application/json; charset=uft-8"
+	HTML      = "text/html; charset=utf-8"
+	JSON      = "application/json; charset=utf-8"
 	CSS       = "text/css; charset=utf-8"
-	JS        = "application/javascript; charset=uft-8"
+	JS        = "application/javascript; charset=utf-8"
 	SOURCEMAP = JSON
 	MP3       = "audio/mpeg"
 )
