@@ -68,7 +68,7 @@ func songUploadHandler(w http.ResponseWriter, r *http.Request) {
 	logging.GetLogger().Info("file copy complete", zap.Int64("bytes written", bytesWritten))
 
 	user := auth.MustGetUserForSession(w, r)
-	song, _ := tags.ExtractTags(targetFileName, uploadedFileHeader.Filename, user)
+	song := tags.ExtractTagsSynchronously(user, targetFileName, uploadedFileHeader.Filename)
 	song.Filename = uploadedFilename
 	song.Create()
 
