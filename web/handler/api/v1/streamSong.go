@@ -51,5 +51,10 @@ func songApiStreamHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Add(httpHelpers.CONTENT_TYPE, contentType)
 	w.Header().Add(httpHelpers.CONTENT_DISPOSITION, contentDisposition)
 	w.Header().Add(httpHelpers.CONTENT_LENGTH, fmt.Sprintf("%d", song.Size))
+
+	contentRange := fmt.Sprintf("bytes 0-%d/%d", song.Size-1, song.Size)
+	w.Header().Add(httpHelpers.CONTENT_RANGE, contentRange)
+
+	w.WriteHeader(http.StatusPartialContent)
 	w.Write(songData)
 }
