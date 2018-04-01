@@ -15,7 +15,7 @@
     "babel-core": "^6.22.1",
     "classnames": "^2.2.5",
     "dialog-polyfill": "^0.4.7",
-    "howler": "^2.0.5",
+    "howler": "^2.0.9",
     "immutable": "^3.8.1",
     "material-ui": "^1.0.0-beta.27",
     "material-ui-icons": "^1.0.0-beta.17",
